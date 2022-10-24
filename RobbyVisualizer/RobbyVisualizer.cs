@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace RobbyVisualizer
 {
-    public class Game1 : Game
+    public class RobbyVisualizer : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
