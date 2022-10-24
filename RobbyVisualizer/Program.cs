@@ -7,7 +7,7 @@ namespace RobbyVisualizer
         [STAThread]
         static void Main()
         {
-            using (var game = new Game1())
+            using (var game = new RobbyVisualizerGame())
                 game.Run();
         }
     }
