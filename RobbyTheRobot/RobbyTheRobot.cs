@@ -2,7 +2,7 @@
 
 namespace RobbyTheRobot
 {
-    public class Class1
+    public class RobbyTheRobot
     {
     }
 }
