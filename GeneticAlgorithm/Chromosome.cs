@@ -52,7 +52,7 @@ namespace GeneticAlgorithm{
         }
         public int[] FillChromsome(){
             for(var i =0; i < Genes.Length; i++){
-                var randNum = rnd.Next(0,6);
+                var randNum = _rnd.Next(0,6);
                 Genes[i] = randNum;
             }
             return this.Genes;
@@ -61,18 +61,18 @@ namespace GeneticAlgorithm{
             //ex mutationRate 0.2
             double[] mutationArr = new double[100];
             for(var i =0;i<mutationArr.Length;i++){
-                mutationArr[i]= rnd.NextDouble();
+                mutationArr[i]= _rnd.NextDouble();
             }
             for(var j=0; j< child.Length;j++){
                 if(mutationRate < mutationArr[j]){
-                    child[j] = rnd.Next(0,6);
+                    child[j] = _rnd.Next(0,6);
                 }
             }
             return child;
         }
         public IChromosome[] Reproduce(IChromosome spouse, double mutationRate){
-            var lowerBound = rnd.Next(0,121);
-            var upperBound = rnd.Next(121,243);
+            var lowerBound = _rnd.Next(0,121);
+            var upperBound = _rnd.Next(121,243);
             if (mutationRate > 1 || mutationRate < 0){
                 throw new ArgumentException("Mutation rate should me between 0 and 1");
             }
@@ -97,8 +97,17 @@ namespace GeneticAlgorithm{
             return childChromosomes;     
         }
 
+        public int CompareTo(IChromosome obj){
+            if(obj == null){
+                return 1;
+            }
+            Chromosome otherChromosome = obj as Chromosome;
+            if (otherChromosome != null)
+                return this.Fitness.CompareTo(otherChromosome.Fitness);
+            else    
+                throw new ArgumentException("object is not a Chromosome");    
 
-
+        }
 
     }
 }
