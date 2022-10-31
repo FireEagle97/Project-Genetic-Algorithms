@@ -6,21 +6,33 @@ namespace GeneticAlgorithm{
         private double _fitness;
         private Random _rnd;
         Chromosome(int numOfGenes, int potSeed){
-            genes = new int[numOfGenes];
-            rnd = new Random(potSeed);
+            NumOfGenes = numOfGenes;
+            PotSeed = potSeed;
+            _genes = new int[NumOfGenes];
+            _rnd = new Random(PotSeed);
+            Fitness = _fitness;
+
         }
-        // Chromosome(){
-        //     Chromosome duplicated = new Chromosome()
-        //     Chromosome duplicated= aChromosome;
-        // }
+        Chromosome(){
+            Chromosome duplicated = new Chromosome(this.NumOfGenes, this.PotSeed);
+        }
         public double Fitness{
             get{
-                return this.fitness;
+                return this._fitness;
             }
+            set{
+                this._fitness =value;
+            }
+        }
+        public int NumOfGenes{
+            get;
+        }
+        public int PotSeed{
+            get;
         }
         public int[] Genes{
             get{
-                return this.genes;
+                return this._genes;
             }
         }
         public long Length{
