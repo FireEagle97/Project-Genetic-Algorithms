@@ -1,7 +1,7 @@
 using System;
 namespace GeneticAlgorithm{
 
-    public class Chromosome : IChromosome{
+    internal class Chromosome : IChromosome{
         private int[] _genes;
         private double _fitness;
         private Random _rnd;
@@ -11,7 +11,6 @@ namespace GeneticAlgorithm{
             _genes = new int[NumOfGenes];
             _rnd = new Random(PotSeed);
             Fitness = _fitness;
-
         }
         Chromosome(){
             Chromosome duplicated = new Chromosome(this.NumOfGenes, this.PotSeed);
@@ -50,14 +49,14 @@ namespace GeneticAlgorithm{
             }
 
         }
-        public int[] FillChromsome(){
+        private int[] FillChromsome(){
             for(var i =0; i < Genes.Length; i++){
                 var randNum = _rnd.Next(0,6);
                 Genes[i] = randNum;
             }
             return this.Genes;
         }
-        private Chromosome mutate(Chromosome child, double mutationRate){
+        private Chromosome Mutate(Chromosome child, double mutationRate){
             //ex mutationRate 0.2
             double[] mutationArr = new double[100];
             for(var i =0;i<mutationArr.Length;i++){
@@ -92,8 +91,8 @@ namespace GeneticAlgorithm{
                 child2[j] = this.Genes[j];
             }
         
-            childChromosomes[0]= this.mutate(child1,mutationRate);
-            childChromosomes[1]=this.mutate(child2,mutationRate);
+            childChromosomes[0]= this.Mutate(child1,mutationRate);
+            childChromosomes[1]=this.Mutate(child2,mutationRate);
             return childChromosomes;     
         }
 
