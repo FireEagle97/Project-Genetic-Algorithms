@@ -5,28 +5,32 @@ namespace GeneticAlgorithm{
         //public delegate double FitnessEventHandler(IChromosome chromosome, IGeneration generation);
 
         private IChromosome[] _chromosomeArray;
-
+        private IGeneticAlgorithm _geneticAlgorithm;
+        private FitnessEventHandler _fitnessFunction;
+        private int? _seed;
 
 
         // One that takes the IGeneticAlgorithm, FitnessEventHandler, and a potential seed
-        public Generation(IGeneticAlgorithm geneticAlgorithm, FitnessEventHandler fitnessCalculation, int? seed = null)
+
+        public Generation(IGeneticAlgorithm geneticAlgorithm, FitnessEventHandler fitnessFunction, int? seed)
         {
-            var random = seed.HasValue ? new Random(seed.Value) : new Random();
-            _chromosomeArray = new IChromosome[geneticAlgorithm.PopulationSize];
-            for (var i = 0; i < geneticAlgorithm.PopulationSize; i++)
+            _geneticAlgorithm = geneticAlgorithm;
+            _fitnessFunction = fitnessFunction;
+            _seed = seed;    
+        }
+
+        //constructor that performs a deep copy of the generation based on an array of IChromosomes
+        public Generation(IGenerationDetails generation)
+        {
+            _chromosomeArray = new IChromosome[generation.NumberOfChromosomes];
+            for (int i = 0; i < generation.NumberOfChromosomes; i++)
             {
-                _chromosomeArray[i] = new Chromosome(geneticAlgorithm, random);
+                //TODO: Implement deep copy of IChromosome
+                _chromosomeArray[i] = generation[i];
+                // _chromosomeArray[i] = new Chromosome(generation[i]);
             }
         }
-        //  Performs a deep copy the generation based on an array of IChromosomes
-        public Generation(IChromosome[] chromosomeArray)
-        {
-            _chromosomeArray = new IChromosome[chromosomeArray.Length];
-            for (var i = 0; i < chromosomeArray.Length; i++)
-            {
-                _chromosomeArray[i] = chromosomeArray[i].Clone();
-            }
-        }
+      
         public IChromosome this[int index] { get{
             return _chromosomeArray[index];
             }
@@ -38,17 +42,30 @@ namespace GeneticAlgorithm{
 
         public long NumberOfChromosomes { get; }
 
-        public Generation(IGeneticAlgorithm geneticAlgorithm, FitnessEventHandler fitnessEventHandler, int? seed = null){
-            //deep copy?
-        }
+
+        /// <summary>
+        /// Computes the fitness of all the Chromosomes in the generation. 
+        /// Note, a FitnessEventHandler deleagte is invoked for every fitness function that must be calculated and is provided by the user
+        /// Note, if NumberOfTrials is greater than 1 in IGeneticAlgorithm, 
+        /// the average of the number of trials is used to compute the final fitness of the Chromosome.
+        /// </summary>
 
         public void EvaluateFitnessOfPopulation()
         {
             foreach(IChromosome element in _chromosomeArray){
-                GeneticAlgorithm.FitnessCalculation(element, this);
+                double fitness = 0;
+                for(int i = 0; i < _geneticAlgorithm.NumberOfTrials; i++){
+                    fitness += _fitnessFunction(element, this);
+                }
+                //unimplemented
+                // element.Fitness = fitness / _geneticAlgorithm.NumberOfTrials;
             }
         }
 
+        /// <summary>
+        /// Randomly selects a parent by comparing its fitness to others in the population
+        /// </summary>
+        /// <returns></returns>
         public IChromosome SelectParent()
         {
             IChromosome chosenChromosome = _chromosomeArray[0];
