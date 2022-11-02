@@ -2,16 +2,12 @@ namespace GeneticAlgorithm{
     
     internal class Generation : IGenerationDetails
     {
-        //public delegate double FitnessEventHandler(IChromosome chromosome, IGeneration generation);
-
         private IChromosome[] _chromosomeArray;
         private IGeneticAlgorithm _geneticAlgorithm;
         private FitnessEventHandler _fitnessFunction;
         private int? _seed;
 
-
         // One that takes the IGeneticAlgorithm, FitnessEventHandler, and a potential seed
-
         public Generation(IGeneticAlgorithm geneticAlgorithm, FitnessEventHandler fitnessFunction, int? seed)
         {
             _geneticAlgorithm = geneticAlgorithm;
