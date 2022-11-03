@@ -48,7 +48,7 @@ namespace GeneticAlgorithm
         {
             if (_currentGeneration == null)
             {
-                _currentGeneration = new Generation(new GeneticAlgorithm(_populationSize, _numberOfGenes, _lengthOfGene, _mutationRate, _eliteRate, _numberOfTrials, _fitnessCalculation, _seed), _fitnessCalculation,  _seed);
+                _currentGeneration = new Generation(new GeneticAlgorithm(_populationSize, _numberOfGenes, _lengthOfGene, _mutationRate, _eliteRate, _numberOfTrials, _fitnessCalculation, _seed), _fitnessCalculation, _seed);
             }
             else
             {
@@ -58,8 +58,8 @@ namespace GeneticAlgorithm
             return _currentGeneration;
         }
 
-// Implements a private method call GenerateNextGeneration
-//TODO: Implement GenerateNextGeneration
+        // Implements a private method call GenerateNextGeneration
+        //TODO: Implement GenerateNextGeneration
         // private IGeneration GenerateNextGeneration()
         // {
         //     var eliteCount = (int) Math.Round(_eliteRate * _populationSize);
@@ -79,7 +79,7 @@ namespace GeneticAlgorithm
         //     return newGeneration;
         // }
 
-    
+
 
 
 
