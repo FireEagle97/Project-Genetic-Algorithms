@@ -1,6 +1,4 @@
-﻿using System;
-using GeneticAlgorithm;
-
+﻿
 namespace GeneticAlgorithm
 {
     internal class GeneticAlgorithm : IGeneticAlgorithm

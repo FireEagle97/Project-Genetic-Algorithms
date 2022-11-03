@@ -21,8 +21,9 @@ namespace GeneticAlgorithm{
                 return Genes[index];
 
             }
-        }
-        public IChromosome[] Reproduce(IChromosome spouse, double mutationRate){
+        } 
+        public IChromosome[] Reproduce(IChromosome spouse, double mutationRate)
+        {
             
         }
 
