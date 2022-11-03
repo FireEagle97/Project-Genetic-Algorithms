@@ -1,18 +1,19 @@
 using System;
 namespace GeneticAlgorithm{
 
-    internal class Chromosome : IChromosome{
+    public class Chromosome : IChromosome{
         private int[] _genes;
         private double _fitness;
         private Random _rnd;
-        Chromosome(int numOfGenes, int potSeed){
+        public Chromosome(int numOfGenes, int potSeed){
             NumOfGenes = numOfGenes;
             PotSeed = potSeed;
             _genes = new int[NumOfGenes];
             _rnd = new Random(PotSeed);
             Fitness = _fitness;
+            this.FillChromsome();
         }
-        Chromosome(){
+        public Chromosome(){
             Chromosome duplicated = new Chromosome(this.NumOfGenes, this.PotSeed);
         }
         public double Fitness{
@@ -56,43 +57,50 @@ namespace GeneticAlgorithm{
             }
             return this.Genes;
         }
-        private Chromosome Mutate(Chromosome child, double mutationRate){
-            //ex mutationRate 0.2
-            double[] mutationArr = new double[100];
-            for(var i =0;i<mutationArr.Length;i++){
-                mutationArr[i]= _rnd.NextDouble();
-            }
-            for(var j=0; j< child.Length;j++){
-                if(mutationRate < mutationArr[j]){
-                    child[j] = _rnd.Next(0,6);
-                }
-            }
-            return child;
-        }
+
         public IChromosome[] Reproduce(IChromosome spouse, double mutationRate){
             var lowerBound = _rnd.Next(0,121);
             var upperBound = _rnd.Next(121,243);
-            if (mutationRate > 1 || mutationRate < 0){
-                throw new ArgumentException("Mutation rate should me between 0 and 1");
+            if (mutationRate >= 10 || mutationRate < 0){
+                throw new ArgumentException("Mutation rate should me between 0 and 10");
             }
             Chromosome[] childChromosomes = new Chromosome[2]; 
             Chromosome child1 = new Chromosome(243,5);
             Chromosome child2 = new Chromosome(243,4);
+            
             for(var i=0; i<spouse.Length;i++){
                 if(i >= lowerBound && i <= upperBound){
                     child1[i]=this.Genes[i];
                 }
                 child1[i]= spouse[i];
+                double mutationProb = _rnd.NextDouble();
+                //mutate
+                // var newValue = _rnd.Next(0,100)
+                //0.2
+                if(mutationRate < mutationProb){
+                    child1[i] = _rnd.Next(0,6);
+                }
+                
             }
             for(var j=0; j<this.Genes.Length;j++){
                 if(j>= lowerBound && j<= upperBound){
                     child2[j]= spouse[j];
                 }
                 child2[j] = this.Genes[j];
+                // double mutationProb = _rnd.NextDouble();
+                // if(mutationRate < mutationProb){
+                //     child1[j] = _rnd.Next(0,6);
+                // }
+                //mutate
+                // var newValue = _rnd.Next(0,100);
+                // if(newValue <= mutationRate){
+                //     child1[j] = _rnd.Next(0,6);
+                // }
+                
             }
         
-            childChromosomes[0]= this.Mutate(child1,mutationRate);
-            childChromosomes[1]=this.Mutate(child2,mutationRate);
+            childChromosomes[0]= child1;
+            childChromosomes[1]=child2;
             return childChromosomes;     
         }
 
