@@ -38,7 +38,14 @@ namespace GeneticAlgorithm
         /// The fitness score of the IChromosome
         /// </summary>
         /// <value>A value representing the fitness of the IChromosome</value>
-        public double Fitness => _fitness;
+        public double Fitness {
+            get{
+                return _fitness;
+            }
+            set{
+                _fitness = value;
+            }
+        } 
 
         /// <summary>
         /// The length of the genes
