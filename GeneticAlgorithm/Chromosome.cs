@@ -90,8 +90,6 @@ namespace GeneticAlgorithm
         private Chromosome mutate(Chromosome child, double mutationRate)
         {
             var numChangedGenes = Math.Round(child.Length%mutationRate);
-            Console.WriteLine(numChangedGenes + "num inside mutate");
-
             for (int i = 0; i < numChangedGenes; i++)
             {
                 var changedIndex = _rnd.Next(0,(int)child.Length);
@@ -126,7 +124,7 @@ namespace GeneticAlgorithm
         //     // children[0] = mutate(children[0], mutationProb);
         //     // children[1] = mutate(children[1], mutationProb);
         //     return children;
-        // }
+        // // }
 
         //test with this too
             // Chromosome child1 = new Chromosome(this.NumOfGenes, this.PotSeed);
@@ -142,10 +140,10 @@ namespace GeneticAlgorithm
             //     child1.Genes[i] = parent2Genes[i];
             //     child2.Genes[i] = parent1Genes[i];
             // }
-            // // children[0] = mutate(child1, mutationProb);
-            // // children[1] = mutate(child2, mutationProb);
-            // children[0] = child1;
-            // children[1] = child2;
+            // children[0] = mutate(child1, mutationProb);
+            // children[1] = mutate(child2, mutationProb);
+            // // children[0] = child1;
+            // // children[1] = child2;
             // return children;
             var lowerBound = _rnd.Next(0,121);
             var upperBound = _rnd.Next(121,243);
@@ -167,8 +165,6 @@ namespace GeneticAlgorithm
         
             childChromosomes[0]= this.mutate(child1,mutationProb);
             childChromosomes[1]=this.mutate(child2,mutationProb);
-            // childChromosomes[0] = child1;
-            // childChromosomes[1]=child2;
             return childChromosomes;
 
 
