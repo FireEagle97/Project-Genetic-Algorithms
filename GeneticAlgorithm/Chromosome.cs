@@ -2,7 +2,7 @@ using System;
 namespace GeneticAlgorithm
 {
 
-    public class Chromosome : IChromosome
+    internal class Chromosome : IChromosome
     {
         private int[] _genes;
         private double _fitness;
