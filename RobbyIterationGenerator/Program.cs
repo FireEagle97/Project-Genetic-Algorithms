@@ -7,13 +7,13 @@ namespace RobbyIterationGenerator
     {
         static void Main(string[] args)
         {
-            Chromosome chromosome = new Chromosome(243,4);
-            Chromosome chromosome1 = new Chromosome(243,5);
-            // chromosome.Fitness = 3;
-            // chromosome1.Fitness =2;
+            // Chromosome chromosome = new Chromosome(243,4);
+            // Chromosome chromosome1 = new Chromosome(243,5);
+            // // chromosome.Fitness = 3;
+            // // chromosome1.Fitness =2;
 
-            // Console.WriteLine(chromosome.CompareTo(chromosome1));
-            IChromosome[] chromList = chromosome.Reproduce(chromosome1,1);
+            // // Console.WriteLine(chromosome.CompareTo(chromosome1));
+            // IChromosome[] chromList = chromosome.Reproduce(chromosome1,1);
 
             // Console.WriteLine("parent1");
             // for(var j=0; j< chromosome.Length;j++){

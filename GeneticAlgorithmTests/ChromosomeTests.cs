@@ -33,7 +33,7 @@ public class ChromosomeTests
         IChromosome[] chromList = chromosome.Reproduce(chromosome1, 1);
         //Assert
         Assert.AreEqual(chromosome.Length, chromList[0].Length);
-        Assert.AreEqual(chromosome.Length, chromList[1].Length);
+        Assert.AreEqual(chromosome1.Length, chromList[1].Length);
         Assert.AreNotEqual(chromosome, chromList[0]);
         Assert.AreNotEqual(chromosome1, chromList[1]);
     }

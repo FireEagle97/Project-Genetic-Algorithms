@@ -4,5 +4,10 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>GeneticAlgorithmTests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 
 </Project>
