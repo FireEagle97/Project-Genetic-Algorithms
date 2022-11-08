@@ -5,37 +5,79 @@ namespace GeneticAlgorithmTests
 [TestClass]
 public class ChromosomeTests
 {
+
+    //Test the constructor
     [TestMethod]
-    public void compareToTest()
+    public void TestConstructor()
     {
-        Chromosome chromosome1 = new Chromosome(243,4);
-        Chromosome chromosome2 = new Chromosome(243,3);
-        chromosome1.Fitness = 2;
-        chromosome2.Fitness = 2 ;
-        Assert.AreEqual(chromosome1.CompareTo(chromosome2), 0);
+        //Arrange
+        int numberOfGenes = 10;
+        int seed = 1;
+        //Act
+        Chromosome chromosome = new Chromosome(numberOfGenes, seed);
+        //Assert
+        Assert.AreEqual(numberOfGenes, chromosome.NumOfGenes);
+        Assert.AreEqual(10, chromosome.Length);
     }
+
+    //Test the Reproduce method Length
     [TestMethod]
+    public void TestReproduce()
+    {
+        //Arrange
+        int numberOfGenes = 10;
+        int seed = 1;
+        Chromosome chromosome = new Chromosome(numberOfGenes, seed);
+        Chromosome chromosome1 = new Chromosome(numberOfGenes, seed);
+        //Act
+        IChromosome[] chromList = chromosome.Reproduce(chromosome1, 1);
+        //Assert
+        Assert.AreEqual(chromosome.Length, chromList[0].Length);
+        Assert.AreEqual(chromosome.Length, chromList[1].Length);
+        Assert.AreNotEqual(chromosome, chromList[0]);
+        Assert.AreNotEqual(chromosome1, chromList[1]);
+    }
+
+    //Test the CompareTo method
+    [TestMethod]
+    public void TestCompareTo()
+    {
+        //Arrange
+        int numberOfGenes = 10;
+        int seed = 1;
+        Chromosome chromosome = new Chromosome(numberOfGenes, seed);
+        Chromosome chromosome1 = new Chromosome(numberOfGenes, seed);
+
+        //Act
+        int result = chromosome.CompareTo(chromosome1);
+        //Assert
+        Assert.AreEqual(0, result);
+    }
+
+
+
+    [TestMethod]
+
     public void reproduceTest(){
-        Chromosome chromosome1 = new Chromosome(243,4);
-        Chromosome chromosome2 = new Chromosome(243,4);
-        IChromosome[] chromList = chromosome1.Reproduce(chromosome2,6);
+        //Arrange
+        int numberOfGenes = 10;
+        int seed = 1;
+        Chromosome chromosome = new Chromosome(numberOfGenes, seed);
+        Chromosome chromosome1 = new Chromosome(numberOfGenes, seed);
+        IChromosome[] chromList = chromosome.Reproduce(chromosome1, 1);
         var count1 = 0;
         var count2 = 0;
-        for(var j =0; j< chromList[0].Length;j++){
-    
-            if(chromList[0][j] != chromosome1[j]){
+        //Act
+        for(var i =0; i<chromList[0].Length;i++){
+            if(chromList[0][i] != chromosome[i]){
                 count1++;
             }
-
-        }
-        for(var j =0; j< chromList[0].Length;j++){
-    
-            if(chromList[0][j] != chromosome2[j]){
+            if(chromList[1][i] != chromosome1[i]){
                 count2++;
             }
-
         }
-        Assert.AreEqual(count1, count2);
+        //Assert
+        Assert.AreEqual(count2,count1);
     }
 }
 }
