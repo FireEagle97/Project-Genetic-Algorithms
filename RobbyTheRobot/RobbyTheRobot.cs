@@ -72,6 +72,16 @@ namespace RobbyTheRobot
                     //update canCheckerArray
                     canCheckerList.Add(canNumber);
                 }
+
+                //Fill everything else with .Empty (An Enum's default value is apparently 0)
+                for(int i = 0; i < GridSize; i++){
+                    for(int j = 0; j < rowSize; j++){
+                        if(grid[i,j] == 0){
+                            grid[i,j] = ContentsOfGrid.Empty;
+                        }
+                    }
+                }
+
             return grid;
             } else {
                 throw new ArgumentException("Gridsize must be a squared number");
@@ -79,78 +89,79 @@ namespace RobbyTheRobot
         }
 
         public void GeneratePossibleSolutions(string folderPath){
-            //Create GA? What is the length of a gene? What is FitnessHandler doing here
-            GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(PopulationSize, 243, 1, MutationRate, EliteRate, NumberOfTrials,);
-
-            //Create the grid
-            ContentsOfGrid[,] grid = GenerateRandomTestGrid();
-            //Random number generator needed in ScoreForAllele
-            Random random = new Random();
+            //Create GeneticAlgorithm. What is the length of a gene?
+            GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(PopulationSize, 243, 1, MutationRate, EliteRate, NumberOfTrials, ComputeFitness);
 
             for(int j = 0; j < NumberOfGenerations; j++){
                 //Create the generation
                 Generation generation = geneticAlgorithm.GenerateGeneration();
-                //List of int[] to hold all arrays of moves
-                List<String> listOfStringOfNumberOfActions = new List<String>();
 
                 for(int k = 0; k < PopulationSize; k++){
-                    //Variable to hold the score
-                    int score = 0;
-                    //Get the Chromosome
-                    Chromosome chromosome = generation[k];
-                    //array of actions Robby performed to finish for a single chromosome
-                    String StringOfNumberOfActions = "";
-                    //x and y initial positions
-                    int x = 0;
-                    int y = 0;
-                    
-                    for(int l = 0; l < NumberOfActions; l++){
-                        //Store gene 
-                        StringOfNumberOfActions += //gene here
-                        //Add move to the score
-                        score += RobbyHelper.ScoreForAllele(chromosome.Genes, grid, random, x, y);
-
-                        //Ends the scoring if all cans are found.
-                        bool endScoringCheck = true;
-                        foreach(var content in grid){
-                            if(content == ContentsOfGrid.Can){
-                                endScoringCheck = false;
-                                break;
-                            }
-                        }
-                        //If all cans are picked up
-                        if(endScoringCheck){
-                            Console.WriteLine("No more cans were found! Breaking the loop!");
-                            //Adds the moves done during the run to the list
-                            listOfStringOfNumberOfActions.Add(StringOfNumberOfActions);
-                            //Saves the score
-                            chromosome.Fitness = score; 
-                            break;
-                        }
-                        //If loop is about to end
-                        if(l == NumberOfActions-1){
-                            //Adds the moves done during the run to the list
-                            listOfStringOfNumberOfActions.Add(StringOfNumberOfActions);
-                            //Saves the score
-                            chromosome.Fitness = score;
-                        } 
-                    }
+                  generation[k].Fitness = ComputeFitness(generation[k], generation);
                 }
 
                 //Save the top candidate on generations 1, 20, 100, 200, 500, 1000
                 if(j == 0 || j == 19 || j == 99 || j == 119 || j == 499 || j == 999){
                     //Find the top candidate
 
-                    //Put data in file or prepare it in a comma separated list like so:
+                    //Put data in file in a comma separated list like so:
                     //max score, number of moves to display, all moves
 
-                    //Loop to find max score in arrayOfScores
-                    //calculate number of actions by counting all moves 
-                    //all moves it took
+                    //Chromosome.Fitness
+                    //Chromosome.actionNumber
+                    //Chromosome`s Genes[]
 
                     //Write/Save to file 😖
                 }
             }
         }   
+
+        public double ComputeFitness(IChromosome chromosome, IGeneration generation){
+            //Variable to hold the score
+            double score = 0;
+            //number of actions it took for Robby to finish
+            int actionsTaken = 0;
+            //x and y initial positions
+            int x = 0;
+            int y = 0;
+
+            //Create the grid
+            ContentsOfGrid[,] grid = GenerateRandomTestGrid();
+            //Random number generator needed in ScoreForAllele
+            Random random = new Random();
+            
+            for(int l = 0; l < NumberOfActions; l++){
+                //Add move to the score
+                score += RobbyHelper.ScoreForAllele(chromosome.Genes, grid, random, x, y);
+
+                //Adds the amount of actions taken
+                actionsTaken += 1;
+
+                //Ends the scoring if all cans are found.
+                bool endScoringCheck = false;
+                foreach(var content in grid){
+                    if(content == ContentsOfGrid.Can){
+                        endScoringCheck = true;
+                        break;
+                    }
+                }
+                //If all cans are picked up
+                if(endScoringCheck){
+                    Console.WriteLine("No more cans were found! Breaking the loop!");
+                    //Save actionsTaken in Chromosome`s actionNumber
+                    chromosome.actionNumber = actionsTaken;
+                    //Saves the score
+                    return score; 
+                }
+                //If loop is about to end
+                if(l == NumberOfActions-1){
+                    //Save actionsTaken in Chromosome`s actionNumber
+                    chromosome.actionNumber = actionsTaken;
+                    //Saves the score
+                    return score;
+                } 
+            }
+            throw new ApplicationException("An end condition was never reached in ComputeFitness");
+        }
     }
 }
