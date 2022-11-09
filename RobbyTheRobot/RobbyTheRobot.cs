@@ -19,13 +19,20 @@ namespace RobbyTheRobot
         public int NumberOfTrials {get;}
 
         public RobbyTheRobot(int numberOfGenerations, int populationSize, int numberOfTrials, int? seed = null){
-            NumberOfGenerations = numberOfGenerations;
-            PopulationSize = populationSize;
-            NumberOfTrials = numberOfTrials;
             //Instructions stipulate that the size of the grid is 100
             GridSize = 100;
             //and Robby can do 200 possible actions
             NumberOfActions = 200;
+            //Arbitrary value according to the slides
+            NumberOfTestGrids = 100;
+            //Arbitrary as well
+            MutationRate = 0.5;
+            //Maybe arbitrary
+            EliteRate = 0.5;
+            NumberOfGenerations = numberOfGenerations;
+
+            NumberOfTrials = numberOfTrials;
+            PopulationSize = populationSize;
         }
 
         public ContentsOfGrid[,] GenerateRandomTestGrid()
@@ -71,49 +78,79 @@ namespace RobbyTheRobot
             }
         }
 
-        public void GeneratePossibleSolutions(string folderPath)
-        {
-            for(int i = 0; i < NumberOfTrials; i++){
-                //Create the grid
-                ContentsOfGrid[,] grid = GenerateRandomTestGrid();
-                for(int j = 0; j < NumberOfGenerations; j++){
-                    //Scores for all chromosomes
-                    int[] arrayOfScores = new int[PopulationSize];
-                    for(int k = 0; k < PopulationSize; k++){
-                        //Variable to hold the score
-                        int score = 0;
-                        for(int l = 0; l < NumberOfActions; l++){
-                            //Ends the scoring if all cans are found. I don't know if this is nesessary
-                            bool endScoringCheck = true;
-                            foreach(var content in grid){
-                                if(content == ContentsOfGrid.Can){
-                                    endScoringCheck = false;
-                                }
-                            }
-                            if(endScoringCheck){
-                                //Breaks this loop, ending the scoring
+        public void GeneratePossibleSolutions(string folderPath){
+            //Create GA? What is the length of a gene? What is FitnessHandler doing here
+            GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(PopulationSize, 243, 1, MutationRate, EliteRate, NumberOfTrials,);
+
+            //Create the grid
+            ContentsOfGrid[,] grid = GenerateRandomTestGrid();
+            //Random number generator needed in ScoreForAllele
+            Random random = new Random();
+
+            for(int j = 0; j < NumberOfGenerations; j++){
+                //Create the generation
+                Generation generation = geneticAlgorithm.GenerateGeneration();
+                //List of int[] to hold all arrays of moves
+                List<String> listOfStringOfNumberOfActions = new List<String>();
+
+                for(int k = 0; k < PopulationSize; k++){
+                    //Variable to hold the score
+                    int score = 0;
+                    //Get the Chromosome
+                    Chromosome chromosome = generation[k];
+                    //array of actions Robby performed to finish for a single chromosome
+                    String StringOfNumberOfActions = "";
+                    //x and y initial positions
+                    int x = 0;
+                    int y = 0;
+                    
+                    for(int l = 0; l < NumberOfActions; l++){
+                        //Store gene 
+                        StringOfNumberOfActions += //gene here
+                        //Add move to the score
+                        score += RobbyHelper.ScoreForAllele(chromosome.Genes, grid, random, x, y);
+
+                        //Ends the scoring if all cans are found.
+                        bool endScoringCheck = true;
+                        foreach(var content in grid){
+                            if(content == ContentsOfGrid.Can){
+                                endScoringCheck = false;
                                 break;
                             }
-                            score += RobbyHelper.ScoreForAllele(, grid, , , );
                         }
-                        arrayOfScores[k] = score;
+                        //If all cans are picked up
+                        if(endScoringCheck){
+                            Console.WriteLine("No more cans were found! Breaking the loop!");
+                            //Adds the moves done during the run to the list
+                            listOfStringOfNumberOfActions.Add(StringOfNumberOfActions);
+                            //Saves the score
+                            chromosome.Fitness = score; 
+                            break;
+                        }
+                        //If loop is about to end
+                        if(l == NumberOfActions-1){
+                            //Adds the moves done during the run to the list
+                            listOfStringOfNumberOfActions.Add(StringOfNumberOfActions);
+                            //Saves the score
+                            chromosome.Fitness = score;
+                        } 
                     }
-                    //Save certain candidates if on gen 1, 20, 100, 200, 500, 1000
-                    if(j == 0 || j == 19 || j == 99 || j == 119 || j == 499 || j == 999){
-                        //Put data in file or prepare it in a comma separated list like so:
-                        //max score, number of moves to display, all moves
-
-                        //Loop to find max score in arrayOfScores
-                        //number of moves to display ???
-                        //all moves is all genes of a Chromosome
-                    }
-                    //Create next gen???
                 }
-                //Reset the gen for next trial?
-                NumberOfTestGrids += 1; //Unsure if it goes here
-            }   
-            //Write/Save to file 😖
-        }
 
+                //Save the top candidate on generations 1, 20, 100, 200, 500, 1000
+                if(j == 0 || j == 19 || j == 99 || j == 119 || j == 499 || j == 999){
+                    //Find the top candidate
+
+                    //Put data in file or prepare it in a comma separated list like so:
+                    //max score, number of moves to display, all moves
+
+                    //Loop to find max score in arrayOfScores
+                    //calculate number of actions by counting all moves 
+                    //all moves it took
+
+                    //Write/Save to file 😖
+                }
+            }
+        }   
     }
 }

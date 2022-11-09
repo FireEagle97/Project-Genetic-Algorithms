@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Genetic
+namespace GeneticAlgorithm
 {
     public class GeneticAlgorithm
     {
