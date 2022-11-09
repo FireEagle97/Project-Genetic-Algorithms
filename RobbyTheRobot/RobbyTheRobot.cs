@@ -6,6 +6,11 @@ namespace RobbyTheRobot
     //delegate for notifying when a file has been written
     internal class RobbyTheRobot : IRobbyTheRobot
     {
+        private const int GRID_SIZE = 100;
+        private const int NUMBER_OF_ACTIONS = 200;
+        private const int NUMBER_OF_TEST_GRIDS = 100;
+        private const double MUTATION_RATE = 0.05;
+        private const double ELITE_RATE = 0.4;
         public int NumberOfActions {get; set;}
         public int NumberOfTestGrids {get; set;}
         public int GridSize {get;}
@@ -20,15 +25,15 @@ namespace RobbyTheRobot
 
         public RobbyTheRobot(int numberOfGenerations, int populationSize, int numberOfTrials, int? seed = null){
             //Instructions stipulate that the size of the grid is 100
-            GridSize = 100;
+            GridSize = GRID_SIZE;
             //and Robby can do 200 possible actions
-            NumberOfActions = 200;
+            NumberOfActions = NUMBER_OF_ACTIONS;
             //Arbitrary value according to the slides
-            NumberOfTestGrids = 100;
+            NumberOfTestGrids = NUMBER_OF_TEST_GRIDS;
             //Arbitrary as well
-            MutationRate = 0.5;
+            MutationRate = MUTATION_RATE;
             //Maybe arbitrary
-            EliteRate = 0.5;
+            EliteRate = ELITE_RATE;
             NumberOfGenerations = numberOfGenerations;
 
             NumberOfTrials = numberOfTrials;
