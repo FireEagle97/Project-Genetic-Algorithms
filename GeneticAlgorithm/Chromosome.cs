@@ -6,23 +6,20 @@ namespace GeneticAlgorithm
     {
         private int[] _genes;
         private double _fitness;
-        
 
         private Random _rnd;
 
         //One that takes the number of genes, the length of a gene, and a potential seed
-        public Chromosome(int numberOfGenes, int ?seed = null)
+        public Chromosome(int numberOfGenes, int lengthOfGene, int ?seed = null)
         {
-            //initialise seed
              _rnd = seed.HasValue ? new Random(seed.Value) : new Random();
-            NumOfGenes = numberOfGenes;
-            _genes = new int[NumOfGenes];
-            for (int i = 0; i < NumOfGenes; i++)
+            _genes = new int[numberOfGenes];
+            for (int i = 0; i < numberOfGenes; i++)
             {
-                _genes[i] = _rnd.Next(0, 6);
-            }            
-
-        }
+                _genes[i] = _rnd.Next(lengthOfGene);
+            }
+        }        
+        
         //Performs a deep copy of the Chromosome
         public Chromosome(Chromosome other)
         {
@@ -105,10 +102,10 @@ namespace GeneticAlgorithm
         public IChromosome[] Reproduce(IChromosome spouse, double mutationProb)
         {
             Chromosome[] children = new Chromosome[2];
-            Chromosome child1 = new Chromosome(this.NumOfGenes);
-            Chromosome child2 = new Chromosome(this.NumOfGenes);
+            var child1 = new Chromosome(this);
+            var child2 = new Chromosome((Chromosome)spouse);     
             int[] parent1Genes = this.Genes;
-            int[] parent2Genes = spouse.Genes;
+            int[] parent2Genes = spouse.Genes;      
             int point1 = _rnd.Next(0, this.NumOfGenes);
             int point2 = _rnd.Next(0, this.NumOfGenes);
             if (point1 > point2)
