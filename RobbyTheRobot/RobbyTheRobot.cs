@@ -118,7 +118,7 @@ namespace RobbyTheRobot
 
                     //Write to file
                     WriteToFile(folderPath, topCandidate);
-                    //FileWritten Delegate invocation maybe?
+                    //FileWritten Delegate invocation here maybe?
                 }
             }
         }   
