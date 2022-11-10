@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using GeneticAlgorithm;
 
 namespace RobbyTheRobot
 {
@@ -34,6 +37,7 @@ namespace RobbyTheRobot
             MutationRate = MUTATION_RATE;
             //Maybe arbitrary
             EliteRate = ELITE_RATE;
+            //This is 200, but its in the constructor so we don't set it here
             NumberOfGenerations = numberOfGenerations;
 
             NumberOfTrials = numberOfTrials;
@@ -94,29 +98,27 @@ namespace RobbyTheRobot
         }
 
         public void GeneratePossibleSolutions(string folderPath){
-            //Create GeneticAlgorithm. What is the length of a gene?
-            GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(PopulationSize, 243, 1, MutationRate, EliteRate, NumberOfTrials, ComputeFitness);
+            //Create GeneticAlgorithm
+            GeneticAlgorithm geneticAlgorithm = GeneticLib.CreateGeneticAlgorithm(PopulationSize, 243, 7, MutationRate, EliteRate, NumberOfTrials, ComputeFitness);
 
-            for(int j = 0; j < NumberOfGenerations; j++){
+            for(int i = 0; i < NumberOfGenerations; i++){
                 //Create the generation
                 Generation generation = geneticAlgorithm.GenerateGeneration();
-
-                for(int k = 0; k < PopulationSize; k++){
-                  generation[k].Fitness = ComputeFitness(generation[k], generation);
-                }
+                
+                // for(int k = 0; k < PopulationSize; k++){
+                //   generation[k].Fitness = ComputeFitness(generation[k], generation);
+                // }
+                //Then sort in terms of Fitness, descending (highest to lowest)
+                generation.EvaluateFitnessOfPopulation();
 
                 //Save the top candidate on generations 1, 20, 100, 200, 500, 1000
-                if(j == 0 || j == 19 || j == 99 || j == 119 || j == 499 || j == 999){
-                    //Find the top candidate
+                if(i == 0 || i == 19 || i == 99 || i == 119 || i == 499 || i == 999){
+                    //Create a variable to hold the top chromosome (already sorted in EvaluateFitnessOfPopulation())
+                    Chromosome topCandidate = generation[0];
 
-                    //Put data in file in a comma separated list like so:
-                    //max score, number of moves to display, all moves
-
-                    //Chromosome.Fitness
-                    //Chromosome.actionNumber
-                    //Chromosome`s Genes[]
-
-                    //Write/Save to file 😖
+                    //Write to file
+                    WriteToFile(folderPath, topCandidate);
+                    //FileWritten Delegate invocation maybe?
                 }
             }
         }   
@@ -135,38 +137,47 @@ namespace RobbyTheRobot
             //Random number generator needed in ScoreForAllele
             Random random = new Random();
             
-            for(int l = 0; l < NumberOfActions; l++){
+            for(int i = 0; i < NumberOfActions; i++){
                 //Add move to the score
-                score += RobbyHelper.ScoreForAllele(chromosome.Genes, grid, random, x, y);
-
+                score += RobbyHelper.ScoreForAllele(chromosome.Genes, grid, random, ref x, ref y);
                 //Adds the amount of actions taken
                 actionsTaken += 1;
-
-                //Ends the scoring if all cans are found.
-                bool endScoringCheck = false;
-                foreach(var content in grid){
-                    if(content == ContentsOfGrid.Can){
-                        endScoringCheck = true;
-                        break;
-                    }
-                }
-                //If all cans are picked up
-                if(endScoringCheck){
-                    Console.WriteLine("No more cans were found! Breaking the loop!");
-                    //Save actionsTaken in Chromosome`s actionNumber
-                    chromosome.actionNumber = actionsTaken;
-                    //Saves the score
-                    return score; 
-                }
-                //If loop is about to end
-                if(l == NumberOfActions-1){
-                    //Save actionsTaken in Chromosome`s actionNumber
-                    chromosome.actionNumber = actionsTaken;
-                    //Saves the score
-                    return score;
-                } 
             }
-            throw new ApplicationException("An end condition was never reached in ComputeFitness");
+            return score;
+        }
+
+        //Method to write to file
+        public static void WriteToFile(string folderPath, Chromosome topCandidate){
+            //Check if the file exists. We don't want to add more to a file with data 
+            int number = 0;
+            string fileName = $"Top_Candidate+{number}";
+            while(File.Exists(fileName)){
+                number++;
+                fileName = $"Top_Candidate+{number}";
+            }
+            Console.WriteLine($"{fileName} created");
+
+            //Put data in file in a comma separated list like so:
+            //max score, number of moves to display, all moves
+
+            //Chromosome.Fitness
+            double topFitness = topCandidate.Fitness;
+            //Arbitrary amount of moves to show
+            int numberOfMoves = NUMBER_OF_ACTIONS;
+            //Chromosome's Genes[]
+            int[] topGenes = topCandidate.Genes;
+
+            //Have a string to hold top a top candidate's data for each generation
+            string topCandidateString = $"{topFitness}, {numberOfMoves}, {topGenes}";
+            
+            // Write file using StreamWriter  
+            using (StreamWriter writer = new StreamWriter(fileName))  
+            {  
+            writer.WriteLine(topCandidateString);  
+            }  
+            // Read a file  
+            string readText = File.ReadAllText(fileName);  
+            Console.WriteLine(readText);  
         }
     }
 }
