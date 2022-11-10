@@ -1,3 +1,4 @@
+using System;
 namespace GeneticAlgorithm{
     
     internal class Generation : IGenerationDetails
@@ -37,7 +38,15 @@ namespace GeneticAlgorithm{
         public double MaxFitness { get; }
 
         public long NumberOfChromosomes { get; }
-
+        
+        public IChromosome[] ChromosomesArray{
+            get {
+                return _chromosomeArray;
+            }
+            set {
+                _chromosomeArray = value;
+            }
+        }
 
         /// <summary>
         /// Computes the fitness of all the Chromosomes in the generation. 
@@ -66,6 +75,15 @@ namespace GeneticAlgorithm{
         {
             IChromosome chosenChromosome = _chromosomeArray[0];
             return chosenChromosome;
+        }
+
+        public IChromosome[] getEliteChromosomes(int eliteCount){
+            IChromosome[] eliteChromosomes = new IChromosome[eliteCount];
+            Random rnd = new Random();
+            for(var i = 0 ; i<eliteCount; i++){
+                eliteChromosomes[i] =_chromosomeArray[rnd.Next(0,(int)NumberOfChromosomes)];
+            }
+            return eliteChromosomes;
         }
     }
 }

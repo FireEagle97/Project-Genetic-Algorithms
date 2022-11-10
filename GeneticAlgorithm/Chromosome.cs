@@ -6,12 +6,12 @@ namespace GeneticAlgorithm
     {
         private int[] _genes;
         private double _fitness;
-        
+        private int _geneLength;
 
         private Random _rnd;
 
         //One that takes the number of genes, the length of a gene, and a potential seed
-        public Chromosome(int numberOfGenes, int ?seed = null)
+        public Chromosome(int numberOfGenes, int geneLength, int ?seed = null)
         {
             //initialise seed
              _rnd = seed.HasValue ? new Random(seed.Value) : new Random();
@@ -19,8 +19,9 @@ namespace GeneticAlgorithm
             _genes = new int[NumOfGenes];
             for (int i = 0; i < NumOfGenes; i++)
             {
-                _genes[i] = _rnd.Next(0, 6);
-            }            
+                _genes[i] = _rnd.Next(0, geneLength);
+            }
+            _geneLength = geneLength;            
 
         }
         //Performs a deep copy of the Chromosome
@@ -44,6 +45,14 @@ namespace GeneticAlgorithm
             }
             set{
                 _fitness = value;
+            }
+        }
+        public int GeneLength{
+            get{
+                return _geneLength;
+            }
+            set{
+                _geneLength = value;
             }
         } 
 
@@ -88,7 +97,7 @@ namespace GeneticAlgorithm
             for (int i = 0; i < numChangedGenes; i++)
             {
                 var changedIndex = _rnd.Next(0,(int)child.Length);
-                child[changedIndex] = _rnd.Next(0,6);
+                child[changedIndex] = _rnd.Next(0,GeneLength);
             }
             return child;
         }
@@ -105,8 +114,8 @@ namespace GeneticAlgorithm
         public IChromosome[] Reproduce(IChromosome spouse, double mutationProb)
         {
             Chromosome[] children = new Chromosome[2];
-            Chromosome child1 = new Chromosome(this.NumOfGenes);
-            Chromosome child2 = new Chromosome(this.NumOfGenes);
+            Chromosome child1 = new Chromosome(this.NumOfGenes, this.GeneLength);
+            Chromosome child2 = new Chromosome(this.NumOfGenes, this.GeneLength);
             int[] parent1Genes = this.Genes;
             int[] parent2Genes = spouse.Genes;
             int point1 = _rnd.Next(0, this.NumOfGenes);

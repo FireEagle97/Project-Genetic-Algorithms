@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 namespace GeneticAlgorithm
 {
     internal class GeneticAlgorithm : IGeneticAlgorithm
@@ -59,25 +59,38 @@ namespace GeneticAlgorithm
         }
 
         // Implements a private method call GenerateNextGeneration
-        //TODO: Implement GenerateNextGeneration
-        // private IGeneration GenerateNextGeneration()
-        // {
-        //     var eliteCount = (int) Math.Round(_eliteRate * _populationSize);
-        //     var eliteChromosomes = _currentGeneration.GetEliteChromosomes(eliteCount);
-        //     var childChromosomes = new IChromosome[_populationSize - eliteCount];
-        //     for (var i = 0; i < childChromosomes.Length; i++)
-        //     {
-        //         var parent1 = _currentGeneration.GetChromosomeByRouletteWheelSelection();
-        //         var parent2 = _currentGeneration.GetChromosomeByRouletteWheelSelection();
-        //         var child = parent1.Reproduce(parent2);
-        //         childChromosomes[i] = child;
-        //     }
+        //combines the elite chromosomes and reproduced chromosomes in one generation
+        // TODO: Implement GenerateNextGeneration
+        private IGeneration GenerateNextGeneration()
+        {
+            Random rnd = new Random();
+            var eliteCount = (int) Math.Round(_eliteRate * _populationSize);
+            var currentGeneration = _currentGeneration as Generation;
+            var eliteChromosomes = currentGeneration.getEliteChromosomes(eliteCount);
+            var childChromosomes = new IChromosome[_populationSize - eliteCount];
+            Chromosome[] newGenerationChromosomes = new Chromosome[PopulationSize];
+            var newGeneration = new Generation(this,FitnessCalculation, _seed);
+            for (var i =0; i > newGeneration.ChromosomesArray.Length; i++){
+                 //add elite chromosomes to the New Generation chromsomes Array
+                for(var k =0; k < eliteChromosomes.Length;k++){
+                    newGenerationChromosomes[i] = eliteChromosomes[k] as Chromosome;
+                    i++;
+                }
+                //add the rest of chromosomes to the new generation chromosomes Array
+                for (var j = 0; i < childChromosomes.Length; j++)
+                {
+                    var parent1 = _currentGeneration[rnd.Next(0,(int)_currentGeneration.NumberOfChromosomes)];
+                    var parent2 = _currentGeneration[rnd.Next(0,(int)_currentGeneration.NumberOfChromosomes)];
+                    var childrenGeneration = parent1.Reproduce(parent2, MutationRate);
+                    //add the produced children to the ChildChromosomes
+                    newGeneration.ChromosomesArray[i] = childrenGeneration[j];
+                    i++;
+                }
 
-        //     var newGeneration = new Generation(_numberOfGenes, _lengthOfGene, _mutationRate, _fitnessCalculation, _seed);
-        //     newGeneration.AddChromosomes(eliteChromosomes);
-        //     newGeneration.AddChromosomes(childChromosomes);
-        //     return newGeneration;
-        // }
+            }
+            newGeneration.ChromosomesArray = newGenerationChromosomes;
+            return newGeneration;
+        }
 
 
 
