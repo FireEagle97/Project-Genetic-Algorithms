@@ -61,7 +61,7 @@ namespace GeneticAlgorithm{
         /// Returns the number of Chromosomes in the generation
         /// </summary>
         /// <value>The number of Chromosomes in the generation</value>
-        public int NumberOfChromosomes => _chromosomeArray.Length;
+        public long NumberOfChromosomes => _chromosomeArray.Length;
 
 
 
