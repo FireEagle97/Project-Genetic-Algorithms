@@ -9,10 +9,12 @@ namespace RobbyVisualizer{
         
         private SpriteBatch _spriteBatch;
         private Texture2D _tileTexture;
+        private Texture2D _ball;
+        private Texture2D _robby;
         private SpriteFont _generation;
         private SpriteFont _points;
         private SpriteFont _moves;
-        private Texture2D _ball;
+
 
         private Game _game;
 
@@ -42,6 +44,7 @@ namespace RobbyVisualizer{
             //y increments by 50
             //x increment by 50
             _spriteBatch.Draw(_ball,new Vector2(22, 85), Color.White);
+            _spriteBatch.Draw(_robby,new Vector2(50,0), Color.White);
             _spriteBatch.DrawString(_moves,"moves",new Vector2(10,530), Color.White);
             _spriteBatch.DrawString(_points,"points",new Vector2(10,550), Color.White);
             _spriteBatch.End();
@@ -59,6 +62,7 @@ namespace RobbyVisualizer{
             _moves = _game.Content.Load<SpriteFont>("moves");
             _points = _game.Content.Load<SpriteFont>("points");
             _ball = _game.Content.Load<Texture2D>("green_ball1");
+            _robby = _game.Content.Load<Texture2D>("robot_icon");
             base.LoadContent();
         }
         public override void Update(GameTime gameTime)
