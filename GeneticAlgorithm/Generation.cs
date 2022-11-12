@@ -1,3 +1,5 @@
+using System;
+
 namespace GeneticAlgorithm{
     
     internal class Generation : IGenerationDetails
@@ -6,13 +8,15 @@ namespace GeneticAlgorithm{
         private FitnessEventHandler _fitnessFunction;
         private IGeneticAlgorithm _geneticAlgorithm;
 
+        private Random _rnd;
+
 
         // One that takes the IGeneticAlgorithm, FitnessEventHandler, and a potential seed
         public Generation(IGeneticAlgorithm geneticAlgorithm, FitnessEventHandler fitnessFunction, int? seed = null)
         {
             _geneticAlgorithm = geneticAlgorithm;
             _fitnessFunction = fitnessFunction;
-            _chromosomeArray = new IChromosome[geneticAlgorithm.PopulationSize]
+            _chromosomeArray = new IChromosome[geneticAlgorithm.PopulationSize];
             for (int i = 0; i < geneticAlgorithm.PopulationSize; i++)
             {
                 _chromosomeArray[i] = new Chromosome(geneticAlgorithm.NumberOfGenes, geneticAlgorithm.LengthOfGene, seed);
@@ -102,7 +106,9 @@ namespace GeneticAlgorithm{
             {
                 totalFitness += _chromosomeArray[i].Fitness;
             }
-            double randomFitness = _geneticAlgorithm.Random.NextDouble() * totalFitness;
+            //select a random number between 0 and the total fitness
+            double randomFitness = _rnd.NextDouble() * totalFitness;
+
             double fitnessSoFar = 0;
             for (int i = 0; i < NumberOfChromosomes; i++)
             {
