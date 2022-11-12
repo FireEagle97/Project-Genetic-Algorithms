@@ -12,6 +12,7 @@ namespace RobbyVisualizer{
         private SpriteFont _generation;
         private SpriteFont _points;
         private SpriteFont _moves;
+        private Texture2D _ball;
 
         private Game _game;
 
@@ -28,11 +29,19 @@ namespace RobbyVisualizer{
                 {
                     var tileSize = 50;
                     _spriteBatch.Draw(_tileTexture, new Rectangle(i *tileSize , j * tileSize, tileSize, tileSize), Color.White);
+                    
+                    
                 }
             }
             _spriteBatch.End();
             _spriteBatch.Begin();
+            
             _spriteBatch.DrawString(_generation,"Generation",new Vector2(10,510), Color.White);
+            //(0,1) == (22,-15)
+            //(0,0) == (-27,-15)
+            //y increments by 50
+            //x increment by 50
+            _spriteBatch.Draw(_ball,new Vector2(22, 85), Color.White);
             _spriteBatch.DrawString(_moves,"moves",new Vector2(10,530), Color.White);
             _spriteBatch.DrawString(_points,"points",new Vector2(10,550), Color.White);
             _spriteBatch.End();
@@ -49,6 +58,7 @@ namespace RobbyVisualizer{
             _generation = _game.Content.Load<SpriteFont>("generation");
             _moves = _game.Content.Load<SpriteFont>("moves");
             _points = _game.Content.Load<SpriteFont>("points");
+            _ball = _game.Content.Load<Texture2D>("green_ball1");
             base.LoadContent();
         }
         public override void Update(GameTime gameTime)

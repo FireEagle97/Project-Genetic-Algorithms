@@ -20,6 +20,18 @@
 /processorParam:TextureFormat=Compressed
 /build:generation.spritefont
 
+#begin green_ball1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:green_ball1.png
+
 #begin moves.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
