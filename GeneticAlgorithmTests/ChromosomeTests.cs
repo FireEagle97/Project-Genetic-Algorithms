@@ -16,7 +16,8 @@ public class ChromosomeTests
         //Act
         Chromosome chromosome = new Chromosome(numberOfGenes, seed);
         //Assert
-        Assert.AreEqual(numberOfGenes, chromosome.NumOfGenes);
+        Assert.AreEqual(numberOfGenes, chromosome.Length);
+        
         Assert.AreEqual(10, chromosome.Length);
     }
 

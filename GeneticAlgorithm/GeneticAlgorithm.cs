@@ -52,7 +52,7 @@ namespace GeneticAlgorithm
             }
             else
             {
-                _currentGeneration = GenerateNextGeneration();
+                // _currentGeneration = GenerateNextGeneration();
             }
             _generationCount++;
             return _currentGeneration;
