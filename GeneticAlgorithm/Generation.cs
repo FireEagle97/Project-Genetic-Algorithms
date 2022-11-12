@@ -93,7 +93,18 @@ namespace GeneticAlgorithm{
             }
             AverageFitness = totalFitness / NumberOfChromosomes;
             MaxFitness = maxFitness;
+            //sort the chromosomes by fitness
+            Array.Sort(_chromosomeArray, (x, y) => y.Fitness.CompareTo(x.Fitness));
         }
+
+        /// <summary>
+        /// sorts the array of ChromosomeArray by fitness - 
+        /// </summary>
+        //TODO use it or remove it after testing
+        // public void SortByFitness()
+        // {
+        //     Array.Sort(_chromosomeArray, (x, y) => x.Fitness.CompareTo(y.Fitness));
+        // }
 
         /// <summary>
         /// Randomly selects a parent by comparing its fitness to others in the population
