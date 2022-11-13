@@ -60,11 +60,12 @@ namespace GeneticAlgorithm
 
         /// <summary>
         ///This method must create the next set of Chromosomes through reproduction
-        /// The elite rate should be used to select only a subset of the best Chromosomes based on fitness
+        /// The elite rate should be used to select only a subset of the best Chromosomes based on fitness - call SelectElites
         /// A new Generation should be created based on the resulting child Chromosomes
         /// </summary>
         /// <returns></returns>
-        
+
+         
         private IGeneration GenerateNextGeneration()
         {
             var currentGeneration = _currentGeneration as Generation;
@@ -88,10 +89,9 @@ namespace GeneticAlgorithm
 
         }
         /// <summary>
-        /// This method takes as an input a number of elites and returns the best Chromosomes based in a sorted array of CHromosomesArray
+        /// This method returns the elite Chromosomes based in a sorted array of CHromosomesArray
         /// </summary>
         /// <returns></returns>
-        
         public IChromosome[] SelectElites()
         {
             //Assuming that currentGeneration is sorted

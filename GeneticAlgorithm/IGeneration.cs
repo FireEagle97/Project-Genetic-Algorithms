@@ -26,7 +26,6 @@ namespace GeneticAlgorithm
         /// <value>The selected IChromosome</value>
         IChromosome this[int index] { get; }
 
-
     }
 
     /// <summary>

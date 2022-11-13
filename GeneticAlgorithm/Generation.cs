@@ -1,16 +1,16 @@
 using System;
 namespace GeneticAlgorithm{
     
-    internal class Generation : IGenerationDetails
+    internal class Generation : IGeneration
     {
         private IChromosome[] _chromosomeArray;
         private FitnessEventHandler _fitnessFunction;
         private IGeneticAlgorithm _geneticAlgorithm;
-
         private Random _rnd;
 
 
         // One that takes the IGeneticAlgorithm, FitnessEventHandler, and a potential seed
+
         public Generation(IGeneticAlgorithm geneticAlgorithm, FitnessEventHandler fitnessFunction, int? seed = null)
         {
             _geneticAlgorithm = geneticAlgorithm;
@@ -111,9 +111,7 @@ namespace GeneticAlgorithm{
         /// <returns></returns>
 
         public IChromosome SelectParent()
-
         {
-
             var geneticAlgorithm = _geneticAlgorithm as GeneticAlgorithm;
             var elites = geneticAlgorithm.SelectElites();
 
