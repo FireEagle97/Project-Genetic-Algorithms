@@ -63,41 +63,20 @@ namespace GeneticAlgorithm
         // TODO: Implement GenerateNextGeneration
         private IGeneration GenerateNextGeneration()
         {
-            Random rnd = new Random();
-            var eliteCount = (int) Math.Round(_eliteRate * _populationSize);
             var currentGeneration = _currentGeneration as Generation;
-            var eliteChromosomes = currentGeneration.getEliteChromosomes(eliteCount);
-            var childChromosomes = new IChromosome[_populationSize - eliteCount];
-            Chromosome[] newGenerationChromosomes = new Chromosome[PopulationSize];
             var newGeneration = new Generation(this,FitnessCalculation, _seed);
-            for (var i =0; i > newGeneration.ChromosomesArray.Length; i++){
-                 //add elite chromosomes to the New Generation chromsomes Array
-                for(var k =0; k < eliteChromosomes.Length;k++){
-                    newGenerationChromosomes[i] = eliteChromosomes[k] as Chromosome;
-                    i++;
-                }
-                //add the rest of chromosomes to the new generation chromosomes Array
-                for (var j = 0; i < childChromosomes.Length; j++)
-                {
-                    var parent1 = _currentGeneration[rnd.Next(0,(int)_currentGeneration.NumberOfChromosomes)];
-                    var parent2 = _currentGeneration[rnd.Next(0,(int)_currentGeneration.NumberOfChromosomes)];
+            for (var i =0; i < PopulationSize; i++){
+                    var parent1 = currentGeneration.SelectParent();
+                    var parent2 = currentGeneration.SelectParent();
                     var childrenGeneration = parent1.Reproduce(parent2, MutationRate);
-                    //add the produced children to the ChildChromosomes
-                    newGeneration.ChromosomesArray[i] = childrenGeneration[j];
-                    i++;
+                    //add the reproduced children to the ChildChromosomes
+                    for(var j =0; j < childrenGeneration.Length; j++) {
+                        newGeneration.ChromsomesArray[i] = childrenGeneration[j];
+                        i++;
+                    }
                 }
-
-            }
-            newGeneration.ChromosomesArray = newGenerationChromosomes;
             return newGeneration;
+
         }
-
-
-
-
-
-
-
-
     }
 }
