@@ -58,9 +58,12 @@ namespace GeneticAlgorithm
             return _currentGeneration;
         }
 
-        // Implements a private method call GenerateNextGeneration
-        //combines the elite chromosomes and reproduced chromosomes in one generation
-        // TODO: Implement GenerateNextGeneration
+        /// <summary>
+        ///This method must create the next set of Chromosomes through reproduction
+        /// The elite rate should be used to select only a subset of the best Chromosomes based on fitness
+        /// A new Generation should be created based on the resulting child Chromosomes
+        /// </summary>
+        /// <returns></returns>
         private IGeneration GenerateNextGeneration()
         {
             var currentGeneration = _currentGeneration as Generation;
