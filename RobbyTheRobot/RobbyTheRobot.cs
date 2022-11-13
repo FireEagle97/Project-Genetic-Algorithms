@@ -101,6 +101,9 @@ namespace RobbyTheRobot
             //Create GeneticAlgorithm
             IGeneticAlgorithm geneticAlgorithm = GeneticLib.CreateGeneticAlgorithm(PopulationSize, 243, 7, MutationRate, EliteRate, NumberOfTrials, ComputeFitness);
 
+            //List of Chromosomes to write to files
+            List<IChromosome> list = new List<IChromosome>();
+
             for(int i = 0; i < NumberOfGenerations; i++){
                 //Create the generation + Evaluate their Fitness and sort the array
                 geneticAlgorithm.GenerateGeneration();
@@ -110,11 +113,13 @@ namespace RobbyTheRobot
                     //Create a variable to hold the top chromosome (already sorted in EvaluateFitnessOfPopulation())
                     IChromosome topCandidate = geneticAlgorithm.CurrentGeneration[0];
 
-                    //Write to file
-                    WriteToFile(folderPath, topCandidate);
-                    //FileWritten Delegate invocation here maybe?
+                    //Add topCandidate to the list
+                    list.Add(topCandidate);
                 }
             }
+            //Write to file
+            WriteToFile(folderPath, list);
+            //FileWritten Delegate invocation here maybe?
         }   
 
         public double ComputeFitness(IChromosome chromosome, IGeneration generation){
@@ -141,25 +146,25 @@ namespace RobbyTheRobot
         }
 
         //Method to write to file
-        public static void WriteToFile(string folderPath, IChromosome topCandidate){
-            //Check if the file exists. We don't want to add more to a file with data 
-            int number = 0;
-            string fileName = $"Top_Candidate+{number}";
+        public static void WriteToFile(string folderPath, List<IChromosome> list){
+            //Check if the file exists. We don't want to add more to a file with already existing data 
+            int number = 1;
+            string fileName = $"{folderPath}Top_Candidate{number}.txt";
             while(File.Exists(fileName)){
                 number++;
-                fileName = $"Top_Candidate+{number}";
+                fileName = $"{folderPath}Top_Candidate{number}.txt";
             }
-            Console.WriteLine($"{fileName} created");
 
             //Put data in file in a comma separated list like so:
             //max score, number of moves to display, all moves
-
+            foreach(IChromosome chromosome in list){
+            
             //Chromosome.Fitness
-            double topFitness = topCandidate.Fitness;
+            double topFitness = chromosome.Fitness;
             //Arbitrary amount of moves to show
             int numberOfMoves = NUMBER_OF_ACTIONS;
             //Chromosome's Genes[]
-            int[] topGenes = topCandidate.Genes;
+            int[] topGenes = chromosome.Genes;
 
             //Have a string to hold top a top candidate's data for each generation
             string topCandidateString = $"{topFitness}, {numberOfMoves}, {topGenes}";
@@ -169,6 +174,9 @@ namespace RobbyTheRobot
             {  
             writer.WriteLine(topCandidateString);  
             }  
+            }
+            Console.WriteLine($"{fileName} created");
+            Console.WriteLine();
             // Read a file  
             string readText = File.ReadAllText(fileName);  
             Console.WriteLine(readText);  
