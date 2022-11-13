@@ -135,7 +135,6 @@ namespace GeneticAlgorithm{
                 return _chromosomeArray;
             }
 
-
         }
     }
 }

@@ -69,7 +69,12 @@ namespace GeneticAlgorithm
         {
             var currentGeneration = _currentGeneration as Generation;
             var newGeneration = new Generation(this,FitnessCalculation, _seed);
-            for (var i =0; i < PopulationSize; i++){
+            var elites = SelectElites();
+            //copy the elites chromosomes
+            for (var k =0; k < elites.Length;k++){
+                newGeneration.ChromsomesArray[k] = elites[k];
+            }
+            for (var i =elites.Length; i < PopulationSize; i++){
                     var parent1 = currentGeneration.SelectParent();
                     var parent2 = currentGeneration.SelectParent();
                     var childrenGeneration = parent1.Reproduce(parent2, MutationRate);
@@ -85,14 +90,15 @@ namespace GeneticAlgorithm
         /// <summary>
         /// This method takes as an input a number of elites and returns the best Chromosomes based in a sorted array of CHromosomesArray
         /// </summary>
-        /// <param name="numberOfElites"></param>
         /// <returns></returns>
         
-        private IChromosome[] SelectElites(int numberOfElites)
+        private IChromosome[] SelectElites()
         {
+            //Assuming that currentGeneration is sorted
+            var eliteCount = (int) Math.Round(_eliteRate * _populationSize);
             var currentGeneration = _currentGeneration as Generation;
-            var elites = new IChromosome[numberOfElites];
-            for (var i = 0; i < numberOfElites; i++)
+            var elites = new IChromosome[eliteCount];
+            for (var i = 0; i < eliteCount; i++)
             {
                 elites[i] = currentGeneration.ChromsomesArray[i];
             }
