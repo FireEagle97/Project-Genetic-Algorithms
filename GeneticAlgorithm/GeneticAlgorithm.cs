@@ -64,6 +64,7 @@ namespace GeneticAlgorithm
         /// A new Generation should be created based on the resulting child Chromosomes
         /// </summary>
         /// <returns></returns>
+        
         private IGeneration GenerateNextGeneration()
         {
             var currentGeneration = _currentGeneration as Generation;
@@ -80,6 +81,22 @@ namespace GeneticAlgorithm
                 }
             return newGeneration;
 
+        }
+        /// <summary>
+        /// This method takes as an input a number of elites and returns the best Chromosomes based in a sorted array of CHromosomesArray
+        /// </summary>
+        /// <param name="numberOfElites"></param>
+        /// <returns></returns>
+        
+        private IChromosome[] SelectElites(int numberOfElites)
+        {
+            var currentGeneration = _currentGeneration as Generation;
+            var elites = new IChromosome[numberOfElites];
+            for (var i = 0; i < numberOfElites; i++)
+            {
+                elites[i] = currentGeneration.ChromsomesArray[i];
+            }
+            return elites;
         }
     }
 }
