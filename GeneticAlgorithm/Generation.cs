@@ -1,5 +1,4 @@
 using System;
-
 namespace GeneticAlgorithm{
     
     internal class Generation : IGenerationDetails
@@ -64,7 +63,6 @@ namespace GeneticAlgorithm{
         public long NumberOfChromosomes => _chromosomeArray.Length;
 
 
-
         /// <summary>
         /// Computes the fitness of all the Chromosomes in the generation. 
         /// Note, a FitnessEventHandler deleagte is invoked for every fitness function that must be calculated and is provided by the user
@@ -108,29 +106,55 @@ namespace GeneticAlgorithm{
 
         /// <summary>
         /// Randomly selects a parent by comparing its fitness to others in the population
+        /// use compare to method of IChromosome
         /// </summary>
         /// <returns></returns>
-        public IChromosome SelectParent()
-        {
-            double totalFitness = 0;
-            for (int i = 0; i < NumberOfChromosomes; i++)
-            {
-                totalFitness += _chromosomeArray[i].Fitness;
-            }
-            //select a random number between 0 and the total fitness
-            double randomFitness = _rnd.NextDouble() * totalFitness;
 
-            double fitnessSoFar = 0;
-            for (int i = 0; i < NumberOfChromosomes; i++)
-            {
-                fitnessSoFar += _chromosomeArray[i].Fitness;
-                if (fitnessSoFar >= randomFitness)
-                {
-                    return _chromosomeArray[i];
-                }
+        public IChromosome SelectParent()
+
+        {
+
+            var geneticAlgorithm = _geneticAlgorithm as GeneticAlgorithm;
+            var elites = geneticAlgorithm.SelectElites();
+
+            var randIndex1 = _rnd.Next(0, elites.Length);
+            var randIndex2 = _rnd.Next(0,elites.Length);
+            if (elites[randIndex1].Fitness.CompareTo(elites[randIndex2].Fitness) > 0){
+                return elites[randIndex1];
+            }else {
+                return elites[randIndex2];
             }
-            return _chromosomeArray[NumberOfChromosomes - 1];
+
+              
+            // double totalFitness = 0;
+            // for (int i = 0; i < NumberOfChromosomes; i++)
+            // {
+            //     totalFitness += elites[i].Fitness;
+            // }
+            // double randomFitness = _rnd.NextDouble() * totalFitness;
+            // double fitnessSoFar = 0;
+            // for (int i = 0; i < NumberOfChromosomes; i++)
+            // {
+            //     fitnessSoFar += elites[i].Fitness;
+            //     if (fitnessSoFar >= randomFitness)
+            //     {
+            //         return elites[i];
+            //     }
+            // }
+            // return elites[NumberOfChromosomes - 1];
         }
 
+        /// <summary>
+        /// returns chromosome array
+        /// </summary>
+        /// <returns></returns>
+        public IChromosome[] ChromosomesArray
+        {
+            get{
+                return _chromosomeArray;
+            }
+
+        }
+
+        }
     }
-}

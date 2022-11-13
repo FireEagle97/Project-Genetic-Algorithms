@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 namespace GeneticAlgorithm
 {
     internal class GeneticAlgorithm : IGeneticAlgorithm
@@ -52,39 +52,57 @@ namespace GeneticAlgorithm
             }
             else
             {
-                // _currentGeneration = GenerateNextGeneration();
+                _currentGeneration = GenerateNextGeneration();
             }
             _generationCount++;
             return _currentGeneration;
         }
 
-        // Implements a private method call GenerateNextGeneration
-        //TODO: Implement GenerateNextGeneration
-        // private IGeneration GenerateNextGeneration()
-        // {
-        //     var eliteCount = (int) Math.Round(_eliteRate * _populationSize);
-        //     var eliteChromosomes = _currentGeneration.GetEliteChromosomes(eliteCount);
-        //     var childChromosomes = new IChromosome[_populationSize - eliteCount];
-        //     for (var i = 0; i < childChromosomes.Length; i++)
-        //     {
-        //         var parent1 = _currentGeneration.GetChromosomeByRouletteWheelSelection();
-        //         var parent2 = _currentGeneration.GetChromosomeByRouletteWheelSelection();
-        //         var child = parent1.Reproduce(parent2);
-        //         childChromosomes[i] = child;
-        //     }
+        /// <summary>
+        ///This method must create the next set of Chromosomes through reproduction
+        /// The elite rate should be used to select only a subset of the best Chromosomes based on fitness
+        /// A new Generation should be created based on the resulting child Chromosomes
+        /// </summary>
+        /// <returns></returns>
+        
+        private IGeneration GenerateNextGeneration()
+        {
+            var currentGeneration = _currentGeneration as Generation;
+            var newGeneration = new Generation(this,FitnessCalculation, _seed);
+            var elites = SelectElites();
+            //copy the elites chromosomes
+            for (var k =0; k < elites.Length;k++){
+                newGeneration.ChromosomesArray[k] = elites[k];
+            }
+            for (var i =elites.Length; i < PopulationSize; i++){
+                    var parent1 = currentGeneration.SelectParent();
+                    var parent2 = currentGeneration.SelectParent();
+                    var childrenGeneration = parent1.Reproduce(parent2, MutationRate);
+                    //add the reproduced children to the ChildChromosomes
+                    for(var j =0; j < childrenGeneration.Length; j++) {
+                        newGeneration.ChromosomesArray[i] = childrenGeneration[j];
+                        i++;
+                    }
+                }
+            return newGeneration;
 
-        //     var newGeneration = new Generation(_numberOfGenes, _lengthOfGene, _mutationRate, _fitnessCalculation, _seed);
-        //     newGeneration.AddChromosomes(eliteChromosomes);
-        //     newGeneration.AddChromosomes(childChromosomes);
-        //     return newGeneration;
-        // }
-
-
-
-
-
-
-
-
+        }
+        /// <summary>
+        /// This method takes as an input a number of elites and returns the best Chromosomes based in a sorted array of CHromosomesArray
+        /// </summary>
+        /// <returns></returns>
+        
+        public IChromosome[] SelectElites()
+        {
+            //Assuming that currentGeneration is sorted
+            var eliteCount = (int) Math.Round(_eliteRate * _populationSize);
+            var currentGeneration = _currentGeneration as Generation;
+            var elites = new IChromosome[eliteCount];
+            for (var i = 0; i < eliteCount; i++)
+            {
+                elites[i] = currentGeneration.ChromosomesArray[i];
+            }
+            return elites;
+        }
     }
 }
