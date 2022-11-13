@@ -72,7 +72,7 @@ namespace GeneticAlgorithm
             var elites = SelectElites();
             //copy the elites chromosomes
             for (var k =0; k < elites.Length;k++){
-                newGeneration.ChromsomesArray[k] = elites[k];
+                newGeneration.ChromosomesArray[k] = elites[k];
             }
             for (var i =elites.Length; i < PopulationSize; i++){
                     var parent1 = currentGeneration.SelectParent();
@@ -80,7 +80,7 @@ namespace GeneticAlgorithm
                     var childrenGeneration = parent1.Reproduce(parent2, MutationRate);
                     //add the reproduced children to the ChildChromosomes
                     for(var j =0; j < childrenGeneration.Length; j++) {
-                        newGeneration.ChromsomesArray[i] = childrenGeneration[j];
+                        newGeneration.ChromosomesArray[i] = childrenGeneration[j];
                         i++;
                     }
                 }
@@ -100,7 +100,7 @@ namespace GeneticAlgorithm
             var elites = new IChromosome[eliteCount];
             for (var i = 0; i < eliteCount; i++)
             {
-                elites[i] = currentGeneration.ChromsomesArray[i];
+                elites[i] = currentGeneration.ChromosomesArray[i];
             }
             return elites;
         }

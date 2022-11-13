@@ -106,8 +106,10 @@ namespace GeneticAlgorithm{
 
         /// <summary>
         /// Randomly selects a parent by comparing its fitness to others in the population
+        /// use compare to method of IChromosome
         /// </summary>
         /// <returns></returns>
+
         public IChromosome SelectParent()
         {
             double totalFitness = 0;
@@ -115,9 +117,7 @@ namespace GeneticAlgorithm{
             {
                 totalFitness += _chromosomeArray[i].Fitness;
             }
-            //select a random number between 0 and the total fitness
             double randomFitness = _rnd.NextDouble() * totalFitness;
-
             double fitnessSoFar = 0;
             for (int i = 0; i < NumberOfChromosomes; i++)
             {
@@ -130,11 +130,17 @@ namespace GeneticAlgorithm{
             return _chromosomeArray[NumberOfChromosomes - 1];
         }
 
-        public IChromosome[] ChromsomesArray{
+        /// <summary>
+        /// returns chromosome array
+        /// </summary>
+        /// <returns></returns>
+        public IChromosome[] ChromosomesArray
+        {
             get{
                 return _chromosomeArray;
             }
 
         }
+
+        }
     }
-}

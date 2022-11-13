@@ -140,7 +140,12 @@ namespace GeneticAlgorithm
             return children;
         }
 
-    
+        /// <summary>
+        /// compares the fitness of the current Chromosome to the fitness of the provided Chromosome
+        /// </summary>
+        /// <param name="other">The Chromosome to compare to</param>
+        /// <returns></returns>
+        
         public int CompareTo(IChromosome obj)
         {
             if (obj == null)
