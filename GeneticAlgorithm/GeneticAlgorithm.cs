@@ -92,7 +92,7 @@ namespace GeneticAlgorithm
         /// </summary>
         /// <returns></returns>
         
-        private IChromosome[] SelectElites()
+        public IChromosome[] SelectElites()
         {
             //Assuming that currentGeneration is sorted
             var eliteCount = (int) Math.Round(_eliteRate * _populationSize);

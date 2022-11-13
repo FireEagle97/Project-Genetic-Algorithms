@@ -111,23 +111,37 @@ namespace GeneticAlgorithm{
         /// <returns></returns>
 
         public IChromosome SelectParent()
+
         {
-            double totalFitness = 0;
-            for (int i = 0; i < NumberOfChromosomes; i++)
-            {
-                totalFitness += _chromosomeArray[i].Fitness;
+
+            var geneticAlgorithm = _geneticAlgorithm as GeneticAlgorithm;
+            var elites = geneticAlgorithm.SelectElites();
+
+            var randIndex1 = _rnd.Next(0, elites.Length);
+            var randIndex2 = _rnd.Next(0,elites.Length);
+            if (elites[randIndex1].Fitness.CompareTo(elites[randIndex2].Fitness) > 0){
+                return elites[randIndex1];
+            }else {
+                return elites[randIndex2];
             }
-            double randomFitness = _rnd.NextDouble() * totalFitness;
-            double fitnessSoFar = 0;
-            for (int i = 0; i < NumberOfChromosomes; i++)
-            {
-                fitnessSoFar += _chromosomeArray[i].Fitness;
-                if (fitnessSoFar >= randomFitness)
-                {
-                    return _chromosomeArray[i];
-                }
-            }
-            return _chromosomeArray[NumberOfChromosomes - 1];
+
+              
+            // double totalFitness = 0;
+            // for (int i = 0; i < NumberOfChromosomes; i++)
+            // {
+            //     totalFitness += elites[i].Fitness;
+            // }
+            // double randomFitness = _rnd.NextDouble() * totalFitness;
+            // double fitnessSoFar = 0;
+            // for (int i = 0; i < NumberOfChromosomes; i++)
+            // {
+            //     fitnessSoFar += elites[i].Fitness;
+            //     if (fitnessSoFar >= randomFitness)
+            //     {
+            //         return elites[i];
+            //     }
+            // }
+            // return elites[NumberOfChromosomes - 1];
         }
 
         /// <summary>
