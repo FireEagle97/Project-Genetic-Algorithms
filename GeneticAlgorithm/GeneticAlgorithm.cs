@@ -69,6 +69,7 @@ namespace GeneticAlgorithm
         {
             var currentGeneration = _currentGeneration as Generation;
             var newGeneration = new Generation(this,FitnessCalculation, _seed);
+            //loop over elites 
             for (var i =0; i < PopulationSize; i++){
                     var parent1 = currentGeneration.SelectParent();
                     var parent2 = currentGeneration.SelectParent();
@@ -87,9 +88,11 @@ namespace GeneticAlgorithm
         /// </summary>
         /// <param name="numberOfElites"></param>
         /// <returns></returns>
-        
+
         private IChromosome[] SelectElites(int numberOfElites)
         {
+            //elite/arrau 
+            
             var currentGeneration = _currentGeneration as Generation;
             var elites = new IChromosome[numberOfElites];
             for (var i = 0; i < numberOfElites; i++)
