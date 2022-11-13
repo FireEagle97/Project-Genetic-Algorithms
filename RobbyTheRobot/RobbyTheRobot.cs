@@ -73,7 +73,7 @@ namespace RobbyTheRobot
                     canPositionOuter = Convert.ToInt32(Math.Floor((double)canNumber/rowSize));
                     //Determine inner can position
                     while(canPositionInner > rowSize-1){
-                        canPositionInner -= rowSize-1;
+                        canPositionInner -= rowSize;
                     }
 
                     //Insert can in grid
@@ -82,10 +82,10 @@ namespace RobbyTheRobot
                     canCheckerList.Add(canNumber);
                 }
 
-                //Fill everything else with .Empty (An Enum's default value is apparently 0)
-                for(int i = 0; i < GridSize; i++){
+                //Fill everything else with .Empty
+                for(int i = 0; i < rowSize; i++){
                     for(int j = 0; j < rowSize; j++){
-                        if(grid[i,j] == 0){
+                        if(grid[i,j] != ContentsOfGrid.Can){
                             grid[i,j] = ContentsOfGrid.Empty;
                         }
                     }
@@ -99,22 +99,16 @@ namespace RobbyTheRobot
 
         public void GeneratePossibleSolutions(string folderPath){
             //Create GeneticAlgorithm
-            GeneticAlgorithm geneticAlgorithm = GeneticLib.CreateGeneticAlgorithm(PopulationSize, 243, 7, MutationRate, EliteRate, NumberOfTrials, ComputeFitness);
+            IGeneticAlgorithm geneticAlgorithm = GeneticLib.CreateGeneticAlgorithm(PopulationSize, 243, 7, MutationRate, EliteRate, NumberOfTrials, ComputeFitness);
 
             for(int i = 0; i < NumberOfGenerations; i++){
-                //Create the generation
-                Generation generation = geneticAlgorithm.GenerateGeneration();
-                
-                // for(int k = 0; k < PopulationSize; k++){
-                //   generation[k].Fitness = ComputeFitness(generation[k], generation);
-                // }
-                //Then sort in terms of Fitness, descending (highest to lowest)
-                generation.EvaluateFitnessOfPopulation();
+                //Create the generation + Evaluate their Fitness and sort the array
+                geneticAlgorithm.GenerateGeneration();
 
                 //Save the top candidate on generations 1, 20, 100, 200, 500, 1000
                 if(i == 0 || i == 19 || i == 99 || i == 119 || i == 499 || i == 999){
                     //Create a variable to hold the top chromosome (already sorted in EvaluateFitnessOfPopulation())
-                    Chromosome topCandidate = generation[0];
+                    IChromosome topCandidate = geneticAlgorithm.CurrentGeneration[0];
 
                     //Write to file
                     WriteToFile(folderPath, topCandidate);
@@ -147,7 +141,7 @@ namespace RobbyTheRobot
         }
 
         //Method to write to file
-        public static void WriteToFile(string folderPath, Chromosome topCandidate){
+        public static void WriteToFile(string folderPath, IChromosome topCandidate){
             //Check if the file exists. We don't want to add more to a file with data 
             int number = 0;
             string fileName = $"Top_Candidate+{number}";

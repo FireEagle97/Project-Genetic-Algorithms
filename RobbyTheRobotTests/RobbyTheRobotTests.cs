@@ -1,3 +1,4 @@
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RobbyTheRobot;
 
@@ -11,13 +12,13 @@ namespace RobbyTheRobotTests
         {
             RobbyTheRobot.RobbyTheRobot robby = new RobbyTheRobot.RobbyTheRobot(1, 1, 1);
             ContentsOfGrid[,] grid = robby.GenerateRandomTestGrid();
-            int counter = 0;
+            int canCounter = 0;
             foreach(ContentsOfGrid element in grid){
                 if(element == ContentsOfGrid.Can){
-                    counter ++;
+                    canCounter++;
                 }
             }
-            Assert.IsTrue(counter == 50);
+            Assert.IsTrue(canCounter == 50);
         }
 
         [TestMethod]

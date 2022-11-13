@@ -49,10 +49,12 @@ namespace GeneticAlgorithm
             if (_currentGeneration == null)
             {
                 _currentGeneration = new Generation(new GeneticAlgorithm(_populationSize, _numberOfGenes, _lengthOfGene, _mutationRate, _eliteRate, _numberOfTrials, _fitnessCalculation, _seed), _fitnessCalculation, _seed);
+                (_currentGeneration as Generation).EvaluateFitnessOfPopulation();
             }
             else
             {
                 _currentGeneration = GenerateNextGeneration();
+                (_currentGeneration as Generation).EvaluateFitnessOfPopulation();
             }
             _generationCount++;
             return _currentGeneration;

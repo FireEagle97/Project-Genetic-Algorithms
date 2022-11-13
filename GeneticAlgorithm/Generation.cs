@@ -1,7 +1,7 @@
 using System;
 namespace GeneticAlgorithm{
     
-    internal class Generation : IGeneration
+    internal class Generation : IGenerationDetails
     {
         private IChromosome[] _chromosomeArray;
         private FitnessEventHandler _fitnessFunction;
