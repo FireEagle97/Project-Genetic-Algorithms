@@ -6,12 +6,14 @@ namespace GeneticAlgorithm
     {
         private int[] _genes;
         private double _fitness;
+        private int _lengthOfGene;
         private Random _rnd;
 
         //One that takes the number of genes, the length of a gene, and a potential seed
         public Chromosome(int numberOfGenes, int lengthOfGene, int ?seed = null)
         {
              _rnd = seed.HasValue ? new Random(seed.Value) : new Random();
+            _lengthOfGene = lengthOfGene;
             _genes = new int[numberOfGenes];
             for (int i = 0; i < numberOfGenes; i++)
             {
@@ -51,6 +53,10 @@ namespace GeneticAlgorithm
 
          public int[] Genes => _genes;
 
+         //lengthOfGene
+        public int LengthOfGene => _lengthOfGene;
+         
+
         public int NumOfGenes{
             get;
         }
@@ -84,7 +90,7 @@ namespace GeneticAlgorithm
             for (int i = 0; i < numChangedGenes; i++)
             {
                 var changedIndex = _rnd.Next(0,(int)child.Length);
-                child[changedIndex] = _rnd.Next(0,GeneLength);
+                child[changedIndex] = _rnd.Next(child.LengthOfGene);
             }
             return child;
         }
