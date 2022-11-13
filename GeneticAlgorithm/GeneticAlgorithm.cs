@@ -98,11 +98,12 @@ namespace GeneticAlgorithm
         {
             //Assuming that currentGeneration is sorted
             var eliteCount = (int) Math.Round(_eliteRate * _populationSize);
-            var currentGeneration = _currentGeneration as Generation;
             var elites = new IChromosome[eliteCount];
             for (var i = 0; i < eliteCount; i++)
             {
-                elites[i] = currentGeneration.ChromosomesArray[i];
+                Console.WriteLine(i);
+                Console.WriteLine(_currentGeneration[i]);
+                elites[i] = _currentGeneration[i];
             }
             return elites;
         }
