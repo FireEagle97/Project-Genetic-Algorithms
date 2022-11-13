@@ -27,15 +27,15 @@ namespace RobbyTheRobotTests
         public void GeneratePossibleSolutionsTest()
         {
             //Delete all entries in Test_Runs
-            System.IO.DirectoryInfo di = new DirectoryInfo("./Test_Runs/");
+            System.IO.DirectoryInfo di = new DirectoryInfo("../../../Test_Runs/");
             foreach (FileInfo file in di.GetFiles())
             {
                 file.Delete(); 
             }
             RobbyTheRobot.RobbyTheRobot robby = new RobbyTheRobot.RobbyTheRobot(20, 4, 2);
-            robby.GeneratePossibleSolutions("./Test_Runs/");
+            robby.GeneratePossibleSolutions("../../../Test_Runs/");
             //Check if file exists
-            bool fileCheck = File.Exists("./Test_Runs/Top_Candidate1.txt");
+            bool fileCheck = File.Exists("../../../Test_Runs/Top_Candidate1.txt");
             Assert.IsTrue(fileCheck);
         }
     }
