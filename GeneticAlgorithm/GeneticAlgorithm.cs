@@ -49,10 +49,12 @@ namespace GeneticAlgorithm
             if (_currentGeneration == null)
             {
                 _currentGeneration = new Generation(new GeneticAlgorithm(_populationSize, _numberOfGenes, _lengthOfGene, _mutationRate, _eliteRate, _numberOfTrials, _fitnessCalculation, _seed), _fitnessCalculation, _seed);
+                (_currentGeneration as Generation).EvaluateFitnessOfPopulation();
             }
             else
             {
                 _currentGeneration = GenerateNextGeneration();
+                (_currentGeneration as Generation).EvaluateFitnessOfPopulation();
             }
             _generationCount++;
             return _currentGeneration;
@@ -102,11 +104,12 @@ namespace GeneticAlgorithm
         {
             //Assuming that currentGeneration is sorted
             var eliteCount = (int) Math.Round(_eliteRate * _populationSize);
-            var currentGeneration = _currentGeneration as Generation;
             var elites = new IChromosome[eliteCount];
             for (var i = 0; i < eliteCount; i++)
             {
-                elites[i] = currentGeneration.ChromosomesArray[i];
+                Console.WriteLine(i);
+                Console.WriteLine(_currentGeneration[i]);
+                elites[i] = _currentGeneration[i];
             }
             return elites;
         }
