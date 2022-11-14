@@ -61,10 +61,10 @@ public class ChromosomeTests
 
     public void reproduceTest(){
         //Arrange
-        int numberOfGenes = 10;
+        int numberOfGenes = 254;
         int seed = 1;
-        Chromosome chromosome = new Chromosome(numberOfGenes, seed);
-        Chromosome chromosome1 = new Chromosome(numberOfGenes, seed);
+        Chromosome chromosome = new Chromosome(numberOfGenes, 7, seed);
+        Chromosome chromosome1 = new Chromosome(numberOfGenes, 7, seed);
         IChromosome[] chromList = chromosome.Reproduce(chromosome1, 1);
         var count1 = 0;
         var count2 = 0;

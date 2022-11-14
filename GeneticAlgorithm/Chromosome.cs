@@ -59,7 +59,7 @@ namespace GeneticAlgorithm
 
         public int NumOfGenes{
             get{
-                return Genes.Length;
+                return _genes.Length;
             }
         }
     
@@ -112,9 +112,9 @@ namespace GeneticAlgorithm
             var child1 = new Chromosome(this);
             var child2 = new Chromosome((Chromosome)spouse);     
             int[] parent1Genes = this.Genes;
-            int[] parent2Genes = spouse.Genes;      
-            int point1 = _rnd.Next(0, this.NumOfGenes);
-            int point2 = _rnd.Next(0, this.NumOfGenes);
+            int[] parent2Genes = spouse.Genes; 
+            int point1 = _rnd.Next(0, NumOfGenes);
+            int point2 = _rnd.Next(0, NumOfGenes);
             if (point1 > point2)
             {
                 int temp = point1;
