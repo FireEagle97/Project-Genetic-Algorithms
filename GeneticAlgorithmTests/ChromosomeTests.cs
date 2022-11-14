@@ -22,24 +22,7 @@ public class ChromosomeTests
         Assert.AreEqual(7, chromosome.LengthOfGene);
     }
 
-    //Test the Reproduce method Length
-    [TestMethod]
-    public void testReproduce()
-    {
-        //Arrange
-        int numberOfGenes = 10;
-        int seed = 1;
-        Chromosome chromosome = new Chromosome(numberOfGenes, seed);
-        Chromosome chromosome1 = new Chromosome(numberOfGenes, seed);
-        //Act
-        IChromosome[] chromList = chromosome.Reproduce(chromosome1, 1);
-        //Assert
-        Assert.AreEqual(chromosome.Length, chromList[0].Length);
-        Assert.AreEqual(chromosome1.Length, chromList[1].Length);
-        Assert.AreNotEqual(chromosome, chromList[0]);
-        Assert.AreNotEqual(chromosome1, chromList[1]);
-    }
-
+   
     //Test the CompareTo method
     [TestMethod]
     public void testCompareTo()
@@ -75,7 +58,7 @@ public class ChromosomeTests
     }
 
 
-
+    //Test the Reproduce method Length 
     [TestMethod]
 
     public void reproduceTest(){

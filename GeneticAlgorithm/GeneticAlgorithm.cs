@@ -70,7 +70,7 @@ namespace GeneticAlgorithm
          
         private IGeneration GenerateNextGeneration()
         {
-            var currentGeneration = _currentGeneration as Generation;
+            // var currentGeneration = _currentGeneration as Generation;
             var newGeneration = new Generation(this,FitnessCalculation, _seed);
             var elitesGeneration = new Generation(this,FitnessCalculation, _seed);
             var elites = SelectElites();
