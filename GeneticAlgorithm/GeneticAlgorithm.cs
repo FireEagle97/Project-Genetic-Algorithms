@@ -80,10 +80,13 @@ namespace GeneticAlgorithm
                     var parent2 = currentGeneration.SelectParent();
                     var childrenGeneration = parent1.Reproduce(parent2, MutationRate);
                     //add the reproduced children to the ChildChromosomes
-                    for(var j =0; j < childrenGeneration.Length; j++) {
-                        newGeneration.ChromosomesArray[i] = childrenGeneration[j];
-                        i++;
-                    }
+                    newGeneration.ChromosomesArray[i] = childrenGeneration[0];
+                    newGeneration.ChromosomesArray[i+1] = childrenGeneration[1];
+                    i++;    
+                    // for(var j =0; j < childrenGeneration.Length; j++) {
+                    //     newGeneration.ChromosomesArray[i] = childrenGeneration[j];
+                    //     i++;
+                    // }
                 }
             return newGeneration;
 

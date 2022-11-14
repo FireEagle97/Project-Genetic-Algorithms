@@ -121,14 +121,29 @@ namespace GeneticAlgorithm{
             {
                 eliteArray[i] = _chromosomeArray[i];
             }
-
-            var randIndex1 = _rnd.Next(0, eliteArray.Length);
-            var randIndex2 = _rnd.Next(0,eliteArray.Length);
-            if (eliteArray[randIndex1].Fitness.CompareTo(eliteArray[randIndex2].Fitness) > 0){
-                return eliteArray[randIndex1];
-            }else {
-                return eliteArray[randIndex2];
+            // select a random two parents from the elite array and compare them on their fitness values
+            
+            int index1 = _rnd.Next(0, numberOfEliteChromosomes);
+            int index2 = _rnd.Next(0, numberOfEliteChromosomes);
+            if (eliteArray[index1].CompareTo(eliteArray[index2]) > 0)
+            {
+                return eliteArray[index1];
             }
+            else
+            {
+                return eliteArray[index2];
+            }
+        }
+            
+
+
+            // var randIndex1 = _rnd.Next(0, eliteArray.Length);
+            // var randIndex2 = _rnd.Next(0,eliteArray.Length);
+            // if (eliteArray[randIndex1].Fitness.CompareTo(eliteArray[randIndex2].Fitness) > 0){
+            //     return eliteArray[randIndex1];
+            // }else {
+            //     return eliteArray[randIndex2];
+            // }
 
               
             // double totalFitness = 0;
@@ -146,8 +161,8 @@ namespace GeneticAlgorithm{
             //         return elites[i];
             //     }
             // }
-            // return elites[NumberOfChromosomes - 1];
-        }
+        //     // return elites[NumberOfChromosomes - 1];
+        // }
 
         /// <summary>
         /// returns chromosome array
