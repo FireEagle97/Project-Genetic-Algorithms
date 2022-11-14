@@ -38,7 +38,7 @@ public class ChromosomeTests
         //Assert
         Assert.AreEqual(0, result);
     }
-
+    //to be changed
     [TestMethod]
     public void  copyConsturctorTest(){
         //Arrange
