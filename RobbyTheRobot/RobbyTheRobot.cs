@@ -25,6 +25,8 @@ namespace RobbyTheRobot
         public int PopulationSize {get;}
         //Unsure if should exist
         public int NumberOfTrials {get;}
+        //For the Seed
+        public Random RandomObject {get;}
 
         public RobbyTheRobot(int numberOfGenerations, int populationSize, int numberOfTrials, int? seed = null){
             //Instructions stipulate that the size of the grid is 100
@@ -39,6 +41,8 @@ namespace RobbyTheRobot
             EliteRate = ELITE_RATE;
             //This is 200, but its in the constructor so we don't set it here
             NumberOfGenerations = numberOfGenerations;
+            //Random object
+            Random random = seed.HasValue ? new Random(seed.Value) : new Random();
 
             NumberOfTrials = numberOfTrials;
             PopulationSize = populationSize;
@@ -52,17 +56,16 @@ namespace RobbyTheRobot
 
                 //Create new grid
                 ContentsOfGrid[,] grid = new ContentsOfGrid[rowSize, rowSize];
-                Random random = new Random();
                 int gridHalf = GridSize/2;
                 List<int> canCheckerList = new List<int>();
 
                 //Populate it with cans
                 for(int i = 0; i < gridHalf; i++){
-                    int canNumber = random.Next(0, GridSize);
+                    int canNumber = RandomObject.Next(0, GridSize);
 
                     //If the can number is already filled, generate a new can number
                     while(canCheckerList.Contains(canNumber)){
-                        canNumber = random.Next(0, GridSize);
+                        canNumber = RandomObject.Next(0, GridSize);
                     }
                     //int to use to determine the position in the outer array
                     int canPositionOuter;
@@ -131,12 +134,10 @@ namespace RobbyTheRobot
 
             //Create the grid
             ContentsOfGrid[,] grid = GenerateRandomTestGrid();
-            //Random number generator needed in ScoreForAllele
-            Random random = new Random();
             
             for(int i = 0; i < NumberOfActions; i++){
                 //Add move to the score
-                score += RobbyHelper.ScoreForAllele(chromosome.Genes, grid, random, ref x, ref y);
+                score += RobbyHelper.ScoreForAllele(chromosome.Genes, grid, RandomObject, ref x, ref y);
             }
             return score;
         }
