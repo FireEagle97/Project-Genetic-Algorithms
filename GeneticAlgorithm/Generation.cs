@@ -112,15 +112,22 @@ namespace GeneticAlgorithm{
 
         public IChromosome SelectParent()
         {
-            var geneticAlgorithm = _geneticAlgorithm as GeneticAlgorithm;
-            var elites = geneticAlgorithm.SelectElites();
+            // get the number of elite chromosomes from elite percentage
+            int numberOfEliteChromosomes = (int)(_geneticAlgorithm.EliteRate * NumberOfChromosomes);
+            //get an elite array from ChromosomeArray assuming that the array is sorted by fitness
+            IChromosome[] eliteArray = new IChromosome[numberOfEliteChromosomes];
+            //use a loop
+            for (int i = 0; i < numberOfEliteChromosomes; i++)
+            {
+                eliteArray[i] = _chromosomeArray[i];
+            }
 
-            var randIndex1 = _rnd.Next(0, elites.Length);
-            var randIndex2 = _rnd.Next(0,elites.Length);
-            if (elites[randIndex1].Fitness.CompareTo(elites[randIndex2].Fitness) > 0){
-                return elites[randIndex1];
+            var randIndex1 = _rnd.Next(0, eliteArray.Length);
+            var randIndex2 = _rnd.Next(0,eliteArray.Length);
+            if (eliteArray[randIndex1].Fitness.CompareTo(eliteArray[randIndex2].Fitness) > 0){
+                return eliteArray[randIndex1];
             }else {
-                return elites[randIndex2];
+                return eliteArray[randIndex2];
             }
 
               
