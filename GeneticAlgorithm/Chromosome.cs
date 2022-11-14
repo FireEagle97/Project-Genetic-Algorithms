@@ -65,14 +65,6 @@ namespace GeneticAlgorithm
             }
         }
 
-        public Random Rnd {
-            get{
-                return _rnd;
-            }
-        }
-    
-
-
         /// <summary>
         /// Returns the current gene at the provided position
         /// </summary>

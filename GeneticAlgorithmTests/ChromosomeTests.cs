@@ -53,7 +53,6 @@ public class ChromosomeTests
         Assert.AreEqual(chromosome1.LengthOfGene,chromosome1.LengthOfGene);
         Assert.AreEqual(chromosome1.Fitness, chromosome1.Fitness);
         Assert.AreEqual(chromosome1.Length, chromosome1.Length);
-        Assert.AreEqual(chromosome1.Rnd.Equals(chromosome2.Rnd), true);
 
     }
 
