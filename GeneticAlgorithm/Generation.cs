@@ -13,6 +13,7 @@ namespace GeneticAlgorithm{
 
         public Generation(IGeneticAlgorithm geneticAlgorithm, FitnessEventHandler fitnessFunction, int? seed = null)
         {
+            _rnd = seed.HasValue ? new Random(seed.Value) : new Random();
             _geneticAlgorithm = geneticAlgorithm;
             _fitnessFunction = fitnessFunction;
             _chromosomeArray = new IChromosome[geneticAlgorithm.PopulationSize];
@@ -144,35 +145,6 @@ namespace GeneticAlgorithm{
                 return eliteArray[index2];
             }
         }
-            
-
-
-            // var randIndex1 = _rnd.Next(0, eliteArray.Length);
-            // var randIndex2 = _rnd.Next(0,eliteArray.Length);
-            // if (eliteArray[randIndex1].Fitness.CompareTo(eliteArray[randIndex2].Fitness) > 0){
-            //     return eliteArray[randIndex1];
-            // }else {
-            //     return eliteArray[randIndex2];
-            // }
-
-              
-            // double totalFitness = 0;
-            // for (int i = 0; i < NumberOfChromosomes; i++)
-            // {
-            //     totalFitness += elites[i].Fitness;
-            // }
-            // double randomFitness = _rnd.NextDouble() * totalFitness;
-            // double fitnessSoFar = 0;
-            // for (int i = 0; i < NumberOfChromosomes; i++)
-            // {
-            //     fitnessSoFar += elites[i].Fitness;
-            //     if (fitnessSoFar >= randomFitness)
-            //     {
-            //         return elites[i];
-            //     }
-            // }
-        //     // return elites[NumberOfChromosomes - 1];
-        // }
 
         /// <summary>
         /// returns chromosome array

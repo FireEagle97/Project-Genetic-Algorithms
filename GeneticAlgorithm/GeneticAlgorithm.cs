@@ -67,22 +67,19 @@ namespace GeneticAlgorithm
         /// </summary>
         /// <returns></returns>
 
-         
+             
         private IGeneration GenerateNextGeneration()
         {
             var currentGeneration = _currentGeneration as Generation;
             var newGeneration = new Generation(this,FitnessCalculation, _seed);
-            var elitesGeneration = new Generation(this,FitnessCalculation, _seed);
             var elites = SelectElites();
-            elitesGeneration.ChromosomesArray = elites;
-            // var elites = //new genertation a chromosome array of 
             //copy the elites chromosomes
-            for (var k =0; k < elitesGeneration.ChromosomesArray.Length;k++){
-                newGeneration.ChromosomesArray[k] = elitesGeneration.ChromosomesArray[k];
+            for (var k =0; k < elites.Length;k++){
+                newGeneration.ChromosomesArray[k] = elites[k];
             }
             for (var i =elites.Length; i < PopulationSize; i++){
-                    var parent1 = elitesGeneration.SelectParent();
-                    var parent2 = elitesGeneration.SelectParent();
+                    var parent1 = currentGeneration.SelectParent();
+                    var parent2 = currentGeneration.SelectParent();
                     var childrenGeneration = parent1.Reproduce(parent2, MutationRate);
                     //add the reproduced children to the ChildChromosomes
                     newGeneration.ChromosomesArray[i] = childrenGeneration[0];
@@ -96,6 +93,7 @@ namespace GeneticAlgorithm
             return newGeneration;
 
         }
+
         /// <summary>
         /// This method returns the elite Chromosomes based in a sorted array of CHromosomesArray
         /// </summary>
