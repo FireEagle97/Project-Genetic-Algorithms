@@ -58,7 +58,9 @@ namespace GeneticAlgorithm
          
 
         public int NumOfGenes{
-            get;
+            get{
+                return Genes.Length;
+            }
         }
     
 

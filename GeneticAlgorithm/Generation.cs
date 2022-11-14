@@ -25,16 +25,26 @@ namespace GeneticAlgorithm{
   
 
         //constructor that performs a deep copy of the generation based on an array of IChromosomes
-        public Generation(IGenerationDetails other)
-        {
-            _chromosomeArray = new IChromosome[other.NumberOfChromosomes];
-            for (int i = 0; i < other.NumberOfChromosomes; i++)
-            {
-                _chromosomeArray[i] = new Chromosome((Chromosome)other[i]);
-            }
+        // public Generation(Generation other)
+        // {
+        //     _chromosomeArray = new IChromosome[other.NumberOfChromosomes];
+        //     for (int i = 0; i < other.NumberOfChromosomes; i++)
+        //     {
+        //         _chromosomeArray[i] = new Chromosome((Chromosome)other[i]);
+        //     }
+        //     _geneticAlgorithm = other._geneticAlgorithm;
+        //     _fitnessFunction = other._fitnessFunction;
             
+            
+        // }
+        public Generation(IGeneration generation)
+        {
+            _chromosomeArray = new IChromosome[generation.NumberOfChromosomes];
+            for (int i = 0; i < generation.NumberOfChromosomes; i++)
+            {
+                _chromosomeArray[i] = new Chromosome((Chromosome)generation[i]);
+            }
         }
-      
        /// <summary>
         /// Retrieves the IChromosome from the generation
         /// </summary>
@@ -112,15 +122,12 @@ namespace GeneticAlgorithm{
 
         public IChromosome SelectParent()
         {
-            var geneticAlgorithm = _geneticAlgorithm as GeneticAlgorithm;
-            var elites = geneticAlgorithm.SelectElites();
-
-            var randIndex1 = _rnd.Next(0, elites.Length);
-            var randIndex2 = _rnd.Next(0,elites.Length);
-            if (elites[randIndex1].Fitness.CompareTo(elites[randIndex2].Fitness) > 0){
-                return elites[randIndex1];
+            var randIndex1 = _rnd.Next(0, this.ChromosomesArray.Length);
+            var randIndex2 = _rnd.Next(0,this.ChromosomesArray.Length);
+            if (this.ChromosomesArray[randIndex1].Fitness.CompareTo(this.ChromosomesArray[randIndex2].Fitness) > 0){
+                return this.ChromosomesArray[randIndex1];
             }else {
-                return elites[randIndex2];
+                return this.ChromosomesArray[randIndex2];
             }
 
               
@@ -150,6 +157,9 @@ namespace GeneticAlgorithm{
         {
             get{
                 return _chromosomeArray;
+            }
+            set{
+                _chromosomeArray = value;
             }
 
         }
