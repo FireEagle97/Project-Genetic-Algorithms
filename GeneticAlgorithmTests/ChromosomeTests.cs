@@ -8,7 +8,7 @@ public class ChromosomeTests
 
     //Test the constructor
     [TestMethod]
-    public void TestConstructor()
+    public void testConstructor()
     {
         //Arrange
         int numberOfGenes = 10;
@@ -23,7 +23,7 @@ public class ChromosomeTests
 
     //Test the Reproduce method Length
     [TestMethod]
-    public void TestReproduce()
+    public void testReproduce()
     {
         //Arrange
         int numberOfGenes = 10;
@@ -41,7 +41,7 @@ public class ChromosomeTests
 
     //Test the CompareTo method
     [TestMethod]
-    public void TestCompareTo()
+    public void testCompareTo()
     {
         //Arrange
         int numberOfGenes = 10;
@@ -55,16 +55,33 @@ public class ChromosomeTests
         Assert.AreEqual(0, result);
     }
 
+    [TestMethod]
+    public void  copyConsturctorTest(){
+        //Arrange
+        int numberOfGenes = 10;
+        int seed = 1;
+        int lengthOfGene = 7;
+        //Act
+        Chromosome chromosome1 = new Chromosome(numberOfGenes, lengthOfGene, seed);
+        Chromosome chromosome2 = new Chromosome(chromosome1);
+        //Assert
+        Assert.AreEqual(chromosome1.NumOfGenes,chromosome2.NumOfGenes);
+        Assert.AreEqual(chromosome1.LengthOfGene,chromosome1.LengthOfGene);
+        Assert.AreEqual(chromosome1.Fitness, chromosome1.Fitness);
+        Assert.AreEqual(chromosome1.Rnd.Equals(chromosome2.Rnd), true);
+
+    }
+
 
 
     [TestMethod]
 
     public void reproduceTest(){
         //Arrange
-        int numberOfGenes = 10;
+        int numberOfGenes = 254;
         int seed = 1;
-        Chromosome chromosome = new Chromosome(numberOfGenes, seed);
-        Chromosome chromosome1 = new Chromosome(numberOfGenes, seed);
+        Chromosome chromosome = new Chromosome(numberOfGenes, 7, seed);
+        Chromosome chromosome1 = new Chromosome(numberOfGenes, 7, seed);
         IChromosome[] chromList = chromosome.Reproduce(chromosome1, 1);
         var count1 = 0;
         var count2 = 0;

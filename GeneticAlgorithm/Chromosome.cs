@@ -30,6 +30,8 @@ namespace GeneticAlgorithm
                 _genes[i] = other._genes[i];
             }
             _fitness = other._fitness;
+            _lengthOfGene = other._lengthOfGene;
+            _rnd = other._rnd;
         }
 
         /// <summary>
@@ -58,7 +60,15 @@ namespace GeneticAlgorithm
          
 
         public int NumOfGenes{
-            get;
+            get{
+                return _genes.Length;
+            }
+        }
+
+        public Random Rnd {
+            get{
+                return _rnd;
+            }
         }
     
 
@@ -110,9 +120,9 @@ namespace GeneticAlgorithm
             var child1 = new Chromosome(this);
             var child2 = new Chromosome((Chromosome)spouse);     
             int[] parent1Genes = this.Genes;
-            int[] parent2Genes = spouse.Genes;      
-            int point1 = _rnd.Next(0, this.NumOfGenes);
-            int point2 = _rnd.Next(0, this.NumOfGenes);
+            int[] parent2Genes = spouse.Genes; 
+            int point1 = _rnd.Next(0, NumOfGenes);
+            int point2 = _rnd.Next(0, NumOfGenes);
             if (point1 > point2)
             {
                 int temp = point1;
