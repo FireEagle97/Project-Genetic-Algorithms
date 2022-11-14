@@ -8,7 +8,7 @@ namespace RobbyIterationGenerator
         static void Main(string[] args)
         {
             //Robby instance                
-                    
+            IRobbyTheRobot robby = Robby.CreateRobby() ;
         }
 
         

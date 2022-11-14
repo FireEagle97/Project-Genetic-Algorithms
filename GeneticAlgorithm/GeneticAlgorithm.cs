@@ -107,8 +107,8 @@ namespace GeneticAlgorithm
             var elites = new IChromosome[eliteCount];
             for (var i = 0; i < eliteCount; i++)
             {
-                Console.WriteLine(i);
-                Console.WriteLine(_currentGeneration[i]);
+                //Console.WriteLine(i);
+                //Console.WriteLine(_currentGeneration[i]);
                 elites[i] = _currentGeneration[i];
             }
             return elites;

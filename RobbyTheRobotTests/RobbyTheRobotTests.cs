@@ -32,7 +32,7 @@ namespace RobbyTheRobotTests
             {
                 file.Delete(); 
             }
-            RobbyTheRobot.RobbyTheRobot robby = new RobbyTheRobot.RobbyTheRobot(20, 10, 2);
+            RobbyTheRobot.RobbyTheRobot robby = new RobbyTheRobot.RobbyTheRobot(1000, 200, 1);
             robby.GeneratePossibleSolutions("../../../Test_Runs/");
             //Check if file exists
             bool fileCheck = File.Exists("../../../Test_Runs/Top_Candidate1.txt");

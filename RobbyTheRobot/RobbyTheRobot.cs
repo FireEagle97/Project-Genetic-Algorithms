@@ -12,7 +12,7 @@ namespace RobbyTheRobot
         private const int GRID_SIZE = 100;
         private const int NUMBER_OF_ACTIONS = 200;
         private const int NUMBER_OF_TEST_GRIDS = 100;
-        private const double MUTATION_RATE = 0.05;
+        private const double MUTATION_RATE = 0.1;
         private const double ELITE_RATE = 0.2;
         public int NumberOfActions {get; set;}
         public int NumberOfTestGrids {get; set;}
@@ -125,8 +125,6 @@ namespace RobbyTheRobot
         public double ComputeFitness(IChromosome chromosome, IGeneration generation){
             //Variable to hold the score
             double score = 0;
-            //number of actions it took for Robby to finish
-            int actionsTaken = 0;
             //x and y initial positions
             int x = 0;
             int y = 0;
@@ -139,8 +137,6 @@ namespace RobbyTheRobot
             for(int i = 0; i < NumberOfActions; i++){
                 //Add move to the score
                 score += RobbyHelper.ScoreForAllele(chromosome.Genes, grid, random, ref x, ref y);
-                //Adds the amount of actions taken
-                actionsTaken += 1;
             }
             return score;
         }
@@ -158,21 +154,26 @@ namespace RobbyTheRobot
             //Put data in file in a comma separated list like so:
             //max score, number of moves to display, all moves
             foreach(IChromosome chromosome in list){
-            
+
             //Chromosome.Fitness
             double topFitness = chromosome.Fitness;
             //Arbitrary amount of moves to show
             int numberOfMoves = NUMBER_OF_ACTIONS;
             //Chromosome's Genes[]
             int[] topGenes = chromosome.Genes;
+            //String with array values
+            String arrayValues = "";
+            foreach(int gene in topGenes){
+                arrayValues += gene.ToString();
+            }
 
             //Have a string to hold top a top candidate's data for each generation
-            string topCandidateString = $"{topFitness}, {numberOfMoves}, {topGenes}";
+            string topCandidateString = $"{topFitness}, {numberOfMoves}, {arrayValues}";
             
             // Write file using StreamWriter  
-            using (StreamWriter writer = new StreamWriter(fileName))  
+            using (StreamWriter writer = File.AppendText(fileName))  
             {  
-            writer.WriteLine(topCandidateString);  
+                writer.WriteLine(topCandidateString);  
             }  
             }
             Console.WriteLine($"{fileName} created");
