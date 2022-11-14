@@ -13,12 +13,13 @@ public class ChromosomeTests
         //Arrange
         int numberOfGenes = 10;
         int seed = 1;
+        int lengthOfGene = 7;
         //Act
-        Chromosome chromosome = new Chromosome(numberOfGenes, seed);
+        Chromosome chromosome = new Chromosome(numberOfGenes,lengthOfGene, seed);
         //Assert
         Assert.AreEqual(numberOfGenes, chromosome.Length);
-        
         Assert.AreEqual(10, chromosome.Length);
+        Assert.AreEqual(7, chromosome.LengthOfGene);
     }
 
     //Test the Reproduce method Length
@@ -68,6 +69,7 @@ public class ChromosomeTests
         Assert.AreEqual(chromosome1.NumOfGenes,chromosome2.NumOfGenes);
         Assert.AreEqual(chromosome1.LengthOfGene,chromosome1.LengthOfGene);
         Assert.AreEqual(chromosome1.Fitness, chromosome1.Fitness);
+        Assert.AreEqual(chromosome1.Length, chromosome1.Length);
         Assert.AreEqual(chromosome1.Rnd.Equals(chromosome2.Rnd), true);
 
     }

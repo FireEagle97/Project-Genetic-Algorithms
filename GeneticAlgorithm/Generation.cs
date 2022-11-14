@@ -13,6 +13,7 @@ namespace GeneticAlgorithm{
 
         public Generation(IGeneticAlgorithm geneticAlgorithm, FitnessEventHandler fitnessFunction, int? seed = null)
         {
+            _rnd = seed.HasValue ? new Random(seed.Value) : new Random();
             _geneticAlgorithm = geneticAlgorithm;
             _fitnessFunction = fitnessFunction;
             _chromosomeArray = new IChromosome[geneticAlgorithm.PopulationSize];
@@ -122,57 +123,16 @@ namespace GeneticAlgorithm{
 
         public IChromosome SelectParent()
         {
-            // get the number of elite chromosomes from elite percentage
-            int numberOfEliteChromosomes = (int)(_geneticAlgorithm.EliteRate * NumberOfChromosomes);
-            //get an elite array from ChromosomeArray assuming that the array is sorted by fitness
-            IChromosome[] eliteArray = new IChromosome[numberOfEliteChromosomes];
-            //use a loop
-            for (int i = 0; i < numberOfEliteChromosomes; i++)
-            {
-                eliteArray[i] = _chromosomeArray[i];
-            }
-            // select a random two parents from the elite array and compare them on their fitness values
-            
-            int index1 = _rnd.Next(0, numberOfEliteChromosomes);
-            int index2 = _rnd.Next(0, numberOfEliteChromosomes);
-            if (eliteArray[index1].CompareTo(eliteArray[index2]) > 0)
-            {
-                return eliteArray[index1];
-            }
-            else
-            {
-                return eliteArray[index2];
+            var randIndex1 = _rnd.Next(0, this.ChromosomesArray.Length);
+            var randIndex2 = _rnd.Next(0,this.ChromosomesArray.Length);
+            if (this.ChromosomesArray[randIndex1].Fitness.CompareTo(this.ChromosomesArray[randIndex2].Fitness) > 0){
+                return this.ChromosomesArray[randIndex1];
+            }else {
+                return this.ChromosomesArray[randIndex2];
             }
         }
-            
 
 
-            // var randIndex1 = _rnd.Next(0, eliteArray.Length);
-            // var randIndex2 = _rnd.Next(0,eliteArray.Length);
-            // if (eliteArray[randIndex1].Fitness.CompareTo(eliteArray[randIndex2].Fitness) > 0){
-            //     return eliteArray[randIndex1];
-            // }else {
-            //     return eliteArray[randIndex2];
-            // }
-
-              
-            // double totalFitness = 0;
-            // for (int i = 0; i < NumberOfChromosomes; i++)
-            // {
-            //     totalFitness += elites[i].Fitness;
-            // }
-            // double randomFitness = _rnd.NextDouble() * totalFitness;
-            // double fitnessSoFar = 0;
-            // for (int i = 0; i < NumberOfChromosomes; i++)
-            // {
-            //     fitnessSoFar += elites[i].Fitness;
-            //     if (fitnessSoFar >= randomFitness)
-            //     {
-            //         return elites[i];
-            //     }
-            // }
-        //     // return elites[NumberOfChromosomes - 1];
-        // }
 
         /// <summary>
         /// returns chromosome array
