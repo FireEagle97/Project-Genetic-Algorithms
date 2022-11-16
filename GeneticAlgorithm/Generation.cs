@@ -93,7 +93,7 @@ namespace GeneticAlgorithm{
                 }
                 fitness /= _geneticAlgorithm.NumberOfTrials;
                 Chromosome ch = _chromosomeArray[i] as Chromosome;
-                ch.Fitness = fitness;
+                ch.Fitness = (double)fitness;
                 totalFitness += fitness;
                 if (fitness > maxFitness)
                 {

@@ -15,7 +15,7 @@ namespace GeneticAlgorithmTests{
             double mutationRate = 0.1;
             double eliteRate = 0.1;
             int numberOfTrials = 10;
-            FitnessEventHandler fitnessEventHandler = null;
+            FitnessEventHandler? fitnessEventHandler = null;
             //Act
             GeneticAlgorithm.GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm.GeneticAlgorithm(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessEventHandler);
         
@@ -39,7 +39,7 @@ namespace GeneticAlgorithmTests{
             double mutationRate = 0.1;
             double eliteRate = 0.1;
             int numberOfTrials = 10;
-            FitnessEventHandler fitnessEventHandler = null;
+            FitnessEventHandler? fitnessEventHandler = null;
             GeneticAlgorithm.GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm.GeneticAlgorithm(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessEventHandler);
             //Act
             IGeneration generation = geneticAlgorithm.GenerateGeneration();
