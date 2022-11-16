@@ -46,7 +46,7 @@ namespace GeneticAlgorithm
         /// <returns>The current generation</returns>        
         public IGeneration GenerateGeneration()
         {
-            if (_currentGeneration == null)
+            if (CurrentGeneration == null)
             {
                 _currentGeneration = new Generation(new GeneticAlgorithm(_populationSize, _numberOfGenes, _lengthOfGene, _mutationRate, _eliteRate, _numberOfTrials, _fitnessCalculation, _seed), _fitnessCalculation, _seed);
                 // (_currentGeneration as Generation).EvaluateFitnessOfPopulation();
@@ -88,10 +88,6 @@ namespace GeneticAlgorithm
                     newGeneration.ChromosomesArray[i] = childrenGeneration[0];
                     newGeneration.ChromosomesArray[i+1] = childrenGeneration[1];
                     i++;    
-                    // for(var j =0; j < childrenGeneration.Length; j++) {
-                    //     newGeneration.ChromosomesArray[i] = childrenGeneration[j];
-                    //     i++;
-                    // }
                 }
             return newGeneration;
 
@@ -107,8 +103,8 @@ namespace GeneticAlgorithm
             var elites = new IChromosome[eliteCount];
             for (var i = 0; i < eliteCount; i++)
             {
-                Console.WriteLine(i);
-                Console.WriteLine(_currentGeneration[i]);
+                // Console.WriteLine(i);
+                // Console.WriteLine(_currentGeneration[i]);
                 elites[i] = _currentGeneration[i];
             }
             return elites;
