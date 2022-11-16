@@ -29,7 +29,9 @@ namespace GeneticAlgorithm
             {
                 _genes[i] = other[i];
             }
+            _fitness = other._fitness;
             _lengthOfGene = other._lengthOfGene;
+            _rnd = other._rnd;
         }
      
 
@@ -61,6 +63,12 @@ namespace GeneticAlgorithm
         public int NumOfGenes{
             get{
                 return _genes.Length;
+            }
+        }
+
+        public Random Rnd {
+            get{
+                return _rnd;
             }
         }
     
