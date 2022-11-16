@@ -5,7 +5,6 @@ namespace GeneticAlgorithmTests
 [TestClass]
 public class ChromosomeTests
 {
-
     //Test the constructor
     [TestMethod]
     public void testConstructor()

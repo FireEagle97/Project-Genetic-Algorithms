@@ -24,15 +24,16 @@ namespace GeneticAlgorithm
         //Performs a deep copy of the Chromosome
         public Chromosome(Chromosome other)
         {
-            _genes = new int[other._genes.Length];
-            for (int i = 0; i < other._genes.Length; i++)
+            _genes = new int[other.NumOfGenes];
+            for (int i = 0; i < other.NumOfGenes; i++)
             {
-                _genes[i] = other._genes[i];
+                _genes[i] = other[i];
             }
             _fitness = other._fitness;
             _lengthOfGene = other._lengthOfGene;
             _rnd = other._rnd;
         }
+     
 
         /// <summary>
         /// The fitness score of the IChromosome

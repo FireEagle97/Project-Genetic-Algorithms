@@ -14,6 +14,7 @@ namespace GeneticAlgorithm{
         public Generation(IGeneticAlgorithm geneticAlgorithm, FitnessEventHandler fitnessFunction, int? seed = null)
         {
             _rnd = seed.HasValue ? new Random(seed.Value) : new Random();
+            _rnd = seed.HasValue ? new Random(seed.Value) : new Random();
             _geneticAlgorithm = geneticAlgorithm;
             _fitnessFunction = fitnessFunction;
             _chromosomeArray = new IChromosome[geneticAlgorithm.PopulationSize];
@@ -131,6 +132,7 @@ namespace GeneticAlgorithm{
                 return this.ChromosomesArray[randIndex2];
             }
         }
+
 
 
 

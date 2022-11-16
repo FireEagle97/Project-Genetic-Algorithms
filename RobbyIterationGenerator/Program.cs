@@ -28,7 +28,7 @@ namespace RobbyIterationGenerator
             });
                 
 
-            //Something to stop the execution
+            //Something tos stop the execution
             Console.WriteLine("Press x if you wish to stop the execution of the program");
                 //Add task stopping method here
 
