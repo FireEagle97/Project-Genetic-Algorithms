@@ -42,7 +42,7 @@ namespace RobbyTheRobot
             //This is 200, but its in the constructor so we don't set it here
             NumberOfGenerations = numberOfGenerations;
             //Random object
-            Random random = seed.HasValue ? new Random(seed.Value) : new Random();
+            RandomObject = seed.HasValue ? new Random(seed.Value) : new Random();
 
             NumberOfTrials = numberOfTrials;
             PopulationSize = populationSize;

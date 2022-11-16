@@ -27,9 +27,13 @@ namespace RobbyIterationGenerator
                 robby.GeneratePossibleSolutions(folderPath);
             });
                 
+
             //Something to stop the execution
             Console.WriteLine("Press x if you wish to stop the execution of the program");
                 //Add task stopping method here
+
+            //Temporary
+            task.Wait();
         }
 
         
