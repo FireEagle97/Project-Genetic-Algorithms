@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using GeneticAlgorithm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RobbyTheRobot;
 
@@ -37,6 +38,18 @@ namespace RobbyTheRobotTests
             //Check if file exists
             bool fileCheck = File.Exists("../../../Test_Runs/Top_Candidate1.txt");
             Assert.IsTrue(fileCheck);
+        }
+
+        [TestMethod]
+        public void ComputeFitnessTest()
+        {
+            RobbyTheRobot.RobbyTheRobot robby = new RobbyTheRobot.RobbyTheRobot(1, 10, 1, 1);
+            IGeneticAlgorithm geneticAlgorithm = GeneticLib.CreateGeneticAlgorithm(10, 243, 7, 0.2, 0.4, 1, robby.ComputeFitness, 1);
+            geneticAlgorithm.GenerateGeneration();
+            IChromosome chromosome = geneticAlgorithm.CurrentGeneration[0];
+            double result = robby.ComputeFitness(chromosome, geneticAlgorithm.CurrentGeneration);
+            double expected = -200;
+            Assert.AreEqual(expected, result);
         }
     }
 }
