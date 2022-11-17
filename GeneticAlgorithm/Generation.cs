@@ -115,10 +115,9 @@ namespace GeneticAlgorithm{
             //create a elite array using the elite rate 
             int eliteArraySize = (int)(_geneticAlgorithm.EliteRate * NumberOfChromosomes);
 
-            Random rand = new Random();
             //print the Fitenss of _ChromosomesArray[0] to check if it is the highest fitness
             //get a random chromosne from _chromosomeArray[i] where i is between 0 and eliteArraySize
-            int randomIndex = rand.Next(0, eliteArraySize);
+            int randomIndex = _rnd.Next(0, eliteArraySize);
             
                         // Console.WriteLine("Fitness of _ChromosomesArray[0]: " + _chromosomeArray[randomIndex].Fitness);
                 // int compare = _chromosomeArray[randomIndex].CompareTo(_chromosomeArray[0]);

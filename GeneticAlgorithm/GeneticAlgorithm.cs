@@ -80,9 +80,9 @@ namespace GeneticAlgorithm
                     var parent1 = currentGeneration.SelectParent();
                     var parent2 = currentGeneration.SelectParent();
                     //if parent1 and parent2 fitness are the same, then select a new parent2
-                    while (parent1.Fitness == parent2.Fitness){
-                        parent2 = currentGeneration.SelectParent();
-                    }
+                        //while (parent1.Fitness == parent2.Fitness){
+                            //parent2 = currentGeneration.SelectParent();
+                        //}
                     var childrenGeneration = parent1.Reproduce(parent2, MutationRate);
                     //add the reproduced children to the ChildChromosomes
                     //     if (i == PopulationSize -1){

@@ -20,7 +20,6 @@ namespace RobbyTheRobot
         public int NumberOfGenerations {get;}
         public double MutationRate {get;}
         public static event WriteFileHandler FileWritten;
-        
         public double EliteRate {get;}
         //Unsure if should exist
         public int PopulationSize {get;}
@@ -47,7 +46,12 @@ namespace RobbyTheRobot
 
             NumberOfTrials = numberOfTrials;
             PopulationSize = populationSize;
+            FileWritten = printInfo;
         }
+
+        public static void printInfo(String s){
+            Console.WriteLine(s);
+        }  
 
         public ContentsOfGrid[,] GenerateRandomTestGrid()
         {
@@ -116,15 +120,14 @@ namespace RobbyTheRobot
                 if(i == 0 || i == 19 || i == 99 || i == 199 || i == 499 || i == 999){
                     //Create a variable to hold the top chromosome (already sorted in EvaluateFitnessOfPopulation())
                     IChromosome topCandidate = geneticAlgorithm.CurrentGeneration[0];
-
+                    //Invoke handler
+                    FileWritten?.Invoke("Top candidate for generation "+(i+1)+" added to list");
                     //Add topCandidate to the list
                     list.Add(topCandidate);
                 }
             }
-            
             //Write to file
             WriteToFile(folderPath, list);
-            //FileWritten Delegate invocation here maybe?
         }   
 
         public double ComputeFitness(IChromosome chromosome, IGeneration generation){
@@ -158,37 +161,33 @@ namespace RobbyTheRobot
             //max score, number of moves to display, all moves
             foreach(IChromosome chromosome in list){
 
-            //Chromosome.Fitness
-            double topFitness = chromosome.Fitness;
-            //Arbitrary amount of moves to show
-            int numberOfMoves = NUMBER_OF_ACTIONS;
-            //Chromosome's Genes[]
-            int[] topGenes = chromosome.Genes;
-            //String with array values
-            String arrayValues = "";
-            foreach(int gene in topGenes){
-                arrayValues += gene.ToString();
-            }
+                //Chromosome.Fitness
+                double topFitness = chromosome.Fitness;
+                //Arbitrary amount of moves to show
+                int numberOfMoves = NUMBER_OF_ACTIONS;
+                //Chromosome's Genes[]
+                int[] topGenes = chromosome.Genes;
+                //String with array values
+                String arrayValues = "";
+                foreach(int gene in topGenes){
+                    arrayValues += gene.ToString();
+                }
 
-            //Have a string to hold top a top candidate's data for each generation
-            string topCandidateString = $"{topFitness}, {numberOfMoves}, {arrayValues}";
-            
-            // Write file using StreamWriter  
-            using (StreamWriter writer = File.AppendText(fileName))  
-            {  
-                FileWritten?.Invoke("Generation written to file");
-                writer.WriteLine(topCandidateString);  
-                //invoke the FileWritten delegate and pass a message saying number of generation is is written 
+                //Have a string to hold top a top candidate's data for each generation
+                string topCandidateString = $"{topFitness}, {numberOfMoves}, {arrayValues}";
+                
+                // Write file using StreamWriter  
+                using (StreamWriter writer = File.AppendText(fileName))  
+                {  
+                    writer.WriteLine(topCandidateString);  
+                }
             }
-                            FileWritten?.Invoke("Generation written to file");
-
-              
-            }
-            Console.WriteLine($"{fileName} created");
+            FileWritten?.Invoke("File written");
             Console.WriteLine();
             // Read a file  
             string readText = File.ReadAllText(fileName);  
             Console.WriteLine(readText);  
+            FileWritten?.Invoke("Press any key to end the program");
         }
     }
 }
