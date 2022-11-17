@@ -10,10 +10,8 @@ namespace GeneticAlgorithm{
 
 
         // One that takes the IGeneticAlgorithm, FitnessEventHandler, and a potential seed
-
         public Generation(IGeneticAlgorithm geneticAlgorithm, FitnessEventHandler fitnessFunction, int? seed = null)
         {
-            _rnd = seed.HasValue ? new Random(seed.Value) : new Random();
             _rnd = seed.HasValue ? new Random(seed.Value) : new Random();
             _geneticAlgorithm = geneticAlgorithm;
             _fitnessFunction = fitnessFunction;
@@ -25,20 +23,6 @@ namespace GeneticAlgorithm{
         }
             
   
-
-        //constructor that performs a deep copy of the generation based on an array of IChromosomes
-        // public Generation(Generation other)
-        // {
-        //     _chromosomeArray = new IChromosome[other.NumberOfChromosomes];
-        //     for (int i = 0; i < other.NumberOfChromosomes; i++)
-        //     {
-        //         _chromosomeArray[i] = new Chromosome((Chromosome)other[i]);
-        //     }
-        //     _geneticAlgorithm = other._geneticAlgorithm;
-        //     _fitnessFunction = other._fitnessFunction;
-            
-            
-        // }
         public Generation(IGeneration generation)
         {
             _chromosomeArray = new IChromosome[generation.NumberOfChromosomes];
@@ -105,36 +89,88 @@ namespace GeneticAlgorithm{
             MaxFitness = maxFitness;
             //sort the chromosomes by fitness
             Array.Sort(_chromosomeArray, (x, y) => y.Fitness.CompareTo(x.Fitness));
+            //loop to print the fitness of each chromosome
+            // for (int i = 0; i < NumberOfChromosomes; i++)
+            // {
+            //     Console.WriteLine("Chromosome {0} fitness: {1}", i, _chromosomeArray[i].Fitness);
+            // }
         }
 
-        /// <summary>
-        /// sorts the array of ChromosomeArray by fitness - 
-        /// </summary>
-        //TODO use it or remove it after testing
-        // public void SortByFitness()
-        // {
-        //     Array.Sort(_chromosomeArray, (x, y) => x.Fitness.CompareTo(y.Fitness));
-        // }
 
         /// <summary>
         /// Randomly selects a parent by comparing its fitness to others in the population
         /// use compare to method of IChromosome
         /// </summary>
-        /// <returns></returns>
-
-        public IChromosome SelectParent()
+        /// <returns></returns>}
+           public IChromosome SelectParent()
         {
-            var randIndex1 = _rnd.Next(0, this.ChromosomesArray.Length);
-            var randIndex2 = _rnd.Next(0,this.ChromosomesArray.Length);
-            if (this.ChromosomesArray[randIndex1].Fitness.CompareTo(this.ChromosomesArray[randIndex2].Fitness) > 0){
-                return this.ChromosomesArray[randIndex1];
-            }else {
-                return this.ChromosomesArray[randIndex2];
+            //create a elite array using the elite rate 
+            int eliteArraySize = (int)(_geneticAlgorithm.EliteRate * NumberOfChromosomes);
+            IChromosome[] eliteArray = new IChromosome[eliteArraySize];
+
+              for (var i = 0; i < eliteArraySize; i++)
+            {
+                // Console.WriteLine(i);
+                // Console.WriteLine(_currentGeneration[i]);
+                eliteArray[i] = _chromosomeArray[i];
+                // elites[i] = _currentGeneration[i];
             }
+            //print the chromosomes of the elite array
+            // for (int i = 0; i < eliteArraySize; i++)
+            // {
+            //     Console.WriteLine("Elite Chromosome {0} fitness: {1}", i, eliteArray[i].Fitness);
+            // }
+            // Console.WriteLine("elite array size: " + eliteArray.Length);
+
+
+            //copy the elite array from the chromosome array
+            // Array.Copy(_chromosomeArray, eliteArray, eliteArraySize);
+            //create a random number between 0 and 1
+            //get two random numbers
+
+            int random1 = _rnd.Next(0, eliteArraySize);
+            int random2 = _rnd.Next(0, eliteArraySize);
+            // var randIndex1 = _rnd.Next(0, this.ChromosomesArray.Length);
+            // var randIndex2 = _rnd.Next(0,this.ChromosomesArray.Length);
+            //get two random chromosomes
+
+            IChromosome randomChromosome1 = eliteArray[random1];
+            IChromosome randomChromosome2 = eliteArray[random2];
+            //compare the two chromosomes
+            // Console.WriteLine("random chromosome 1 fitness: " + randomChromosome1.Fitness);
+            // Console.WriteLine("random chromosome 2 fitness: " + randomChromosome2.Fitness);
+            int compare = randomChromosome1.CompareTo(randomChromosome2);
+            // Console.WriteLine("compare: " + compare);
+
+
+
+            // var randChromosome1 = this.ChromosomesArray[randIndex1];
+            // var randChromosome2 = this.ChromosomesArray[randIndex2];
+            //compare the two chromosomes
+            // var compare = randChromosome1.CompareTo(randChromosome2);
+            //if the first chromosome is greater than the second, return the first chromosome
+            if (compare == 1)
+            {
+                return randomChromosome1;
+            }
+            //if the second chromosome is greater than the first, return the second chromosome
+            else if (compare == -1)
+            {
+                return randomChromosome2;
+            }
+            //if the chromosomes are equal, return the first chromosome
+            else
+            {
+                return randomChromosome1;
+            }
+
         }
-
-
-
+        //     if (this.ChromosomesArray[randIndex1].Fitness.CompareTo(this.ChromosomesArray[randIndex2].Fitness) > 0){
+        //         return this.ChromosomesArray[randIndex1];
+        //     }else {
+        //         return this.ChromosomesArray[randIndex2];
+        //     }
+        // }
 
         /// <summary>
         /// returns chromosome array
@@ -145,9 +181,9 @@ namespace GeneticAlgorithm{
             get{
                 return _chromosomeArray;
             }
-            set{
-                _chromosomeArray = value;
-            }
+            // set{
+            //     _chromosomeArray = value;
+            // }
 
         }
 

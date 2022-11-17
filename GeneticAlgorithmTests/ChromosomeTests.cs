@@ -55,26 +55,26 @@ public class ChromosomeTests
         Assert.AreEqual(0, result);
     }
 
+    //Test the copy constructor 
     [TestMethod]
-    public void  copyConsturctorTest(){
+    public void testCopyConstructor()
+    {
         //Arrange
         int numberOfGenes = 10;
-        int seed = 1;
         int lengthOfGene = 7;
+        int seed = 1;
+        Chromosome chromosome = new Chromosome(numberOfGenes, lengthOfGene, seed);
         //Act
-        Chromosome chromosome1 = new Chromosome(numberOfGenes, lengthOfGene, seed);
-        Chromosome chromosome2 = new Chromosome(chromosome1);
+        Chromosome chromosome1 = new Chromosome(chromosome);
         //Assert
-        Assert.AreEqual(chromosome1.NumOfGenes,chromosome2.NumOfGenes);
-        Assert.AreEqual(chromosome1.LengthOfGene,chromosome1.LengthOfGene);
-        Assert.AreEqual(chromosome1.Fitness, chromosome1.Fitness);
-        Assert.AreEqual(chromosome1.Length, chromosome1.Length);
-        Assert.AreEqual(chromosome1.Rnd.Equals(chromosome2.Rnd), true);
-
+        Assert.AreEqual(chromosome.Length, chromosome1.Length);
+        Assert.AreEqual(chromosome.LengthOfGene, chromosome1.LengthOfGene);
+        for (int i = 0; i < chromosome.Length; i++)
+        {
+            Assert.AreEqual(chromosome[i], chromosome1[i]);
+        }
     }
-
-
-
+    
     [TestMethod]
 
     public void reproduceTest(){

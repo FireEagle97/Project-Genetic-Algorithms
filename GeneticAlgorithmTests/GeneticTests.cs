@@ -2,6 +2,7 @@ using GeneticAlgorithm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GeneticAlgorithmTests{
 
+
     [TestClass]
     public class GeneticTests{
 
@@ -42,10 +43,25 @@ namespace GeneticAlgorithmTests{
             FitnessEventHandler fitnessEventHandler = null;
             GeneticAlgorithm.GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm.GeneticAlgorithm(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessEventHandler);
             //Act
-            IGeneration generation = geneticAlgorithm.GenerateGeneration();
+            Generation generation = (Generation)geneticAlgorithm.GenerateGeneration();
             //Assert
             Assert.AreEqual(generation, geneticAlgorithm.CurrentGeneration);
         }
+        // public void TestGenerateGeneration(){
+        //     //Arrange
+        //     int populationSize = 10;
+        //     int numberOfGenes = 10;
+        //     int lengthOfGene = 6;
+        //     double mutationRate = 0.1;
+        //     double eliteRate = 0.1;
+        //     int numberOfTrials = 10;
+        //     FitnessEventHandler fitnessEventHandler = null;
+        //     GeneticAlgorithm.GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm.GeneticAlgorithm(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessEventHandler);
+        //     //Act
+        //     IGeneration generation = geneticAlgorithm.GenerateGeneration();
+        //     //Assert
+        //     Assert.AreEqual(generation, geneticAlgorithm.CurrentGeneration);
+        // }
 
  
     }

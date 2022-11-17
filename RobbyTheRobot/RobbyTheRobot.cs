@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -12,19 +12,22 @@ namespace RobbyTheRobot
         private const int GRID_SIZE = 100;
         private const int NUMBER_OF_ACTIONS = 200;
         private const int NUMBER_OF_TEST_GRIDS = 100;
-        private const double MUTATION_RATE = 0.05;
-        private const double ELITE_RATE = 0.2;
+        private const double MUTATION_RATE = 0.01;
+        private const double ELITE_RATE = 0.05;
         public int NumberOfActions {get; set;}
         public int NumberOfTestGrids {get; set;}
         public int GridSize {get;}
         public int NumberOfGenerations {get;}
         public double MutationRate {get;}
-        public event WriteFileHandler FileWritten;
+        public static event WriteFileHandler FileWritten;
+        
         public double EliteRate {get;}
         //Unsure if should exist
         public int PopulationSize {get;}
         //Unsure if should exist
         public int NumberOfTrials {get;}
+        //For the Seed
+        public Random RandomObject {get;}
 
         public RobbyTheRobot(int numberOfGenerations, int populationSize, int numberOfTrials, int? seed = null){
             //Instructions stipulate that the size of the grid is 100
@@ -39,6 +42,8 @@ namespace RobbyTheRobot
             EliteRate = ELITE_RATE;
             //This is 200, but its in the constructor so we don't set it here
             NumberOfGenerations = numberOfGenerations;
+            //Random object
+            RandomObject = seed.HasValue ? new Random(seed.Value) : new Random();
 
             NumberOfTrials = numberOfTrials;
             PopulationSize = populationSize;
@@ -52,17 +57,16 @@ namespace RobbyTheRobot
 
                 //Create new grid
                 ContentsOfGrid[,] grid = new ContentsOfGrid[rowSize, rowSize];
-                Random random = new Random();
                 int gridHalf = GridSize/2;
                 List<int> canCheckerList = new List<int>();
 
                 //Populate it with cans
                 for(int i = 0; i < gridHalf; i++){
-                    int canNumber = random.Next(0, GridSize);
+                    int canNumber = RandomObject.Next(0, GridSize);
 
                     //If the can number is already filled, generate a new can number
                     while(canCheckerList.Contains(canNumber)){
-                        canNumber = random.Next(0, GridSize);
+                        canNumber = RandomObject.Next(0, GridSize);
                     }
                     //int to use to determine the position in the outer array
                     int canPositionOuter;
@@ -109,7 +113,7 @@ namespace RobbyTheRobot
                 geneticAlgorithm.GenerateGeneration();
 
                 //Save the top candidate on generations 1, 20, 100, 200, 500, 1000
-                if(i == 0 || i == 19 || i == 99 || i == 119 || i == 499 || i == 999){
+                if(i == 0 || i == 19 || i == 99 || i == 199 || i == 499 || i == 999){
                     //Create a variable to hold the top chromosome (already sorted in EvaluateFitnessOfPopulation())
                     IChromosome topCandidate = geneticAlgorithm.CurrentGeneration[0];
 
@@ -125,22 +129,16 @@ namespace RobbyTheRobot
         public double ComputeFitness(IChromosome chromosome, IGeneration generation){
             //Variable to hold the score
             double score = 0;
-            //number of actions it took for Robby to finish
-            int actionsTaken = 0;
             //x and y initial positions
             int x = 0;
             int y = 0;
 
             //Create the grid
             ContentsOfGrid[,] grid = GenerateRandomTestGrid();
-            //Random number generator needed in ScoreForAllele
-            Random random = new Random();
             
             for(int i = 0; i < NumberOfActions; i++){
                 //Add move to the score
-                score += RobbyHelper.ScoreForAllele(chromosome.Genes, grid, random, ref x, ref y);
-                //Adds the amount of actions taken
-                actionsTaken += 1;
+                score += RobbyHelper.ScoreForAllele(chromosome.Genes, grid, RandomObject, ref x, ref y);
             }
             return score;
         }
@@ -158,22 +156,32 @@ namespace RobbyTheRobot
             //Put data in file in a comma separated list like so:
             //max score, number of moves to display, all moves
             foreach(IChromosome chromosome in list){
-            
+
             //Chromosome.Fitness
             double topFitness = chromosome.Fitness;
             //Arbitrary amount of moves to show
             int numberOfMoves = NUMBER_OF_ACTIONS;
             //Chromosome's Genes[]
             int[] topGenes = chromosome.Genes;
+            //String with array values
+            String arrayValues = "";
+            foreach(int gene in topGenes){
+                arrayValues += gene.ToString();
+            }
 
             //Have a string to hold top a top candidate's data for each generation
-            string topCandidateString = $"{topFitness}, {numberOfMoves}, {topGenes}";
+            string topCandidateString = $"{topFitness}, {numberOfMoves}, {arrayValues}";
             
             // Write file using StreamWriter  
-            using (StreamWriter writer = new StreamWriter(fileName))  
+            using (StreamWriter writer = File.AppendText(fileName))  
             {  
-            writer.WriteLine(topCandidateString);  
-            }  
+                FileWritten?.Invoke("Generation written to file");
+                writer.WriteLine(topCandidateString);  
+                //invoke the FileWritten delegate and pass a message saying number of generation is is written 
+            }
+                            FileWritten?.Invoke("Generation written to file");
+
+              
             }
             Console.WriteLine($"{fileName} created");
             Console.WriteLine();

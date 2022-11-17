@@ -21,7 +21,9 @@ namespace GeneticAlgorithm
             }
         }        
         
-        //Performs a deep copy of the Chromosome
+        /// <summary>
+        /// Constructor that performs a deep copy of the chromosome based on an array of genes
+        /// </summary>
         public Chromosome(Chromosome other)
         {
             _genes = new int[other.NumOfGenes];
@@ -29,7 +31,7 @@ namespace GeneticAlgorithm
             {
                 _genes[i] = other[i];
             }
-            _fitness = other._fitness;
+            _fitness = other.Fitness;
             _lengthOfGene = other._lengthOfGene;
             _rnd = other._rnd;
         }
@@ -65,14 +67,7 @@ namespace GeneticAlgorithm
                 return _genes.Length;
             }
         }
-
-        public Random Rnd {
-            get{
-                return _rnd;
-            }
-        }
     
-
 
         /// <summary>
         /// Returns the current gene at the provided position
@@ -94,7 +89,6 @@ namespace GeneticAlgorithm
         /// <summary>
         /// changing them to random values according to the mutation rate.
         /// </summary>
-
         private Chromosome mutate(Chromosome child, double mutationRate)
         {
             var numChangedGenes = Math.Round(child.Length%mutationRate);
