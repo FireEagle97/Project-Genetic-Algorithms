@@ -27,7 +27,8 @@ namespace RobbyTheRobot
         public int NumberOfTrials {get;}
         //For the Seed
         public Random RandomObject {get;}
-
+        private int? _seed;
+ 
         public RobbyTheRobot(int numberOfGenerations, int populationSize, int numberOfTrials, int? seed = null){
             //Instructions stipulate that the size of the grid is 100
             GridSize = GRID_SIZE;
@@ -47,6 +48,9 @@ namespace RobbyTheRobot
             NumberOfTrials = numberOfTrials;
             PopulationSize = populationSize;
             FileWritten = printInfo;
+
+            //Set the seed
+            _seed = seed;
         }
 
         public static void printInfo(String s){
@@ -107,7 +111,7 @@ namespace RobbyTheRobot
 
         public void GeneratePossibleSolutions(string folderPath){
             //Create GeneticAlgorithm
-            IGeneticAlgorithm geneticAlgorithm = GeneticLib.CreateGeneticAlgorithm(PopulationSize, 243, 7, MutationRate, EliteRate, NumberOfTrials, ComputeFitness);
+            IGeneticAlgorithm geneticAlgorithm = GeneticLib.CreateGeneticAlgorithm(PopulationSize, 243, 7, MutationRate, EliteRate, NumberOfTrials, ComputeFitness, _seed);
 
             //List of Chromosomes to write to files
             List<IChromosome> list = new List<IChromosome>();

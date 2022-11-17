@@ -125,18 +125,11 @@ namespace GeneticAlgorithm
                 point2 = temp;
             }
 
-            for (int i = 0; i < this.NumOfGenes; i++)
+            for (int i = point1; i <= point2; i++)
             {
-                if (i < point1 || i > point2)
-                {
-                    child1[i] = parent1Genes[i];
-                    child2[i] = parent2Genes[i];
-                }
-                else
-                {
-                    child1[i] = parent2Genes[i];
-                    child2[i] = parent1Genes[i];
-                }
+                child1[i] = parent2Genes[i];
+                child2[i] = parent1Genes[i];
+
             }
    
             // mutate the children
