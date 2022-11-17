@@ -36,16 +36,16 @@ namespace RobbyVisualizer{
             {
                 for (int j = 0; j < 10; ++j)
                 {
-                    _spriteBatch.Draw(_tileTexture, new Rectangle(i *tileSize , j * tileSize, tileSize, tileSize), Color.White); 
+                    _spriteBatch.Draw(_tileTexture, new Rectangle(i *_tileSize , j * _tileSize, _tileSize, _tileSize), Color.White); 
                 }
             }
             _spriteBatch.End();
             
             
            _spriteBatch.Begin();
-            for (int j = 0; j < numOfBalls; ++j){
+            for (int j = 0; j < _numOfBalls; ++j){
                 //make sure robby place is empty
-                _spriteBatch.Draw(_ball,new Vector2((float)randBallXs[j], (float)randBallYs[j]), Color.White);
+                _spriteBatch.Draw(_ball,new Vector2((float)_randBallXs[j], (float)_randBallYs[j]), Color.White);
             }
             _spriteBatch.DrawString(_generation,"Generation",new Vector2(10,510), Color.White);
             //(0,1) == (22,-15)
