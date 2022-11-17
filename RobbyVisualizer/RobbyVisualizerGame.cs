@@ -8,7 +8,7 @@ namespace RobbyVisualizer
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private RobbySprite _robbySprite;
+        private SimulationSprite _robbySprite;
 
 
         public RobbyVisualizerGame()
@@ -16,7 +16,7 @@ namespace RobbyVisualizer
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _robbySprite = new RobbySprite(this);
+            _robbySprite = new SimulationSprite(this);
         }
 
         protected override void Initialize()
