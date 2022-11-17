@@ -24,7 +24,7 @@ namespace RobbyIterationGenerator
             int numberOfTrials = Convert.ToInt32(Console.ReadLine());
 
             //Create a new instance of Robby
-            IRobbyTheRobot robby = Robby.CreateRobbyTheRobot(numberOfGenerations, populationSize, numberOfTrials);
+            IRobbyTheRobot robby = Robby.CreateRobbyTheRobot(numberOfGenerations, populationSize, numberOfTrials, 1);
 
             //prompts the user where to save the text file
             Console.WriteLine("Where do you want to save the text file?");

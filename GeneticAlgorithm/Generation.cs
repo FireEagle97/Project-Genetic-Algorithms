@@ -40,6 +40,9 @@ namespace GeneticAlgorithm{
                 IChromosome chromosome = new Chromosome((Chromosome)_chromosomeArray[index]);
                 return chromosome;
             }
+            set{
+                _chromosomeArray[index] = value;
+            }
         }
     
 
@@ -93,16 +96,7 @@ namespace GeneticAlgorithm{
             AverageFitness = totalFitness / NumberOfChromosomes;
             Console.WriteLine("Average Fitness: " + AverageFitness);
             MaxFitness = maxFitness;
-            Console.WriteLine("Max Fitness: " + MaxFitness);
-            //sort the chromosomes by fitness
-            Array.Sort(_chromosomeArray, (x, y) => y.Fitness.CompareTo(x.Fitness));
-
-            // Console.WriteLine("10 highest fitness values: ");
-            // for (int i = 0; i < 10; i++)
-            // {
-            //     Console.WriteLine(_chromosomeArray[i].Fitness);
-            // }
-  
+            Array.Sort(_chromosomeArray, (x, y) => y.Fitness.CompareTo(x.Fitness));  
         }
 
 
@@ -110,17 +104,14 @@ namespace GeneticAlgorithm{
         /// Randomly selects a parent by comparing its fitness to others in the population
         /// use compare to method of IChromosome
         /// </summary>
-        /// <returns></returns>}
-           public IChromosome SelectParent()
-        {            
-            int eliteArraySize = (int)(_geneticAlgorithm.EliteRate * NumberOfChromosomes);
+        /// <returns></returns>
+           public IChromosome SelectParent(){          
+            //calculate elite number
+            int eliteNumber = (int)Math.Round(_geneticAlgorithm.EliteRate * NumberOfChromosomes);  
 
-            Random rand = new Random();
-            int randomIndex1 = rand.Next(0, eliteArraySize);
-            int randomIndex2 = rand.Next(0, eliteArraySize);
-
-            // Console.WriteLine("first fitness: " + _chromosomeArray[randomIndex1].Fitness);
-            // Console.WriteLine("second fitness: " + _chromosomeArray[randomIndex2].Fitness);
+            int randomIndex1 = _rnd.Next(0, eliteNumber);
+            int randomIndex2 = _rnd.Next(0, eliteNumber);
+    
             if (_chromosomeArray[randomIndex1].CompareTo(_chromosomeArray[randomIndex2]) > 0)
             {
                 // Console.WriteLine("first is greater");
@@ -142,6 +133,7 @@ namespace GeneticAlgorithm{
             get{
                 return _chromosomeArray;
             }
+            
         }
 
         }
