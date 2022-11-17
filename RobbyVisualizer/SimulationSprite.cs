@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
+using System.Windows.Forms;
 using System.IO;
 using System;
 
@@ -59,6 +60,16 @@ namespace RobbyVisualizer{
         public override void Initialize(){
             _robbyObj= RobbyTheRobot.Robby.CreateRobbyTheRobot(1,1,1);
             _tiles = _robbyObj.GenerateRandomTestGrid();
+            using(var fbd = new FolderBrowserDialog())
+{
+        DialogResult result = fbd.ShowDialog();
+
+        if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+        {
+            string[] files = Directory.GetFiles(fbd.SelectedPath);
+
+        }
+}
             base.Initialize();
         }
         protected override void LoadContent(){

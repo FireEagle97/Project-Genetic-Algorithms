@@ -31,4 +31,9 @@
     <ProjectReference Include="..\RobbyTheRobot\RobbyTheRobot.csproj" />
     <ProjectReference Include="..\RobbyIterationGenerator\RobbyIterationGenerator.csproj" />
   </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+</PropertyGroup>
 </Project>
