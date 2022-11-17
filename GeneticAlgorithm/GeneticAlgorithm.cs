@@ -134,7 +134,9 @@ namespace GeneticAlgorithm
                     var childrenGeneration = parent1.Reproduce(parent2, MutationRate);
                     //add the reproduced children to the ChildChromosomes
                     newGeneration.ChromosomesArray[i] = childrenGeneration[0];
+                    if(i == PopulationSize-1){ break;}
                     newGeneration.ChromosomesArray[i+1] = childrenGeneration[1];
+                    
                     i++;    
                
                 }
