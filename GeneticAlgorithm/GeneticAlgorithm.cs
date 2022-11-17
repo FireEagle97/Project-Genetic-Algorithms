@@ -51,6 +51,7 @@ namespace GeneticAlgorithm
             {
                 _currentGeneration = new Generation(new GeneticAlgorithm(_populationSize, _numberOfGenes, _lengthOfGene, _mutationRate, _eliteRate, _numberOfTrials, _fitnessCalculation, _seed), _fitnessCalculation, _seed);
                 (_currentGeneration as Generation).EvaluateFitnessOfPopulation();
+                
             }
             else
             {
@@ -68,37 +69,39 @@ namespace GeneticAlgorithm
         /// </summary>
         /// <returns></returns>
 
-             
-        // private IGeneration GenerateNextGeneration()
-        // {
-        //     var currentGeneration = _currentGeneration as Generation;
-        //     var newGeneration = new Generation(this,FitnessCalculation, _seed);
-        //     var elites = SelectElites();
-        //     //copy the elites chromosomes
-        //     for (var k =0; k < elites.Length;k++){
-        //         newGeneration.ChromosomesArray[k] = elites[k];
-        //     }
-        //     for (var i =elites.Length; i < PopulationSize; i++){
-        //             var parent1 = currentGeneration.SelectParent();
-        //             var parent2 = currentGeneration.SelectParent();
-        //             var childrenGeneration = parent1.Reproduce(parent2, MutationRate);
-        //             //add the reproduced children to the ChildChromosomes
-        //             newGeneration.ChromosomesArray[i] = childrenGeneration[0];
-        //             newGeneration.ChromosomesArray[i+1] = childrenGeneration[1];
-        //             i++;    
-        //             // for(var j =0; j < childrenGeneration.Length; j++) {
-        //             //     newGeneration.ChromosomesArray[i] = childrenGeneration[j];
-        //             //     i++;
-        //             // }
-        //         }
-        //     return newGeneration;
+          
+        private IGeneration GenerateNextGeneration()
+        {
+            var currentGeneration = _currentGeneration as Generation;
+    
+
+            //start to populate after the elites
+            for (var i =0; i < PopulationSize; i++){
+                    var parent1 = currentGeneration.SelectParent();
+                    var parent2 = currentGeneration.SelectParent();
+                    //if parent1 and parent2 fitness are the same, then select a new parent2
+                    while (parent1.Fitness == parent2.Fitness){
+                        parent2 = currentGeneration.SelectParent();
+                    }
+                    var childrenGeneration = parent1.Reproduce(parent2, MutationRate);
+                    //add the reproduced children to the ChildChromosomes
+                    //     if (i == PopulationSize -1){
+                    //     break;
+                    // }
+                    currentGeneration.ChromosomesArray[i] = childrenGeneration[0];
+                    currentGeneration.ChromosomesArray[i+1] = childrenGeneration[1];
+                    i++;    
+                }
+       
+            return currentGeneration;
+        }
+   
 
         // }
-
-        // /// <summary>
-        // /// This method returns the elite Chromosomes based in a sorted array of CHromosomesArray
-        // /// </summary>
-        // /// <returns></returns>
+        /// <summary>
+        /// This method returns the elite Chromosomes based in a sorted array of CHromosomesArray
+        /// </summary>
+        /// <returns></returns>
         // public IChromosome[] SelectElites()
         // {
         //     //Assuming that currentGeneration is sorted
@@ -106,87 +109,12 @@ namespace GeneticAlgorithm
         //     var elites = new IChromosome[eliteCount];
         //     for (var i = 0; i < eliteCount; i++)
         //     {
-        //         Console.WriteLine(i);
-        //         Console.WriteLine(_currentGeneration[i]);
         //         elites[i] = _currentGeneration[i];
         //     }
         //     return elites;
-        // }
 
-          
-        private IGeneration GenerateNextGeneration()
-        {
-            var currentGeneration = _currentGeneration as Generation;
-            var newGeneration = new Generation(this,FitnessCalculation, _seed);
-            var elites = SelectElites();
-            //print the reference of the elites
             
-            // for (var i =0; i < elites.Length;i++){
-            //     Console.WriteLine(elites[i]);
-            // }
-            //copy the elites chromosomes
-            for (var k =0; k < elites.Length;k++){
-                newGeneration.ChromosomesArray[k] = elites[k];
-            }
-            for (var i =elites.Length; i < PopulationSize; i++){
-                    var parent1 = currentGeneration.SelectParent();
-                    var parent2 = currentGeneration.SelectParent();
-                    var childrenGeneration = parent1.Reproduce(parent2, MutationRate);
-                    //add the reproduced children to the ChildChromosomes
-                    newGeneration.ChromosomesArray[i] = childrenGeneration[0];
-                    if(i == PopulationSize-1){ break;}
-                    newGeneration.ChromosomesArray[i+1] = childrenGeneration[1];
-                    
-                    i++;    
-               
-                }
-                //print the new generation
-                // for (var i =0; i < newGeneration.ChromosomesArray.Length;i++){
-                //     Console.WriteLine(newGeneration.ChromosomesArray[i]);
-                // }
-            return newGeneration;
-        }
-        //     return newGeneration;
-        //     var newGeneration = new Generation(this,FitnessCalculation, _seed);
-        //     var elitesGeneration = new Generation(this,FitnessCalculation, _seed);
-        //     var elites = SelectElites();
-        //     // elitesGeneration.ChromosomesArray = elites;
-        //     // var elites = //new genertation a chromosome array of 
-        //     //copy the elites chromosomes
-        //     for (var k =0; k < elitesGeneration.ChromosomesArray.Length;k++){
-        //         newGeneration.ChromosomesArray[k] = elitesGeneration.ChromosomesArray[k];
-        //     }
-        //     for (var i =elites.Length; i < PopulationSize; i++){
-        //             var parent1 = elitesGeneration.SelectParent();
-        //             var parent2 = elitesGeneration.SelectParent();
-        //             var childrenGeneration = parent1.Reproduce(parent2, MutationRate);
-        //             //add the reproduced children to the ChildChromosomes
-        //             newGeneration.ChromosomesArray[i] = childrenGeneration[0];
-        //             newGeneration.ChromosomesArray[i+1] = childrenGeneration[1];
-        //             i++;    
-        //         }
-        //         //call EvaluateFitnessOfPopulation
-        //         newGeneration.EvaluateFitnessOfPopulation();
-        //     return newGeneration;
-
         // }
-        /// <summary>
-        /// This method returns the elite Chromosomes based in a sorted array of CHromosomesArray
-        /// </summary>
-        /// <returns></returns>
-        public IChromosome[] SelectElites()
-        {
-            //Assuming that currentGeneration is sorted
-            var eliteCount = (int) Math.Round(_eliteRate * _populationSize);
-            var elites = new IChromosome[eliteCount];
-            for (var i = 0; i < eliteCount; i++)
-            {
-                // Console.WriteLine(i);
-                // Console.WriteLine(_currentGeneration[i]);
-                elites[i] = _currentGeneration[i];
-            }
-            return elites;
-        }
 
     }
 }
