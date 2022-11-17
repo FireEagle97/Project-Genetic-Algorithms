@@ -112,7 +112,7 @@ namespace RobbyTheRobot
                 geneticAlgorithm.GenerateGeneration();
 
                 //Save the top candidate on generations 1, 20, 100, 200, 500, 1000
-                if(i == 0 || i == 19 || i == 99 || i == 119 || i == 499 || i == 999){
+                if(i == 0 || i == 19 || i == 99 || i == 199 || i == 499 || i == 999){
                     //Create a variable to hold the top chromosome (already sorted in EvaluateFitnessOfPopulation())
                     IChromosome topCandidate = geneticAlgorithm.CurrentGeneration[0];
 
