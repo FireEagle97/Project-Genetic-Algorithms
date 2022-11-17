@@ -91,7 +91,7 @@ namespace GeneticAlgorithm
         /// </summary>
         private Chromosome mutate(Chromosome child, double mutationRate)
         {
-            var numChangedGenes = Math.Round(child.Length%mutationRate);
+            var numChangedGenes = Math.Round(child.Length*mutationRate);
             for (int i = 0; i < numChangedGenes; i++)
             {
                 var changedIndex = _rnd.Next(0,(int)child.Length);
