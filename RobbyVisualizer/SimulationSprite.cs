@@ -18,10 +18,13 @@ namespace RobbyVisualizer{
         private SpriteFont _moves;
         private RobbyTheRobot.IRobbyTheRobot _robbyObj; 
         private RobbyTheRobot.ContentsOfGrid[,] _tiles;
+        private RobbyTheRobot.RobbyHelper _robbyMover;
+        // private DialogResult _result;
+        private string[] _files;
         private Game _game;
 
         public SimulationSprite(Game game): base(game){
-            _game = game;
+            _game = game;     
            
         }
 
@@ -60,16 +63,26 @@ namespace RobbyVisualizer{
         public override void Initialize(){
             _robbyObj= RobbyTheRobot.Robby.CreateRobbyTheRobot(1,1,1);
             _tiles = _robbyObj.GenerateRandomTestGrid();
-            using(var fbd = new FolderBrowserDialog())
-{
-        DialogResult result = fbd.ShowDialog();
+            
+            var fbd = new FolderBrowserDialog();
+            DialogResult result = fbd.ShowDialog();
+            if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+            {
+                _files = Directory.GetFiles(fbd.SelectedPath);
+            }
+            // using(var fbd = new FolderBrowserDialog())
+            // {
+            //     DialogResult result = fbd.ShowDialog();
 
-        if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-        {
-            string[] files = Directory.GetFiles(fbd.SelectedPath);
+            //     if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+            //     {
+            //         string[] files = Directory.GetFiles(fbd.SelectedPath);
 
-        }
-}
+            //         System.Windows.Forms.MessageBox.Show("Files found: " + files.Length.ToString(), "Message");
+            //     }
+            // }
+            
+
             base.Initialize();
         }
         protected override void LoadContent(){
@@ -84,6 +97,14 @@ namespace RobbyVisualizer{
         }
         public override void Update(GameTime gameTime)
         {
+            for(var i =0; i< _files.Length; i++){
+                string[] lines = File.ReadAllLines(_files[i]);
+                foreach (string r in lines){
+                    Console.WriteLine("hello" + r);
+                }
+            }
+
+            
             base.Update(gameTime);
         }
     }
