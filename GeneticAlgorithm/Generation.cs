@@ -98,7 +98,7 @@ namespace GeneticAlgorithm{
                 }
             }
             AverageFitness = totalFitness / NumberOfChromosomes;
-            Console.WriteLine("Average Fitness: " + AverageFitness);
+            //Console.WriteLine("Average Fitness: " + AverageFitness);
             MaxFitness = maxFitness;
             Array.Sort(_chromosomeArray, (x, y) => y.Fitness.CompareTo(x.Fitness));  
         }

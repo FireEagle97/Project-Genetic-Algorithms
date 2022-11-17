@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace GeneticAlgorithm
 {
     internal class GeneticAlgorithm : IGeneticAlgorithm
@@ -44,24 +46,21 @@ namespace GeneticAlgorithm
         /// If a generation has already been created, it will provide the next generation.
         /// </summary>
         /// <returns>The current generation</returns>  
-        Chromosome chrom;
+        List<Chromosome> chrom = new List<Chromosome>();
         public IGeneration GenerateGeneration()
         {
             if (_currentGeneration == null)
             {
                 _currentGeneration = new Generation(new GeneticAlgorithm(_populationSize, _numberOfGenes, _lengthOfGene, _mutationRate, _eliteRate, _numberOfTrials, _fitnessCalculation, _seed), _fitnessCalculation, _seed);
                 (_currentGeneration as Generation).EvaluateFitnessOfPopulation();
-                // chrom = _currentGeneration[0] as Chromosome;
-                
+
             }
             else
             {
                 _currentGeneration = GenerateNextGeneration();
-                // for(int j = 0; j < _currentGeneration[0].Length; j++){
-                //         Console.WriteLine((_currentGeneration[0])[j]+ " " + chrom[j]);
-                //     }
                 (_currentGeneration as Generation).EvaluateFitnessOfPopulation();
-            }
+                }
+            
             _generationCount++;
             return _currentGeneration;
         }
@@ -105,9 +104,7 @@ namespace GeneticAlgorithm
                     //     if (i == PopulationSize -1){
                     //     break;
                     // }
-                    for(int j = 0; j < _currentGeneration[0].Length; j++){
-                        Console.WriteLine(parent1[j]+ " " + (childrenGeneration[0])[j]);
-                    }
+                   
 
                     nextGeneration[i] = childrenGeneration[0];
                     nextGeneration[i+1] = childrenGeneration[1];
