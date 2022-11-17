@@ -72,12 +72,25 @@ namespace GeneticAlgorithm
         /// A new Generation should be created based on the resulting child Chromosomes
         /// </summary>
         /// <returns></returns>
-
-          
         private IGeneration GenerateNextGeneration()
         {
             var nextGeneration = new Generation(_currentGeneration);
     
+    //create a empty new generation
+            // var newGeneration = new Generation(this,FitnessCalculation, _seed);
+            //          int[] genesnew1 = newGeneration.ChromosomesArray[0].Genes;
+            // int[] genesnew2 = newGeneration.ChromosomesArray[1].Genes;
+            // Console.WriteLine("New Generation before changes ...........................");
+            //     for (int i = 0; i < genesnew1.Length; i++)
+            // {
+            //     Console.Write(genes1[i] + " ");
+            // }
+            // Console.WriteLine();
+            // for (int i = 0; i < genesnew2.Length; i++)
+            // {
+            //     Console.Write(genes2[i] + " ");
+            // }
+
 
             //start to populate after the elites
             for (var i =0; i < PopulationSize; i++){

@@ -13,7 +13,7 @@ namespace RobbyTheRobot
         private const int NUMBER_OF_ACTIONS = 200;
         private const int NUMBER_OF_TEST_GRIDS = 100;
         private const double MUTATION_RATE = 0.00;
-        private const double ELITE_RATE = 0.01;
+        private const double ELITE_RATE = 0.5;
         public int NumberOfActions {get; set;}
         public int NumberOfTestGrids {get; set;}
         public int GridSize {get;}
@@ -31,6 +31,8 @@ namespace RobbyTheRobot
  
         public RobbyTheRobot(int numberOfGenerations, int populationSize, int numberOfTrials, int? seed = null){
             //Instructions stipulate that the size of the grid is 100
+
+            _seed = seed;
             GridSize = GRID_SIZE;
             //and Robby can do 200 possible actions
             NumberOfActions = NUMBER_OF_ACTIONS;
@@ -43,6 +45,7 @@ namespace RobbyTheRobot
             //This is 200, but its in the constructor so we don't set it here
             NumberOfGenerations = numberOfGenerations;
             //Random object
+            
             RandomObject = seed.HasValue ? new Random(seed.Value) : new Random();
 
             NumberOfTrials = numberOfTrials;
