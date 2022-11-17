@@ -16,11 +16,13 @@ namespace RobbyVisualizer{
         private SpriteFont _generation;
         private SpriteFont _points;
         private SpriteFont _moves;
+        private int _robbyX;
+        private int _robbyY;
         private RobbyTheRobot.IRobbyTheRobot _robbyObj; 
         private RobbyTheRobot.ContentsOfGrid[,] _tiles;
-        private RobbyTheRobot.RobbyHelper _robbyMover;
+        // private RobbyTheRobot.RobbyHelper _robbyMover;
         // private DialogResult _result;
-        private string[] _files;
+        // private string[] _files;
         private Game _game;
 
         public SimulationSprite(Game game): base(game){
@@ -53,7 +55,25 @@ namespace RobbyVisualizer{
                 }
             }
             _spriteBatch.DrawString(_generation,"Generation",new Vector2(10,510), Color.White);
-            _spriteBatch.Draw(_robby,new Vector2(10,10), Color.White);
+            int[] moves = {0,0,0,3,3};
+            for(var i = 0; i < moves.Length; i++){
+                // if(moves[i] == 0 && _robbyX >=10 && _robbyY >=10){
+                //     _robbyY -= 50;
+                // }
+                if(moves[i] == 1 && _robbyX <=10 && _robbyY <=10){
+                    _robbyY += 50;
+                }
+                // if(moves[i] == 2 && _robbyX >=10 && _robbyY >=10){
+                //     _robbyX -= 50;
+                // }
+                if(moves[i] == 3 && _robbyX <=10 && _robbyY <=10){
+                    _robbyX +=50;
+                }
+                
+
+            }
+            _spriteBatch.Draw(_robby,new Vector2(_robbyX,_robbyY), Color.White);
+            // _spriteBatch.Draw(_robby,new Vector2(_robbyX,_robbyY), Color.White);
             _spriteBatch.DrawString(_moves,"moves",new Vector2(10,530), Color.White);
             _spriteBatch.DrawString(_points,"points",new Vector2(10,550), Color.White);
             _spriteBatch.End();
@@ -63,13 +83,15 @@ namespace RobbyVisualizer{
         public override void Initialize(){
             _robbyObj= RobbyTheRobot.Robby.CreateRobbyTheRobot(1,1,1);
             _tiles = _robbyObj.GenerateRandomTestGrid();
+            _robbyX = 10;
+            _robbyY = 10;
             
-            var fbd = new FolderBrowserDialog();
-            DialogResult result = fbd.ShowDialog();
-            if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-            {
-                _files = Directory.GetFiles(fbd.SelectedPath);
-            }
+            // var fbd = new FolderBrowserDialog();
+            // DialogResult result = fbd.ShowDialog();
+            // if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+            // {
+            //     _files = Directory.GetFiles(fbd.SelectedPath);
+            // }
             // using(var fbd = new FolderBrowserDialog())
             // {
             //     DialogResult result = fbd.ShowDialog();
@@ -97,12 +119,37 @@ namespace RobbyVisualizer{
         }
         public override void Update(GameTime gameTime)
         {
-            for(var i =0; i< _files.Length; i++){
-                string[] lines = File.ReadAllLines(_files[i]);
-                foreach (string r in lines){
-                    Console.WriteLine("hello" + r);
-                }
-            }
+            //0 = North,
+            // 1 = South,
+            // 2 = East,
+            // 3 = West,
+            // 4 = Nothing,
+            // 5 =
+            // PickUp
+            // 6 = Random
+            // int[] moves = {6,1,6,6,2,4,4,3,4,1,4,0,2,0,1,6,0,3};
+            // for(var i = 0; i < moves.Length; i++){
+            //     // if(moves[i] == 0 && _robbyX >=10 && _robbyY >=10){
+            //     //     _robbyY -= 50;
+            //     // }
+            //     if(moves[i] == 1 && _robbyX >=10 && _robbyY >=10){
+            //         _robbyY += 50;
+            //     }
+            //     // if(moves[i] == 2 && _robbyX >=10 && _robbyY >=10){
+            //     //     _robbyX -= 50;
+            //     // }
+            //     if(moves[i] == 3 && _robbyX >=10 && _robbyY >=10){
+            //         _robbyX +=50;
+            //     }
+
+            // }
+            
+            // for(var i =0; i< _files.Length; i++){
+            //     string[] lines = File.ReadAllLines(_files[i]);
+            //     foreach (string r in lines){
+            //         Console.WriteLine("hello" + r);
+            //     }
+            // }
 
             
             base.Update(gameTime);
