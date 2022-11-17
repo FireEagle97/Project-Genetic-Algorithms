@@ -35,7 +35,12 @@ namespace GeneticAlgorithm{
         /// Retrieves the IChromosome from the generation
         /// </summary>
         /// <value>The selected IChromosome</value>
-        public IChromosome this[int index] => _chromosomeArray[index];
+        public IChromosome this[int index] {
+                get {
+                    IChromosome chromosome = new Chromosome((Chromosome)_chromosomeArray[index]);
+                    return chromosome;
+            }
+        }
     
 
         /// <summary>
@@ -89,6 +94,9 @@ namespace GeneticAlgorithm{
             MaxFitness = maxFitness;
             //sort the chromosomes by fitness
             Array.Sort(_chromosomeArray, (x, y) => y.Fitness.CompareTo(x.Fitness));
+            //for(int i = 0; i < _chromosomeArray.Length; i++){
+                Console.WriteLine( _chromosomeArray[0].Fitness);
+            //}
             //loop to print the fitness of each chromosome
             // for (int i = 0; i < NumberOfChromosomes; i++)
             // {
