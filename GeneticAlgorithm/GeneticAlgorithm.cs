@@ -68,26 +68,15 @@ namespace GeneticAlgorithm
         /// A new Generation should be created based on the resulting child Chromosomes
         /// </summary>
         /// <returns></returns>
-
-          
         private IGeneration GenerateNextGeneration()
         {
             var currentGeneration = _currentGeneration as Generation;
     
-
             //start to populate after the elites
             for (var i =0; i < PopulationSize; i++){
                     var parent1 = currentGeneration.SelectParent();
                     var parent2 = currentGeneration.SelectParent();
-                    //if parent1 and parent2 fitness are the same, then select a new parent2
-                    while (parent1.Fitness == parent2.Fitness){
-                        parent2 = currentGeneration.SelectParent();
-                    }
                     var childrenGeneration = parent1.Reproduce(parent2, MutationRate);
-                    //add the reproduced children to the ChildChromosomes
-                    //     if (i == PopulationSize -1){
-                    //     break;
-                    // }
                     currentGeneration.ChromosomesArray[i] = childrenGeneration[0];
                     currentGeneration.ChromosomesArray[i+1] = childrenGeneration[1];
                     i++;    
@@ -95,26 +84,5 @@ namespace GeneticAlgorithm
        
             return currentGeneration;
         }
-   
-
-        // }
-        /// <summary>
-        /// This method returns the elite Chromosomes based in a sorted array of CHromosomesArray
-        /// </summary>
-        /// <returns></returns>
-        // public IChromosome[] SelectElites()
-        // {
-        //     //Assuming that currentGeneration is sorted
-        //     var eliteCount = (int) Math.Round(_eliteRate * _populationSize);
-        //     var elites = new IChromosome[eliteCount];
-        //     for (var i = 0; i < eliteCount; i++)
-        //     {
-        //         elites[i] = _currentGeneration[i];
-        //     }
-        //     return elites;
-
-            
-        // }
-
     }
 }
