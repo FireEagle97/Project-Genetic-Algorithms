@@ -25,6 +25,10 @@ namespace GeneticAlgorithm{
   
         public Generation(IGeneration generation)
         {
+            var generationGeneration = generation as Generation;
+            _geneticAlgorithm = generationGeneration._geneticAlgorithm;
+            _fitnessFunction = generationGeneration._fitnessFunction;
+            _rnd = generationGeneration._rnd;
             _chromosomeArray = new IChromosome[generation.NumberOfChromosomes];
             for (int i = 0; i < generation.NumberOfChromosomes; i++)
             {
@@ -39,6 +43,9 @@ namespace GeneticAlgorithm{
             get{
                 IChromosome chromosome = new Chromosome((Chromosome)_chromosomeArray[index]);
                 return chromosome;
+            }
+            set{
+                _chromosomeArray[index] = value;
             }
         }
     

@@ -12,7 +12,7 @@ namespace RobbyTheRobot
         private const int GRID_SIZE = 100;
         private const int NUMBER_OF_ACTIONS = 200;
         private const int NUMBER_OF_TEST_GRIDS = 100;
-        private const double MUTATION_RATE = 0.05;
+        private const double MUTATION_RATE = 0.00;
         private const double ELITE_RATE = 0.01;
         public int NumberOfActions {get; set;}
         public int NumberOfTestGrids {get; set;}
