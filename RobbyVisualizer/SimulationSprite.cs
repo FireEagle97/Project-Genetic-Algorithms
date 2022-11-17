@@ -10,12 +10,13 @@ namespace RobbyVisualizer{
         
         private SpriteBatch _spriteBatch;
         private Texture2D _tileTexture;
-        private Texture2D _ball;
+        private Texture2D _can;
         private Texture2D _robby;
         private SpriteFont _generation;
         private SpriteFont _points;
         private SpriteFont _moves;
         private RobbyTheRobot.IRobbyTheRobot _robbyObj; 
+        private RobbyTheRobot.ContentsOfGrid[,] _tiles;
         private Game _game;
 
         public SimulationSprite(Game game): base(game){
@@ -38,17 +39,16 @@ namespace RobbyVisualizer{
             
             
            _spriteBatch.Begin();
-            // for (int j = 0; j < _numOfBalls; ++j){
-            //     //make sure robby place is empty
-            //     _spriteBatch.Draw(_ball,new Vector2((float)_randBallXs[j], (float)_randBallYs[j]), Color.White);
-            // }
+            var width = _tiles.GetLength(0);
+            var height = _tiles.GetLength(1);
+            for (var x = 0;  x < width; x++){
+                for(var y = 0; y < height; y++){
+                    if(_tiles[x,y] == RobbyTheRobot.ContentsOfGrid.Can){
+                        _spriteBatch.Draw(_can,new Vector2((x*50)+10, (y*50)+10), Color.White);
+                    }
+                }
+            }
             _spriteBatch.DrawString(_generation,"Generation",new Vector2(10,510), Color.White);
-            //(10,10) == (0,0)
-            //y increments by 50
-            //x increment by 50
-            //right angle 450,450 for robby
-            //right angle 422,435 for ball
-            _spriteBatch.Draw(_ball,new Vector2(60, 60), Color.White);
             _spriteBatch.Draw(_robby,new Vector2(10,10), Color.White);
             _spriteBatch.DrawString(_moves,"moves",new Vector2(10,530), Color.White);
             _spriteBatch.DrawString(_points,"points",new Vector2(10,550), Color.White);
@@ -56,26 +56,9 @@ namespace RobbyVisualizer{
             base.Draw(gameTime);
         }
 
-        public override void Initialize()
-        {   _robbyObj= RobbyTheRobot.Robby.CreateRobbyTheRobot(1,1,1);
-            RobbyTheRobot.ContentsOfGrid[,] tiles = _robbyObj.GenerateRandomTestGrid();
-            foreach(RobbyTheRobot.ContentsOfGrid tile in tiles){
-                if(tile == RobbyTheRobot.ContentsOfGrid.Can){
-                    
-                }
-            }
-            // foreach(__robbyInterface.ContentsOfGrid tile in )
-            // var _tileSize = 50;
-            // var _numOfBalls = _tileSize/2;
-            // Random _rnd = new Random();
-            // double[] _ballX = {-27,23,73,123,173,223,273,323,373,422};
-            // double[] _ballY = {-15,35,85,135,185,235,285,335,385,435};
-            // double[] _randBallXs = new double[_numOfBalls];
-            // double[] _randBallYs = new double[_numOfBalls];
-            // for(int j = 0; j< _numOfBalls; j++){
-            //     _randBallXs[j] = _ballX[_rnd.Next(0,_ballX.Length)];
-            //     _randBallYs[j] = _ballY[_rnd.Next(0,_ballY.Length)];
-            // }
+        public override void Initialize(){
+            _robbyObj= RobbyTheRobot.Robby.CreateRobbyTheRobot(1,1,1);
+            _tiles = _robbyObj.GenerateRandomTestGrid();
             base.Initialize();
         }
         protected override void LoadContent(){
@@ -84,7 +67,7 @@ namespace RobbyVisualizer{
             _generation = _game.Content.Load<SpriteFont>("generation");
             _moves = _game.Content.Load<SpriteFont>("moves");
             _points = _game.Content.Load<SpriteFont>("points");
-            _ball = _game.Content.Load<Texture2D>("can");
+            _can = _game.Content.Load<Texture2D>("can");
             _robby = _game.Content.Load<Texture2D>("robot");
             base.LoadContent();
         }
