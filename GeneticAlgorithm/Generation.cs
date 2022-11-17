@@ -83,7 +83,7 @@ namespace GeneticAlgorithm{
         public void EvaluateFitnessOfPopulation()
         {
             double totalFitness = 0;
-            double maxFitness = 0;
+            // double maxFitness = 0;
             for (int i = 0; i < NumberOfChromosomes; i++)
             {
                 double fitness = 0;
@@ -95,13 +95,13 @@ namespace GeneticAlgorithm{
                 Chromosome ch = _chromosomeArray[i] as Chromosome;
                 ch.Fitness = (double)fitness;
                 totalFitness += fitness;
-                if (fitness > maxFitness)
-                {
-                    maxFitness = fitness;
-                }
+                // if (fitness > maxFitness)
+                // {
+                //     maxFitness = fitness;
+                // }
             }
             AverageFitness = totalFitness / NumberOfChromosomes;
-            MaxFitness = maxFitness;
+            MaxFitness = totalFitness;
             //sort the chromosomes by fitness
             Array.Sort(_chromosomeArray, (x, y) => y.Fitness.CompareTo(x.Fitness));
         }

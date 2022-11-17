@@ -29,27 +29,32 @@ public class GenerationTests
         Assert.AreEqual(generation1.ChromosomesArray.Length, generation2.ChromosomesArray.Length);
     }
     //Test EvaluateFitnessOfPopulation method
-    // [TestMethod]
-    // public void TestEvaluateFitnessOfPopulation()
-    // {
-    //     //Arrange
-    //     int populationSize = 10;
-    //     int numberOfGenes = 10;
-    //     int lengthOfGene = 6;
-    //     double mutationRate = 0.1;
-    //     double eliteRate = 0.1;
-    //     int numberOfTrials = 10;
-    //     int seed = 4;
-    //     FitnessEventHandler? fitnessEventHandler = null;
-    //     GeneticAlgorithm.GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm.GeneticAlgorithm(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessEventHandler, seed);
-    //     //Act
-    //     Generation generation = (Generation)geneticAlgorithm.GenerateGeneration();
-    //     generation.EvaluateFitnessOfPopulation();
-    //     Console.Write("generation Average Fitness" + generation.AverageFitness);
-    //     //Assert
-    //     Assert.AreEqual(generation.AverageFitness, geneticAlgorithm.CurrentGeneration.AverageFitness);
+    [TestMethod]
+    public void TestEvaluateFitnessOfPopulation()
+    {
+        //Arrange
+        int populationSize = 10;
+        int numberOfGenes = 10;
+        int lengthOfGene = 6;
+        double mutationRate = 0.1;
+        double eliteRate = 0.1;
+        int numberOfTrials = 1;
+        int seed = 4;
+        FitnessEventHandler? fitnessEventHandler = computeFitness;
+        GeneticAlgorithm.GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm.GeneticAlgorithm(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessEventHandler, seed);
+        //Act
+        Generation? generation = geneticAlgorithm.GenerateGeneration() as Generation;
+        generation?.EvaluateFitnessOfPopulation();
+        Console.Write("generation Average Fitness" + generation?.MaxFitness);
+        //Assert
+        Assert.AreEqual(geneticAlgorithm.CurrentGeneration.AverageFitness, 2);
+        Assert.AreEqual(geneticAlgorithm.CurrentGeneration.MaxFitness, 20);
 
-    // }
+    }
+    private double computeFitness(IChromosome chromosome, IGeneration generation){
+
+        return 2;
+    }
     //Test Copy Constructor
     //need to test Chromosome Array?
     [TestMethod]
