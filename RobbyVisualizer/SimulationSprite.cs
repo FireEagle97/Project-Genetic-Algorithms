@@ -95,7 +95,7 @@ namespace RobbyVisualizer
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
                     _filePaths = Directory.GetFiles(fbd.SelectedPath);
-                    Array.Sort(_filePaths);
+                    // Array.Sort(_filePaths);
                     
 
                 }
@@ -155,12 +155,13 @@ namespace RobbyVisualizer
 
         public void readFiles()
         {
-            _grid = _robbyObj.GenerateRandomTestGrid();      
+            _grid = _robbyObj.GenerateRandomTestGrid();
+            sortFilePaths();
             this._txt = File.ReadAllText(_filePaths[_fileIndex]);
             string[] txtArr = _txt.Split(',');
             int[] moves = new int[243];
             //Getting the generation number;
-            string pattern = @"Candidate(\d*)\.";
+            string pattern=  pattern = @"Candidate(\d*)\.";
             Match match = Regex.Match(_filePaths[_fileIndex], pattern);
             string value = match.Groups[1].Value;
             _genNum = Int32.Parse(value);
@@ -170,6 +171,36 @@ namespace RobbyVisualizer
             }
             this._numMoves = Int32.Parse(txtArr[1]);
             this._possibleMoves  = moves;
+
+        }
+        //sort file Paths
+        private void sortFilePaths(){
+            Match match;
+            string pattern=  pattern = @"Candidate(\d*)\.";
+            Match firstIndexMatch;
+            int firstIndexValue;
+            int value;
+            var x = 1;
+            int initial = 0;
+            string tempStr;
+            while(x < _filePaths.Length){
+                for(var i =x; i < _filePaths.Length;i++){
+                    
+                    //Getting the generation number;
+                    firstIndexMatch  =Regex.Match(_filePaths[initial], pattern);
+                    firstIndexValue = Int32.Parse(firstIndexMatch.Groups[1].Value);
+                    match = Regex.Match(_filePaths[i], pattern);
+                    value = Int32.Parse(match.Groups[1].Value);
+                    if(value < firstIndexValue){
+                        tempStr = _filePaths[initial];
+                        _filePaths[initial] = _filePaths[i];
+                        _filePaths[i] = tempStr;
+                        
+                    }
+                }
+                initial++;
+                x++;     
+            }
 
         }
     }
