@@ -47,7 +47,7 @@ namespace RobbyVisualizer
             {
                 for (int j = 0; j < 10; ++j)
                 {
-                    _spriteBatch.Draw(_tileTexture, new Rectangle(i *_robbyObj.GridSize/2 , j * _robbyObj.GridSize/2, _robbyObj.GridSize/2, _robbyObj.GridSize/2), Color.White); 
+                    _spriteBatch.Draw(_tileTexture, new Rectangle(i *32 , j *32, 32, 32), Color.White); 
                 }
             }
             _spriteBatch.End();  
@@ -57,32 +57,32 @@ namespace RobbyVisualizer
             for (var x = 0;  x < width; x++){
                 for(var y = 0; y < height; y++){
                     if(_grid[x,y] == RobbyTheRobot.ContentsOfGrid.Can){
-                        _spriteBatch.Draw(_can,new Vector2((x*50)+10, (y*50)+10), Color.White);
+                        _spriteBatch.Draw(_can,new Rectangle(x *32 , y *32, 32, 32), Color.White);
                     }
                 }
             }
             string genStr = "Generation: " + _genNum;
             string movesStr = "Moves: " + _moves + "/"+_numMoves;
             string pointsStr = "Points: " + _points;
-            _spriteBatch.DrawString(_generationStr,genStr,new Vector2(10,510), Color.White);
-            _spriteBatch.DrawString(_movesStr,movesStr,new Vector2(10,530), Color.White);
-            _spriteBatch.DrawString(_pointsStr,pointsStr,new Vector2(10,550), Color.White);
-            _spriteBatch.Draw(_robby,new Vector2(_robbyX,_robbyY), Color.White);
+            _spriteBatch.DrawString(_generationStr,genStr,new Vector2(0,330), Color.White);
+            _spriteBatch.DrawString(_movesStr,movesStr,new Vector2(0,350), Color.White);
+            _spriteBatch.DrawString(_pointsStr,pointsStr,new Vector2(0,370), Color.White);
+            _spriteBatch.Draw(_robby,new Rectangle(_robbyX*32,_robbyY*32, 32,32), Color.White);
             _spriteBatch.End();
             base.Draw(gameTime);
         }
 
         public override void Initialize(){
             _rnd = new Random();
-            _robbyX = 10;
-            _robbyY = 10;
+            _robbyX = 4;
+            _robbyY = 4;
             _fileIndex = 0;
             _points = 0;
             _genNum = 0;
             _numMoves = 200;
             _moves = 0;
             _count = 0;
-            _limit = 4;
+            _limit = 5;
             _gridXRobby = _rnd.Next(0,9);
             _gridYRobby = _rnd.Next(0,9);
             _gridYRobby = 0;
@@ -121,10 +121,8 @@ namespace RobbyVisualizer
             {
                 if (_count > _limit)
                 {
-                    _points += RobbyTheRobot.RobbyHelper.ScoreForAllele(_possibleMoves, _grid,_rnd, ref _gridXRobby, ref _gridYRobby);
+                    _points += RobbyTheRobot.RobbyHelper.ScoreForAllele(_possibleMoves, _grid,_rnd, ref _robbyX, ref _robbyY);
                     _count = 0;
-                    _robbyX = (_gridXRobby)*50;
-                    _robbyY = (_gridYRobby)*50;
                     _moves++;
                 }
                 else
@@ -134,10 +132,8 @@ namespace RobbyVisualizer
             }
             else
             {
-                _robbyX = 10;
-                _robbyY = 10;
-                _gridXRobby = _rnd.Next(0,9);
-                _gridYRobby = _rnd.Next(0,9);
+                _robbyX = 4;
+                _robbyY = 4;
                 _moves = 0;
                 _points = 0;
 
