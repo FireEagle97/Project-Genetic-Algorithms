@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Windows.Forms;
 using System.IO;
 using System;
+using System.Text.RegularExpressions;
 
 namespace RobbyVisualizer
 {
@@ -15,8 +16,8 @@ namespace RobbyVisualizer
         private SpriteFont _generationStr;
         private SpriteFont _pointsStr;
         private SpriteFont _movesStr;
-        private int _genNum;
-        private int _points;
+        private double _genNum;
+        private double _points;
         private int _numMoves;
         private int _moves;
         
@@ -60,7 +61,7 @@ namespace RobbyVisualizer
                 }
             }
             string genStr = "Generation: " + _genNum;
-            string movesStr = "Moves: " + _numMoves;
+            string movesStr = "Moves: " + _moves + "/"+_numMoves;
             string pointsStr = "Points: " + _points;
             _spriteBatch.DrawString(_generationStr,genStr,new Vector2(10,510), Color.White);
             _spriteBatch.DrawString(_movesStr,movesStr,new Vector2(10,530), Color.White);
@@ -81,6 +82,17 @@ namespace RobbyVisualizer
             _count = 0;
             _limit = 4;
             _robbyObj= RobbyTheRobot.Robby.CreateRobbyTheRobot(1,1,1);
+                                  
+            using(var fbd = new FolderBrowserDialog())
+            {
+                DialogResult result = fbd.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    _filePaths = Directory.GetFiles(fbd.SelectedPath);
+
+                }
+            }
             
             readFiles();
             
@@ -99,14 +111,15 @@ namespace RobbyVisualizer
         }
         public override void Update(GameTime gameTime)
         {
-            _grid = _robbyObj.GenerateRandomTestGrid();
-            // _robbyX = 10;
-            // _robbyY = 10;
+            
+            Random rnd = new Random();
+            int xRobby = 0;
+            int yRobby = 0; 
             if (_moves < _numMoves)
             {
                 if (_count > _limit)
                 {
-                    _points += RobbyTheRobot.RobbyHelper.ScoreForAllele(_possibleMoves, _grid, ref _robbyX, ref _robbyY);
+                    _points += RobbyTheRobot.RobbyHelper.ScoreForAllele(_possibleMoves, _grid,rnd, ref xRobby, ref yRobby);
                     _count = 0;
                     _moves++;
                 }
@@ -117,8 +130,8 @@ namespace RobbyVisualizer
             }
             else
             {
-                _robbyX = 10;
-                _robbyY = 10;
+                xRobby = 0;
+                yRobby = 0;
                 _moves = 0;
                 _points = 0;
 
@@ -138,65 +151,27 @@ namespace RobbyVisualizer
 
         public void readFiles()
         {
-                        
-            using(var fbd = new FolderBrowserDialog())
-            {
-                DialogResult result = fbd.ShowDialog();
-
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-                {
-                    _filePaths = Directory.GetFiles(fbd.SelectedPath);
-
-                }
-            }
+            _grid = _robbyObj.GenerateRandomTestGrid();
+            //Getting the generation number;
+            string pattern = @"Candidate(\d*)\.";
+            Match match = Regex.Match(_filePaths[_fileIndex], pattern);
+            string value = match.Groups[1].Value;
+            _genNum = Int32.Parse(value);
             
-
             this._txt = File.ReadAllText(_filePaths[_fileIndex]);
             string[] txtArr = _txt.Split(',');
+            int[] moves = new int[243];
+            for(var i = 0; i < moves.Length; i++){
+                moves[i] = (int)Char.GetNumericValue(txtArr[2][i]);
 
-            this._genNum = Int32.Parse(txtArr[0]);
-            this._numMoves = Int32.Parse(txtArr[1]);
-            this._possibleMoves  = new int[txtArr.Length - 3];
-            int geneCounter = 0;
-
-            for (int i = 3; i < txtArr.Length; i++)
-            {
-                if (Int32.Parse(txtArr[i]) == 0)
-                {
-                    _possibleMoves[geneCounter] = 0;
-                    geneCounter++;
-                }
-                else if (Int32.Parse(txtArr[i]) == 1)
-                {
-                    _possibleMoves[geneCounter] = 1;
-                    geneCounter++;
-                }
-                else if (Int32.Parse(txtArr[i]) == 2)
-                {
-                    _possibleMoves[geneCounter] = 2;
-                    geneCounter++;
-                }
-                else if (Int32.Parse(txtArr[i]) == 3)
-                {
-                    _possibleMoves[geneCounter] = 3;
-                    geneCounter++;
-                }
-                else if (Int32.Parse(txtArr[i]) == 4)
-                {
-                    _possibleMoves[geneCounter] = 4;
-                    geneCounter++;
-                }
-                else if (Int32.Parse(txtArr[i]) == 5)
-                {
-                    _possibleMoves[geneCounter] = 5;
-                    geneCounter++;
-                }
-                else if (Int32.Parse(txtArr[i]) == 6)
-                {
-                    _possibleMoves[geneCounter] = 6;
-                    geneCounter++;
-                }
             }
+
+            // this._genNum = Double.Parse(txtArr[0]);
+            this._numMoves = Int32.Parse(txtArr[1]);
+            this._possibleMoves  = moves;
+
+            
+
         }
     }
 }
