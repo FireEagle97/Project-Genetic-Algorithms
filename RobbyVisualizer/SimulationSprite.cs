@@ -160,6 +160,7 @@ namespace RobbyVisualizer
             this._txt = File.ReadAllText(_filePaths[_fileIndex]);
             string[] txtArr = _txt.Split(',');
             int[] moves = new int[243];
+            _numMoves =  Int32.Parse(txtArr[1]);
             //Getting the generation number;
             string pattern=  pattern = @"Candidate(\d*)\.";
             Match match = Regex.Match(_filePaths[_fileIndex], pattern);
