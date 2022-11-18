@@ -1,12 +1,20 @@
 using System;
 using GeneticAlgorithm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-namespace GeneticAlgorithmTests{
+namespace GeneticAlgorithmTests
+{
     [TestClass]
-    public class GeneticTests{
+    public class GeneticTests
+    {
+
+          private double computeFitness(IChromosome chromosome, IGeneration generation)
+        {
+            return 3;
+        }
         [TestMethod]
         //test GeneticAlgorithm constructor
-        public void TestConstructor(){
+        public void TestConstructor()
+        {
             //Arrange
             int populationSize = 10;
             int numberOfGenes = 10;
@@ -14,10 +22,10 @@ namespace GeneticAlgorithmTests{
             double mutationRate = 0.1;
             double eliteRate = 0.1;
             int numberOfTrials = 10;
-            FitnessEventHandler? fitnessEventHandler = null;
+            FitnessEventHandler? fitnessEventHandler = computeFitness;
             //Act
             GeneticAlgorithm.GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm.GeneticAlgorithm(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessEventHandler);
-        
+
             //Assert
             Assert.AreEqual(populationSize, geneticAlgorithm.PopulationSize);
             Assert.AreEqual(numberOfGenes, geneticAlgorithm.NumberOfGenes);
@@ -29,7 +37,8 @@ namespace GeneticAlgorithmTests{
         }
         [TestMethod]
         //test GenerateGeneration method
-        public void TestGenerateGeneration(){
+        public void TestGenerateGeneration()
+        {
             //Arrange
             int populationSize = 10;
             int numberOfGenes = 10;
@@ -37,7 +46,7 @@ namespace GeneticAlgorithmTests{
             double mutationRate = 0.1;
             double eliteRate = 0.1;
             int numberOfTrials = 10;
-            FitnessEventHandler? fitnessEventHandler = null;
+            FitnessEventHandler? fitnessEventHandler = computeFitness;
             GeneticAlgorithm.GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm.GeneticAlgorithm(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessEventHandler);
             //Act
             IGeneration? generation = geneticAlgorithm.GenerateGeneration();
@@ -45,6 +54,27 @@ namespace GeneticAlgorithmTests{
             Assert.AreEqual(generation?.NumberOfChromosomes, populationSize);
 
         }
-   
-}
+
+
+        //test GenerateNextGeneration method
+        [TestMethod]
+        public void TestGenerateNextGeneration()
+        {
+            //Arrange
+            int populationSize = 10;
+            int numberOfGenes = 10;
+            int lengthOfGene = 6;
+            double mutationRate = 0.1;
+            double eliteRate = 0.1;
+            int numberOfTrials = 10;
+            FitnessEventHandler? fitnessEventHandler = computeFitness;
+            GeneticAlgorithm.GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm.GeneticAlgorithm(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessEventHandler);
+            //Act
+            IGeneration? generation = geneticAlgorithm.GenerateGeneration();
+            IGeneration? nextGeneration = geneticAlgorithm.GenerateNextGeneration();
+            //Assert
+            Assert.AreEqual(generation?.NumberOfChromosomes, nextGeneration?.NumberOfChromosomes);
+        }
+
+    }
 }

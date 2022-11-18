@@ -52,7 +52,6 @@ public class GenerationTests
 
     }
     private double computeFitness(IChromosome chromosome, IGeneration generation){
-        //return random number between 0 and 20
         return 3;
     }
 

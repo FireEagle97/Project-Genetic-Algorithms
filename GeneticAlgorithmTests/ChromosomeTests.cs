@@ -1,3 +1,4 @@
+using System;
 using GeneticAlgorithm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GeneticAlgorithmTests
@@ -79,26 +80,26 @@ public class ChromosomeTests
 
     public void reproduceMutateTest(){
         //Arrange
-        int numberOfGenes = 254;
+        int numberOfGenes = 243;
         int seed = 1;
+        double mutationRate = 0.01;
         Chromosome chromosome = new Chromosome(numberOfGenes, 7, seed);
         Chromosome chromosome1 = new Chromosome(numberOfGenes, 7, seed);
-        IChromosome[] chromList = chromosome.Reproduce(chromosome1, 0.1);
-        var count1 = 0;
-        var count2 = 0;
+        //Assert
+        var numChangedGenes = Math.Round(chromosome.Length * mutationRate);
+        Chromosome chromList = chromosome.mutate(chromosome1, mutationRate);
+        var count = 0;
         //Act
         //check if there is the same number of different genes
-        
-        for(var i =0; i<chromList[0].Length;i++){
-            if(chromList[0][i] != chromosome[i]){
-                count1++;
-            }
-            if(chromList[1][i] != chromosome1[i]){
-                count2++;
+        for (int i = 0; i < chromosome.Length; i++)
+        {
+            if (chromosome[i] != chromList[i])
+            {
+                count++;
             }
         }
-        //Assert
-        Assert.AreEqual(count2,count1);
+        Assert.AreEqual(numChangedGenes, count);
+
     }
 
     //test the reproduce crossover method
