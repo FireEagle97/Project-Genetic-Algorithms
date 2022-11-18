@@ -8,7 +8,7 @@ namespace RobbyVisualizer
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private RobbySprite _robbySprite;
+        private SimulationSprite _robbySprite;
 
 
         public RobbyVisualizerGame()
@@ -16,14 +16,14 @@ namespace RobbyVisualizer
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _robbySprite = new RobbySprite(this);
+            _robbySprite = new SimulationSprite(this);
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            _graphics.PreferredBackBufferWidth = 520;
-            _graphics.PreferredBackBufferHeight = 600;
+            _graphics.PreferredBackBufferWidth = 320;
+            _graphics.PreferredBackBufferHeight = 400;
             _graphics.ApplyChanges();
             this.Components.Add(_robbySprite);
 
