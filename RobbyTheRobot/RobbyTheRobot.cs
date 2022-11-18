@@ -170,6 +170,12 @@ namespace RobbyTheRobot
                 double topFitness = chromosome.Fitness;
                 //Arbitrary amount of moves to show
                 int numberOfMoves = generationNumber; 
+                if(generationNumber == 1){
+                    numberOfMoves = 10;
+                }
+                if(generationNumber > 200){
+                    numberOfMoves = 200;
+                }
 
                 //Chromosome's Genes[]
                 int[] topGenes = chromosome.Genes;
@@ -180,7 +186,7 @@ namespace RobbyTheRobot
                 }
 
                 //Have a string to hold top a top candidate's data for each generation
-                string topCandidateString = $"{topFitness}, {numberOfMoves}, {arrayValues}";
+                string topCandidateString = $"{topFitness},{numberOfMoves},{arrayValues}";
                 
                 // Write file using StreamWriter  
                 using (StreamWriter writer = File.CreateText(filePath))  
