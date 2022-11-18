@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using GeneticAlgorithm;
@@ -39,10 +40,13 @@ namespace RobbyIterationGenerator
             CancellationToken token = tokenSource.Token;
 
             //Start the thread
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
             Task task = Task.Run(() => {
                 Console.WriteLine("Task started");
                 robby.GeneratePossibleSolutions(path);
             }, token);
+          
 
             //Read for input that equals 'x'
             char key = Console.ReadKey().KeyChar;
@@ -56,6 +60,10 @@ namespace RobbyIterationGenerator
             }
 
             task.Wait();
+            watch.Stop();
+            //display how long it took to run
+            
+            Console.WriteLine("Generation took {0} milliseconds", watch.ElapsedMilliseconds);
         }                     
     }
 }
