@@ -13,23 +13,14 @@ namespace RobbyVisualizer
         private Texture2D _tileTexture;
         private Texture2D _can;
         private Texture2D _robby;
-        private SpriteFont _generationStr;
-        private SpriteFont _pointsStr;
-        private SpriteFont _movesStr;
-        private double _genNum;
-        private double _points;
-        private int _numMoves;
-        private int _moves;
-        private int _gridXRobby;
-        private int _gridYRobby;
-        private int _robbyX;
-        private int _robbyY;
+        private SpriteFont _generationStr, _pointsStr, _movesStr; 
+        private double _genNum, _points;
+        private int _numMoves, _moves, _robbyX, _robbyY, _fileIndex;
         private int _count;
         private int _limit;
         private string[] _filePaths;
         private int[] _possibleMoves;
         private string _txt;
-        private int _fileIndex;
         private Random _rnd;
         private RobbyTheRobot.IRobbyTheRobot _robbyObj; 
         private RobbyTheRobot.ContentsOfGrid[,] _grid;
@@ -74,18 +65,15 @@ namespace RobbyVisualizer
 
         public override void Initialize(){
             _rnd = new Random();
-            _robbyX = 4;
-            _robbyY = 4;
+            _robbyX = _rnd.Next(0,10);
+            _robbyY = _rnd.Next(0,10);
             _fileIndex = 0;
             _points = 0;
             _genNum = 0;
             _numMoves = 200;
             _moves = 0;
             _count = 0;
-            _limit = 5;
-            _gridXRobby = _rnd.Next(0,9);
-            _gridYRobby = _rnd.Next(0,9);
-            _gridYRobby = 0;
+            _limit = 3;
             _robbyObj= RobbyTheRobot.Robby.CreateRobbyTheRobot(1,1,1);
                                   
             using(var fbd = new FolderBrowserDialog())
@@ -95,9 +83,7 @@ namespace RobbyVisualizer
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
                     _filePaths = Directory.GetFiles(fbd.SelectedPath);
-                    // Array.Sort(_filePaths);
                     
-
                 }
             }
             
@@ -134,8 +120,8 @@ namespace RobbyVisualizer
             }
             else
             {
-                _robbyX = 4;
-                _robbyY = 4;
+                _robbyX = _rnd.Next(0,10);
+                _robbyY = _rnd.Next(0,10);
                 _moves = 0;
                 _points = 0;
 
@@ -162,7 +148,7 @@ namespace RobbyVisualizer
             int[] moves = new int[243];
             _numMoves =  Int32.Parse(txtArr[1]);
             //Getting the generation number;
-            string pattern=  pattern = @"Candidate(\d*)\.";
+            string pattern = @"Candidate(\d*)\.";
             Match match = Regex.Match(_filePaths[_fileIndex], pattern);
             string value = match.Groups[1].Value;
             _genNum = Int32.Parse(value);
@@ -177,7 +163,7 @@ namespace RobbyVisualizer
         //sort file Paths
         private void sortFilePaths(){
             Match match;
-            string pattern=  pattern = @"Candidate(\d*)\.";
+            string pattern= @"Candidate(\d*)\.";
             Match firstIndexMatch;
             int firstIndexValue;
             int value;
