@@ -20,7 +20,8 @@ namespace RobbyVisualizer
         private double _points;
         private int _numMoves;
         private int _moves;
-        
+        private int _gridXRobby;
+        private int _gridYRobby;
         private int _robbyX;
         private int _robbyY;
         private int _count;
@@ -29,7 +30,7 @@ namespace RobbyVisualizer
         private int[] _possibleMoves;
         private string _txt;
         private int _fileIndex;
-        
+        private Random _rnd;
         private RobbyTheRobot.IRobbyTheRobot _robbyObj; 
         private RobbyTheRobot.ContentsOfGrid[,] _grid;
 
@@ -72,6 +73,7 @@ namespace RobbyVisualizer
         }
 
         public override void Initialize(){
+            _rnd = new Random();
             _robbyX = 10;
             _robbyY = 10;
             _fileIndex = 0;
@@ -81,6 +83,9 @@ namespace RobbyVisualizer
             _moves = 0;
             _count = 0;
             _limit = 4;
+            _gridXRobby = _rnd.Next(0,9);
+            _gridYRobby = _rnd.Next(0,9);
+            _gridYRobby = 0;
             _robbyObj= RobbyTheRobot.Robby.CreateRobbyTheRobot(1,1,1);
                                   
             using(var fbd = new FolderBrowserDialog())
@@ -112,15 +117,14 @@ namespace RobbyVisualizer
         public override void Update(GameTime gameTime)
         {
             
-            Random rnd = new Random();
-            int xRobby = 0;
-            int yRobby = 0; 
             if (_moves < _numMoves)
             {
                 if (_count > _limit)
                 {
-                    _points += RobbyTheRobot.RobbyHelper.ScoreForAllele(_possibleMoves, _grid,rnd, ref xRobby, ref yRobby);
+                    _points += RobbyTheRobot.RobbyHelper.ScoreForAllele(_possibleMoves, _grid,_rnd, ref _gridXRobby, ref _gridYRobby);
                     _count = 0;
+                    _robbyX = (_gridXRobby)*50;
+                    _robbyY = (_gridYRobby)*50;
                     _moves++;
                 }
                 else
@@ -130,13 +134,15 @@ namespace RobbyVisualizer
             }
             else
             {
-                xRobby = 0;
-                yRobby = 0;
+                _robbyX = 10;
+                _robbyY = 10;
+                _gridXRobby = _rnd.Next(0,9);
+                _gridYRobby = _rnd.Next(0,9);
                 _moves = 0;
                 _points = 0;
 
                 _fileIndex++;
-                if (_fileIndex < 4)
+                if (_fileIndex < 6)
                 {
                     readFiles();
                 }
@@ -151,26 +157,21 @@ namespace RobbyVisualizer
 
         public void readFiles()
         {
-            _grid = _robbyObj.GenerateRandomTestGrid();
+            _grid = _robbyObj.GenerateRandomTestGrid();      
+            this._txt = File.ReadAllText(_filePaths[_fileIndex]);
+            string[] txtArr = _txt.Split(',');
+            int[] moves = new int[243];
             //Getting the generation number;
             string pattern = @"Candidate(\d*)\.";
             Match match = Regex.Match(_filePaths[_fileIndex], pattern);
             string value = match.Groups[1].Value;
             _genNum = Int32.Parse(value);
-            
-            this._txt = File.ReadAllText(_filePaths[_fileIndex]);
-            string[] txtArr = _txt.Split(',');
-            int[] moves = new int[243];
             for(var i = 0; i < moves.Length; i++){
                 moves[i] = (int)Char.GetNumericValue(txtArr[2][i]);
 
             }
-
-            // this._genNum = Double.Parse(txtArr[0]);
             this._numMoves = Int32.Parse(txtArr[1]);
             this._possibleMoves  = moves;
-
-            
 
         }
     }
