@@ -115,8 +115,7 @@ namespace GeneticAlgorithm
         {
             int eliteNumber = (int)Math.Round(_geneticAlgorithm.EliteRate * NumberOfChromosomes);
             int randomIndex1 = _rnd.Next(0, eliteNumber);
-            int randomIndex2 = _rnd.Next(0, eliteNumber);
-
+            int randomIndex2 = _rnd.Next(0, _chromosomeArray.Length);
             if (_chromosomeArray[randomIndex1].CompareTo(_chromosomeArray[randomIndex2]) > 0)
             {
                 return _chromosomeArray[randomIndex1];

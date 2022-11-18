@@ -1,4 +1,6 @@
-﻿namespace GeneticAlgorithm
+﻿using System;
+
+namespace GeneticAlgorithm
 {
     internal class GeneticAlgorithm : IGeneticAlgorithm
     {
@@ -14,7 +16,6 @@
         private long _generationCount;
 
 
-        //Contains a constructor that takes the population size, number of genes, length of genes, mutation rate, elite rate, number of trials, the fitness function, and a potential seed
         public GeneticAlgorithm(int populationSize, int numberOfGenes, int lengthOfGene, double mutationRate, double eliteRate, int numberOfTrials, FitnessEventHandler fitnessCalculation, int? seed = null)
         {
             _populationSize = populationSize;
@@ -66,10 +67,16 @@
         /// A new Generation should be created based on the resulting child Chromosomes
         /// </summary>
         /// <returns> The next generation</returns>
-        public IGeneration GenerateNextGeneration()
+        private IGeneration GenerateNextGeneration()
         {
-            var nextGeneration = new Generation(_currentGeneration);
-            for (var i = 0; i < PopulationSize; i++)
+            var nextGeneration = new Generation(this, FitnessCalculation, _seed);
+            var elites = SelectElites();
+            for (var k = 0; k < elites.Length; k++)
+            {
+                nextGeneration[k] = elites[k];
+            }
+
+            for (var i = elites.Length; i < PopulationSize; i++)
             {
                 var parent1 = nextGeneration.SelectParent();
                 var parent2 = nextGeneration.SelectParent();
@@ -78,8 +85,23 @@
                 nextGeneration[i + 1] = childrenGeneration[1];
                 i++;
             }
-
             return nextGeneration;
+
+        }
+
+        /// <summary>
+        /// This method returns the elite Chromosomes based in a sorted array of CHromosomesArray
+        /// </summary>
+        /// <returns></returns>
+        public IChromosome[] SelectElites()
+        {
+            var eliteCount = (int)Math.Round(_eliteRate * _populationSize);
+            var elites = new IChromosome[eliteCount];
+            for (var i = 0; i < eliteCount; i++)
+            {
+                elites[i] = _currentGeneration[i];
+            }
+            return elites;
         }
     }
 }
