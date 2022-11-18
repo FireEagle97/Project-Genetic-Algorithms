@@ -1,13 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Reflection;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework.Input;
 using System.Windows.Forms;
 using System.IO;
 using System;
 
-namespace RobbyVisualizer{
+namespace RobbyVisualizer
+{
     public class SimulationSprite : DrawableGameComponent{
         
         private SpriteBatch _spriteBatch;
@@ -19,16 +17,18 @@ namespace RobbyVisualizer{
         private SpriteFont _movesStr;
         private int _genNum;
         private int _points;
-        private int _moves;
         private int _numMoves;
+        private int _moves;
+        
         private int _robbyX;
         private int _robbyY;
         private int _count;
         private int _limit;
         private string[] _filePaths;
+        private int[] _possibleMoves;
         private string _txt;
         private int _fileIndex;
-        private int[] _possibleMoves;
+        
         private RobbyTheRobot.IRobbyTheRobot _robbyObj; 
         private RobbyTheRobot.ContentsOfGrid[,] _grid;
 
@@ -36,12 +36,6 @@ namespace RobbyVisualizer{
 
         public SimulationSprite(Game game): base(game){
             _game = game;
-            _robbyX = 10;
-            _robbyY = 10;
-            _fileIndex = 0;
-            _points = 0;
-            _moves = 0;
-            _count = 0;
         }
 
         public override void Draw(GameTime gameTime)
@@ -77,10 +71,19 @@ namespace RobbyVisualizer{
         }
 
         public override void Initialize(){
-
-            _grid = _robbyObj.GenerateRandomTestGrid();
+            _robbyX = 10;
+            _robbyY = 10;
+            _fileIndex = 0;
+            _points = 0;
+            _genNum = 0;
+            _numMoves = 200;
+            _moves = 0;
+            _count = 0;
+            _limit = 4;
+            _robbyObj= RobbyTheRobot.Robby.CreateRobbyTheRobot(1,1,1);
+            
             readFiles();
-            // _robbyObj= RobbyTheRobot.Robby.CreateRobbyTheRobot(1,1,1);
+            
             
             base.Initialize();
         }
@@ -96,13 +99,14 @@ namespace RobbyVisualizer{
         }
         public override void Update(GameTime gameTime)
         {
-           
+            _grid = _robbyObj.GenerateRandomTestGrid();
+            // _robbyX = 10;
+            // _robbyY = 10;
             if (_moves < _numMoves)
             {
                 if (_count > _limit)
                 {
                     _points += RobbyTheRobot.RobbyHelper.ScoreForAllele(_possibleMoves, _grid, ref _robbyX, ref _robbyY);
-
                     _count = 0;
                     _moves++;
                 }
