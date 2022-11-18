@@ -14,9 +14,9 @@ namespace RobbyVisualizer{
         private Texture2D _tileTexture;
         private Texture2D _can;
         private Texture2D _robby;
-        private SpriteFont _generation;
-        private SpriteFont _points;
-        private SpriteFont _moves;
+        private SpriteFont _generationStr;
+        private SpriteFont _pointsStr;
+        private SpriteFont _movesStr;
         private int _genNum;
         private int _numMoves;
         private int _robbyX;
@@ -24,6 +24,7 @@ namespace RobbyVisualizer{
         private string[] _filePaths;
         private string _txt;
         private int _fileIndex;
+        private int[] _possibleMoves;
         private RobbyTheRobot.IRobbyTheRobot _robbyObj; 
         private RobbyTheRobot.ContentsOfGrid[,] _grid;
         // private RobbyTheRobot.RobbyHelper _robbyMover;
@@ -59,7 +60,7 @@ namespace RobbyVisualizer{
                     }
                 }
             }
-            _spriteBatch.DrawString(_generation,"Generation",new Vector2(10,510), Color.White);
+            _spriteBatch.DrawString(_generationStr,"Generation",new Vector2(10,510), Color.White);
             int[] moves = {0,0,0,3,3};
             for(var i = 0; i < moves.Length; i++){
                 // if(moves[i] == 0 && _robbyX >=10 && _robbyY >=10){
@@ -79,13 +80,14 @@ namespace RobbyVisualizer{
             }
             _spriteBatch.Draw(_robby,new Vector2(_robbyX,_robbyY), Color.White);
             // _spriteBatch.Draw(_robby,new Vector2(_robbyX,_robbyY), Color.White);
-            _spriteBatch.DrawString(_moves,"moves",new Vector2(10,530), Color.White);
-            _spriteBatch.DrawString(_points,"points",new Vector2(10,550), Color.White);
+            _spriteBatch.DrawString(_movesStr,"moves",new Vector2(10,530), Color.White);
+            _spriteBatch.DrawString(_pointsStr,"points",new Vector2(10,550), Color.White);
             _spriteBatch.End();
             base.Draw(gameTime);
         }
 
         public override void Initialize(){
+
 
             // readFiles();
             _robbyObj= RobbyTheRobot.Robby.CreateRobbyTheRobot(1,1,1);
@@ -107,9 +109,9 @@ namespace RobbyVisualizer{
         protected override void LoadContent(){
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _tileTexture = _game.Content.Load<Texture2D>("tile");
-            _generation = _game.Content.Load<SpriteFont>("generation");
-            _moves = _game.Content.Load<SpriteFont>("moves");
-            _points = _game.Content.Load<SpriteFont>("points");
+            _generationStr = _game.Content.Load<SpriteFont>("generation");
+            _movesStr = _game.Content.Load<SpriteFont>("moves");
+            _pointsStr = _game.Content.Load<SpriteFont>("points");
             _can = _game.Content.Load<Texture2D>("can");
             _robby = _game.Content.Load<Texture2D>("robot");
             base.LoadContent();
@@ -161,49 +163,47 @@ namespace RobbyVisualizer{
 
             this._genNum = Int32.Parse(txtArr[0]);
             this._numMoves = Int32.Parse(txtArr[1]);
-            RobbyTheRobot.PossibleMoves[] possibleMoves = new RobbyTheRobot.PossibleMoves[txtArr.Length - 3];
+            this._possibleMoves  = new int[txtArr.Length - 3];
             int geneCounter = 0;
 
             for (int i = 3; i < txtArr.Length; i++)
             {
                 if (Int32.Parse(txtArr[i]) == 0)
                 {
-                    possibleMoves[geneCounter] = (RobbyTheRobot.PossibleMoves)0;
+                    _possibleMoves[geneCounter] = 0;
                     geneCounter++;
                 }
                 else if (Int32.Parse(txtArr[i]) == 1)
                 {
-                    possibleMoves[geneCounter] = (RobbyTheRobot.PossibleMoves)1;
+                    _possibleMoves[geneCounter] = 1;
                     geneCounter++;
                 }
                 else if (Int32.Parse(txtArr[i]) == 2)
                 {
-                    possibleMoves[geneCounter] = (RobbyTheRobot.PossibleMoves)2;
+                    _possibleMoves[geneCounter] = 2;
                     geneCounter++;
                 }
                 else if (Int32.Parse(txtArr[i]) == 3)
                 {
-                    possibleMoves[geneCounter] = (RobbyTheRobot.PossibleMoves)3;
+                    _possibleMoves[geneCounter] = 3;
                     geneCounter++;
                 }
                 else if (Int32.Parse(txtArr[i]) == 4)
                 {
-                    possibleMoves[geneCounter] = (RobbyTheRobot.PossibleMoves)(4);
+                    _possibleMoves[geneCounter] = 4;
                     geneCounter++;
                 }
                 else if (Int32.Parse(txtArr[i]) == 5)
                 {
-                    possibleMoves[geneCounter] = (RobbyTheRobot.PossibleMoves)(5);
+                    _possibleMoves[geneCounter] = 5;
                     geneCounter++;
                 }
                 else if (Int32.Parse(txtArr[i]) == 6)
                 {
-                    possibleMoves[geneCounter] = (RobbyTheRobot.PossibleMoves)(6);
+                    _possibleMoves[geneCounter] = 6;
                     geneCounter++;
                 }
             }
-
-             this.chromo = new Chromosome(possibleMoves);
         }
     }
 }
