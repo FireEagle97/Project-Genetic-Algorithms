@@ -22,8 +22,8 @@ namespace RobbyVisualizer
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            _graphics.PreferredBackBufferWidth = 520;
-            _graphics.PreferredBackBufferHeight = 600;
+            _graphics.PreferredBackBufferWidth = 320;
+            _graphics.PreferredBackBufferHeight = 400;
             _graphics.ApplyChanges();
             this.Components.Add(_robbySprite);
 
