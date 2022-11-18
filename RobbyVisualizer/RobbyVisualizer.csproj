@@ -30,7 +30,6 @@
   <ItemGroup>
     <ProjectReference Include="..\RobbyTheRobot\RobbyTheRobot.csproj" />
     <ProjectReference Include="..\RobbyIterationGenerator\RobbyIterationGenerator.csproj" />
-    <ProjectReference Include="..\GeneticAlgorithm\GeneticAlgorithm.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
