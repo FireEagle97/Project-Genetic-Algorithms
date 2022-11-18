@@ -82,7 +82,7 @@ public class ChromosomeTests
         int numberOfGenes = 254;
         int seed = 1;
         Chromosome chromosome = new Chromosome(numberOfGenes, 7, seed);
-        Chromosome chromosome1 = new Chromosome(numberOfGenes, 7, seed);
+        Chromosome chromosome1 = new Chromosome(numberOfGenes, 7, 2);
         IChromosome[] chromList = chromosome.Reproduce(chromosome1, 1);
         var count1 = 0;
         var count2 = 0;

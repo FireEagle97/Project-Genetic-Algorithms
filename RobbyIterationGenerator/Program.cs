@@ -17,13 +17,13 @@ namespace RobbyIterationGenerator
             int numberOfGenerations = Convert.ToInt32(Console.ReadLine());
 
             //the number of population
-            Console.WriteLine("How many population do you want to run?");
+            Console.WriteLine("What is the population size?");
             int populationSize = Convert.ToInt32(Console.ReadLine());
             //the number of literations
-            Console.WriteLine("How many Trails do you want to run?");
+            Console.WriteLine("How many trials do you want to run?");
             int numberOfTrials = Convert.ToInt32(Console.ReadLine());
 
-            //Create a new instance of Robby
+            //Create a new instance of Robby (has seed for testing)
             IRobbyTheRobot robby = Robby.CreateRobbyTheRobot(numberOfGenerations, populationSize, numberOfTrials);
 
             //prompts the user where to save the text file
@@ -34,47 +34,29 @@ namespace RobbyIterationGenerator
             //an event is risen WriteFileHandler FileWritten is called
             //cast it as RobbyTheRobot
             
-            IRobbyTheRobot.FileWritten += printMessage;
-            
+            //Cancellation token
+            var tokenSource = new CancellationTokenSource();
+            CancellationToken token = tokenSource.Token;
 
-            Thread thr = new Thread(() => robby.GeneratePossibleSolutions(path));
-            thr.Start();
+            //Start the thread
+            Task task = Task.Run(() => {
+                Console.WriteLine("Task started");
+                robby.GeneratePossibleSolutions(path);
+            }, token);
 
-
-        //when user enters x finish the thread
-            while (true)
-            {
-                string input = Console.ReadLine();
-                if (input == "x")
-                {
-                    thr.Abort();
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Enter x to stop the program");
-                }
+            //Read for input that equals 'x'
+            char key = Console.ReadKey().KeyChar;
+            if(key == 'x'){
+                tokenSource.Cancel();
+                Console.WriteLine("Task cancellation requested");
             }
-        
-            
-        }
+            if(token.IsCancellationRequested){
+                //Throw an exception if we want to cancel the thread
+                token.ThrowIfCancellationRequested();
+            }
 
-        public static void printMessage(string message)
-        {
-            Console.WriteLine(message);
-        }
-        //method to subsribe to event writtenHandler
-
-
-            //Create a new instance of the RobbyIterationGenerator
-
-
-           //print out the progress of the solution generation using the appropriate event handler 
-
-           //When the generation is complete the UI should report how long the generation process too            
-                    
-        }
-
-        
+            task.Wait();
+        }                     
     }
+}
 
