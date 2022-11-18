@@ -31,7 +31,6 @@ namespace RobbyIterationGenerator
 
             Console.WriteLine("Where do you want to save the text file? (ex: ./)");
             string path = Console.ReadLine();
-            //verify if apth is not null or doesnt start with . slash
             while (path == null || !path.StartsWith("./"))
             {
                 Console.WriteLine("Invalid path. Please try again. (start with : ./)");
