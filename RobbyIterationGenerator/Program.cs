@@ -12,7 +12,7 @@ namespace RobbyIterationGenerator
         static void Main(string[] args)
         {
 
-            Console.WriteLine("How many generations do you want to run? (recmmended 1000)");
+            Console.WriteLine("How many generations do you want to run? (recommended 1000)");
             int numberOfGenerations = Convert.ToInt32(Console.ReadLine());
             TakeUserInput(ref numberOfGenerations);
 
