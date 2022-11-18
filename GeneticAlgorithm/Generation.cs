@@ -1,6 +1,7 @@
 using System;
-namespace GeneticAlgorithm{
-    
+namespace GeneticAlgorithm
+{
+
     internal class Generation : IGenerationDetails
     {
         private IChromosome[] _chromosomeArray;
@@ -19,10 +20,10 @@ namespace GeneticAlgorithm{
             for (int i = 0; i < geneticAlgorithm.PopulationSize; i++)
             {
                 _chromosomeArray[i] = new Chromosome(geneticAlgorithm.NumberOfGenes, geneticAlgorithm.LengthOfGene, seed);
-            }          
+            }
         }
-            
-  
+
+
         public Generation(IGeneration generation)
         {
             var generationGeneration = generation as Generation;
@@ -35,36 +36,38 @@ namespace GeneticAlgorithm{
                 _chromosomeArray[i] = new Chromosome((Chromosome)generation[i]);
             }
         }
-       /// <summary>
+
+        /// <summary>
         /// Retrieves the IChromosome from the generation
         /// </summary>
         /// <value>The selected IChromosome</value>
-        public IChromosome this[int index] { 
-            get{
+        public IChromosome this[int index]
+        {
+            get
+            {
                 IChromosome chromosome = new Chromosome((Chromosome)_chromosomeArray[index]);
                 return chromosome;
             }
-            set{
+            set
+            {
                 _chromosomeArray[index] = value;
             }
         }
-    
+
 
         /// <summary>
         /// The average fitness across all Chromosomes
         /// </summary>
         /// <value>The average fitness</value>
-        
         public double AverageFitness { get; set; }
 
         /// <summary>
         /// The maximum fitness across all Chromosomes 
         /// </summary>
         /// <value>The maximum fitness</value>
-        
-        public double MaxFitness { get; set;}
+        public double MaxFitness { get; set; }
 
-         /// <summary>
+        /// <summary>
         /// Returns the number of Chromosomes in the generation
         /// </summary>
         /// <value>The number of Chromosomes in the generation</value>
@@ -98,9 +101,8 @@ namespace GeneticAlgorithm{
                 }
             }
             AverageFitness = totalFitness / NumberOfChromosomes;
-            //Console.WriteLine("Average Fitness: " + AverageFitness);
             MaxFitness = maxFitness;
-            Array.Sort(_chromosomeArray, (x, y) => y.Fitness.CompareTo(x.Fitness));  
+            Array.Sort(_chromosomeArray, (x, y) => y.Fitness.CompareTo(x.Fitness));
         }
 
 
@@ -108,23 +110,21 @@ namespace GeneticAlgorithm{
         /// Randomly selects a parent by comparing its fitness to others in the population
         /// use compare to method of IChromosome
         /// </summary>
-        /// <returns></returns>
-           public IChromosome SelectParent(){          
-            //calculate elite number
-            int eliteNumber = (int)Math.Round(_geneticAlgorithm.EliteRate * NumberOfChromosomes);  
-
+        /// <returns>The selected parent</returns>
+        public IChromosome SelectParent()
+        {
+            int eliteNumber = (int)Math.Round(_geneticAlgorithm.EliteRate * NumberOfChromosomes);
             int randomIndex1 = _rnd.Next(0, eliteNumber);
             int randomIndex2 = _rnd.Next(0, eliteNumber);
-    
+
             if (_chromosomeArray[randomIndex1].CompareTo(_chromosomeArray[randomIndex2]) > 0)
             {
-                // Console.WriteLine("first is greater");
                 return _chromosomeArray[randomIndex1];
             }
             else
             {
                 return _chromosomeArray[randomIndex2];
-            }            
+            }
         }
 
 
@@ -134,11 +134,11 @@ namespace GeneticAlgorithm{
         /// <returns></returns>
         public IChromosome[] ChromosomesArray
         {
-            get{
+            get
+            {
                 return _chromosomeArray;
             }
-            
         }
 
-        }
     }
+}
