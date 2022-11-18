@@ -170,6 +170,12 @@ namespace RobbyTheRobot
                 double topFitness = chromosome.Fitness;
                 //Arbitrary amount of moves to show
                 int numberOfMoves = generationNumber; 
+                if(generationNumber == 1){
+                    numberOfMoves = 10;
+                }
+                if(generationNumber > 200){
+                    numberOfMoves = 200;
+                }
 
                 //Chromosome's Genes[]
                 int[] topGenes = chromosome.Genes;
