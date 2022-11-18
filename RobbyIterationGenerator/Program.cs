@@ -29,7 +29,7 @@ namespace RobbyIterationGenerator
 
             IRobbyTheRobot robby = Robby.CreateRobbyTheRobot(numberOfGenerations, populationSize, numberOfTrials);
 
-            Console.WriteLine("Where do you want to save the text file?");
+            Console.WriteLine("Where do you want to save the text file? (ex: ./)");
             string path = Console.ReadLine();
             Console.WriteLine("Press x if you wish to stop the execution of the program");
 
