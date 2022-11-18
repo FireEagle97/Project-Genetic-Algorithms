@@ -70,7 +70,7 @@ namespace GeneticAlgorithm
         /// A new Generation should be created based on the resulting child Chromosomes
         /// </summary>
         /// <returns> The next generation</returns>
-        private IGeneration GenerateNextGeneration()
+        public IGeneration GenerateNextGeneration()
         {
             var nextGeneration = new Generation(_currentGeneration);
             for (var i = 0; i < PopulationSize; i++)
