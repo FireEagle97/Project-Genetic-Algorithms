@@ -90,9 +90,10 @@ namespace GeneticAlgorithm
         /// <summary>
         /// changing them to random values according to the mutation rate.
         /// </summary>
-        private Chromosome mutate(Chromosome child, double mutationRate)
+        public Chromosome mutate(Chromosome child, double mutationRate)
         {
             var numChangedGenes = Math.Round(child.Length * mutationRate);
+            Console.WriteLine("Number of genes to mutate: " + numChangedGenes);
             for (int i = 0; i < numChangedGenes; i++)
             {
                 var changedIndex = _rnd.Next(0, (int)child.Length);
