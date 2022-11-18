@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/GeneticAlgorithmTests/GeneticAlgorithmTests.csproj",
+                "${workspaceFolder}/RobbyVisualizer/RobbyVisualizer.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/GeneticAlgorithmTests/GeneticAlgorithmTests.csproj",
+                "${workspaceFolder}/RobbyVisualizer/RobbyVisualizer.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/GeneticAlgorithmTests/GeneticAlgorithmTests.csproj"
+                "${workspaceFolder}/RobbyVisualizer/RobbyVisualizer.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
