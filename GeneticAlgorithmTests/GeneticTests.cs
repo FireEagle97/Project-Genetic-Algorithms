@@ -69,11 +69,33 @@ namespace GeneticAlgorithmTests
             int numberOfTrials = 10;
             FitnessEventHandler? fitnessEventHandler = computeFitness;
             GeneticAlgorithm.GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm.GeneticAlgorithm(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessEventHandler);
+            GeneticAlgorithm.GeneticAlgorithm geneticAlgorithm1 = new GeneticAlgorithm.GeneticAlgorithm(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessEventHandler);
             //Act
             IGeneration? generation = geneticAlgorithm.GenerateGeneration();
-            IGeneration? nextGeneration = geneticAlgorithm.GenerateNextGeneration();
+            IGeneration? nextGeneration = geneticAlgorithm1.GenerateGeneration();
             //Assert
             Assert.AreEqual(generation?.NumberOfChromosomes, nextGeneration?.NumberOfChromosomes);
+        }
+
+        //test selectElite method
+        [TestMethod]
+        public void TestSelectElite()
+        {
+            //Arrange
+            int populationSize = 100;
+            int numberOfGenes = 10;
+            int lengthOfGene = 6;
+            double mutationRate = 0.05;
+            double eliteRate = 0.1;
+            int numberOfTrials = 1;
+            FitnessEventHandler? fitnessEventHandler = computeFitness;
+            var eliteCount = (int)Math.Round(eliteRate * populationSize);
+            GeneticAlgorithm.GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm.GeneticAlgorithm(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessEventHandler);
+            IGeneration? generation = geneticAlgorithm.GenerateGeneration();
+            //Act
+            IChromosome[] elite = geneticAlgorithm.SelectElites();
+            //Assert
+            Assert.AreEqual(elite.Length, eliteCount);
         }
 
     }
