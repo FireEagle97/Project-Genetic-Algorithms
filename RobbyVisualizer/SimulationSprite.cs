@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Reflection;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 using System.Windows.Forms;
@@ -16,10 +17,15 @@ namespace RobbyVisualizer{
         private SpriteFont _generation;
         private SpriteFont _points;
         private SpriteFont _moves;
+        private int _genNum;
+        private int _numMoves;
         private int _robbyX;
         private int _robbyY;
+        private string[] _filePaths;
+        private string _txt;
+        private int _fileIndex;
         private RobbyTheRobot.IRobbyTheRobot _robbyObj; 
-        private RobbyTheRobot.ContentsOfGrid[,] _tiles;
+        private RobbyTheRobot.ContentsOfGrid[,] _grid;
         // private RobbyTheRobot.RobbyHelper _robbyMover;
         // private DialogResult _result;
         // private string[] _files;
@@ -32,13 +38,12 @@ namespace RobbyVisualizer{
 
         public override void Draw(GameTime gameTime)
         {   _spriteBatch.Begin();
-            var gridSize  =50;
     
             for (int i = 0; i < 10; ++i)
             {
                 for (int j = 0; j < 10; ++j)
                 {
-                    _spriteBatch.Draw(_tileTexture, new Rectangle(i *gridSize , j * gridSize, gridSize, gridSize), Color.White); 
+                    _spriteBatch.Draw(_tileTexture, new Rectangle(i *_robbyObj.GridSize/2 , j * _robbyObj.GridSize/2, _robbyObj.GridSize/2, _robbyObj.GridSize/2), Color.White); 
                 }
             }
             _spriteBatch.End();
@@ -81,30 +86,22 @@ namespace RobbyVisualizer{
         }
 
         public override void Initialize(){
+
+            // readFiles();
             _robbyObj= RobbyTheRobot.Robby.CreateRobbyTheRobot(1,1,1);
-            _tiles = _robbyObj.GenerateRandomTestGrid();
             _robbyX = 10;
             _robbyY = 10;
+            using(var fbd = new FolderBrowserDialog())
+            {
+                DialogResult result = fbd.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    _filePaths = Directory.GetFiles(fbd.SelectedPath);
+
+                }
+            }
             
-            // var fbd = new FolderBrowserDialog();
-            // DialogResult result = fbd.ShowDialog();
-            // if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-            // {
-            //     _files = Directory.GetFiles(fbd.SelectedPath);
-            // }
-            // using(var fbd = new FolderBrowserDialog())
-            // {
-            //     DialogResult result = fbd.ShowDialog();
-
-            //     if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-            //     {
-            //         string[] files = Directory.GetFiles(fbd.SelectedPath);
-
-            //         System.Windows.Forms.MessageBox.Show("Files found: " + files.Length.ToString(), "Message");
-            //     }
-            // }
-            
-
             base.Initialize();
         }
         protected override void LoadContent(){
@@ -153,6 +150,60 @@ namespace RobbyVisualizer{
 
             
             base.Update(gameTime);
+        }
+
+        public void readFiles()
+        {
+            _grid = _robbyObj.GenerateRandomTestGrid();
+
+            this._txt = File.ReadAllText(_filePaths[_fileIndex]);
+            string[] txtArr = _txt.Split(',');
+
+            this._genNum = Int32.Parse(txtArr[0]);
+            this._numMoves = Int32.Parse(txtArr[1]);
+            RobbyTheRobot.PossibleMoves[] possibleMoves = new RobbyTheRobot.PossibleMoves[txtArr.Length - 3];
+            int geneCounter = 0;
+
+            for (int i = 3; i < txtArr.Length; i++)
+            {
+                if (Int32.Parse(txtArr[i]) == 0)
+                {
+                    possibleMoves[geneCounter] = (RobbyTheRobot.PossibleMoves)0;
+                    geneCounter++;
+                }
+                else if (Int32.Parse(txtArr[i]) == 1)
+                {
+                    possibleMoves[geneCounter] = (RobbyTheRobot.PossibleMoves)1;
+                    geneCounter++;
+                }
+                else if (Int32.Parse(txtArr[i]) == 2)
+                {
+                    possibleMoves[geneCounter] = (RobbyTheRobot.PossibleMoves)2;
+                    geneCounter++;
+                }
+                else if (Int32.Parse(txtArr[i]) == 3)
+                {
+                    possibleMoves[geneCounter] = (RobbyTheRobot.PossibleMoves)3;
+                    geneCounter++;
+                }
+                else if (Int32.Parse(txtArr[i]) == 4)
+                {
+                    possibleMoves[geneCounter] = (RobbyTheRobot.PossibleMoves)(4);
+                    geneCounter++;
+                }
+                else if (Int32.Parse(txtArr[i]) == 5)
+                {
+                    possibleMoves[geneCounter] = (RobbyTheRobot.PossibleMoves)(5);
+                    geneCounter++;
+                }
+                else if (Int32.Parse(txtArr[i]) == 6)
+                {
+                    possibleMoves[geneCounter] = (RobbyTheRobot.PossibleMoves)(6);
+                    geneCounter++;
+                }
+            }
+
+             this.chromo = new Chromosome(possibleMoves);
         }
     }
 }
