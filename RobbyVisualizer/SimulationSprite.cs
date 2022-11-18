@@ -95,6 +95,8 @@ namespace RobbyVisualizer
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
                     _filePaths = Directory.GetFiles(fbd.SelectedPath);
+                    Array.Sort(_filePaths);
+                    
 
                 }
             }

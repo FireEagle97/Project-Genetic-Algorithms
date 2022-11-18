@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RobbyTheRobot\RobbyTheRobot.csproj" />
+    <ProjectReference include="..\GeneticAlgorithm\GeneticAlgorithm.csproj"/>
   </ItemGroup>
 
 </Project>
