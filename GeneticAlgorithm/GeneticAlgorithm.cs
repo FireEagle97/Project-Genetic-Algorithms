@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GeneticAlgorithm
+﻿namespace GeneticAlgorithm
 {
     internal class GeneticAlgorithm : IGeneticAlgorithm
     {
@@ -45,7 +42,6 @@ namespace GeneticAlgorithm
         /// If a generation has already been created, it will provide the next generation.
         /// </summary>
         /// <returns>The current generation</returns>  
-        List<Chromosome> chrom = new List<Chromosome>();
         public IGeneration GenerateGeneration()
         {
             if (_currentGeneration == null)

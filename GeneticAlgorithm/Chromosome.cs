@@ -9,7 +9,6 @@ namespace GeneticAlgorithm
         private int _lengthOfGene;
         private Random _rnd;
 
-        //One that takes the number of genes, the length of a gene, and a potential seed
         public Chromosome(int numberOfGenes, int lengthOfGene, int? seed = null)
         {
             _rnd = seed.HasValue ? new Random(seed.Value) : new Random();
@@ -26,8 +25,8 @@ namespace GeneticAlgorithm
         /// </summary>
         public Chromosome(Chromosome other)
         {
-            _genes = new int[other.NumOfGenes];
-            for (int i = 0; i < other.NumOfGenes; i++)
+            _genes = new int[other.Length];
+            for (int i = 0; i < other.Length; i++)
             {
                 _genes[i] = other[i];
             }
@@ -53,21 +52,20 @@ namespace GeneticAlgorithm
             }
         }
 
-
+        /// <summary>
+        /// The length of the genes
+        /// </summary>
         public long Length => _genes.Length;
 
+        /// <summary>
+        /// The genes in the chromosome
+        /// </summary>
         public int[] Genes => _genes;
 
+        /// <summary>
+        /// The length of gene in the chromosome
+        /// </summary>
         public int LengthOfGene => _lengthOfGene;
-
-
-        public int NumOfGenes
-        {
-            get
-            {
-                return _genes.Length;
-            }
-        }
 
 
         /// <summary>
@@ -93,7 +91,6 @@ namespace GeneticAlgorithm
         public Chromosome mutate(Chromosome child, double mutationRate)
         {
             var numChangedGenes = Math.Round(child.Length * mutationRate);
-            Console.WriteLine("Number of genes to mutate: " + numChangedGenes);
             for (int i = 0; i < numChangedGenes; i++)
             {
                 var changedIndex = _rnd.Next(0, (int)child.Length);
@@ -118,8 +115,8 @@ namespace GeneticAlgorithm
             var child2 = new Chromosome((Chromosome)spouse);
             int[] parent1Genes = this.Genes;
             int[] parent2Genes = spouse.Genes;
-            int point1 = _rnd.Next(0, NumOfGenes);
-            int point2 = _rnd.Next(0, NumOfGenes);
+            int point1 = _rnd.Next(0, _genes.Length);
+            int point2 = _rnd.Next(0, _genes.Length);
             if (point1 > point2)
             {
                 int temp = point1;
