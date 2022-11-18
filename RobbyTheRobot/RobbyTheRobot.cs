@@ -156,24 +156,27 @@ namespace RobbyTheRobot
 
         //Method to write to file
         public static void WriteToFile(string folderPath, List<IChromosome> list){
-            //Check if the file exists. We don't want to add more to a file with already existing data 
-            int number = 1;
-            string fileName = $"{folderPath}Top_Candidate{number}.txt";
-            while(File.Exists(fileName)){
-                number++;
-                fileName = $"{folderPath}Top_Candidate{number}.txt";
+            
+            int[] numberArray = {1, 20, 100, 200, 500, 1000};
+            List<int> numberList = new List<int>();
+            for(int i = 0 ; i < list.Count; i++){
+                numberList.Add(numberArray[i]);
             }
+
+            //Changes the filename for each generation
+            for(int j = 0; j < numberList.Count; j++){
+            string fileName = $"{folderPath}Top_Candidate{numberList[j]}.txt";
 
             //Put data in file in a comma separated list like so:
             //max score, number of moves to display, all moves
-            foreach(IChromosome chromosome in list){
+            
 
                 //Chromosome.Fitness
-                double topFitness = chromosome.Fitness;
+                double topFitness = list[j].Fitness;
                 //Arbitrary amount of moves to show
                 int numberOfMoves = NUMBER_OF_ACTIONS;
                 //Chromosome's Genes[]
-                int[] topGenes = chromosome.Genes;
+                int[] topGenes = list[j].Genes;
                 //String with array values
                 String arrayValues = "";
                 foreach(int gene in topGenes){
@@ -184,16 +187,17 @@ namespace RobbyTheRobot
                 string topCandidateString = $"{topFitness}, {numberOfMoves}, {arrayValues}";
                 
                 // Write file using StreamWriter  
-                using (StreamWriter writer = File.AppendText(fileName))  
+                using (StreamWriter writer = File.CreateText(fileName))  
                 {  
                     writer.WriteLine(topCandidateString);  
                 }
-            }
+            
             FileWritten?.Invoke("File written");
             Console.WriteLine();
             // Read a file  
             string readText = File.ReadAllText(fileName);  
             Console.WriteLine(readText);  
+            }
             FileWritten?.Invoke("Press any key to end the program");
         }
     }
