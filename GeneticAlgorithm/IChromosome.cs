@@ -10,7 +10,7 @@ namespace GeneticAlgorithm
         /// <value>A value representing the fitness of the IChromosome</value>
         double Fitness {get;}
 
-         int[] Genes { get; }
+         int[] Genes { get;}
 
         /// <summary>
         /// Uses a crossover function to create two offspring, then iterates through the

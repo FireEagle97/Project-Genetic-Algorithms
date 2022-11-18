@@ -10,6 +10,9 @@
 *.userosscache
 *.sln.docstates
 
+#TextFiles
+RobbyIterationGenerator/Top_Candidate*.txt
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -452,3 +455,7 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# //ignore Top_Candidate
+RobbyIterationGenerator/Top_Candidate*.txt
+RobbyTheRobotTests/Test_Runs/*

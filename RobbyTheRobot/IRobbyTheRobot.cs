@@ -73,7 +73,10 @@ namespace RobbyTheRobot
         /// </summary>
         //event TODOMYCUSTOMDELEGATE FileWritten;
 
+        public static event WriteFileHandler FileWritten;
+
     }
 
-    ///TODO Add custom delegate
+    ///TODO Add custom delegate. Unsure of return type/parameter meta data
+    public delegate void WriteFileHandler(string message);
 }
