@@ -31,8 +31,10 @@ namespace RobbyIterationGenerator
 
             Console.WriteLine("Where do you want to save the text file? (ex: ./)");
             string path = Console.ReadLine();
-            while(String.IsNullOrEmpty(path)){
-                Console.WriteLine("Please enter a correct file path");
+            //verify if apth is not null or doesnt start with . slash
+            while (path == null || !path.StartsWith("./"))
+            {
+                Console.WriteLine("Invalid path. Please try again. (start with : ./)");
                 path = Console.ReadLine();
             }
             Console.WriteLine("Press x if you wish to stop the execution of the program");
@@ -50,7 +52,6 @@ namespace RobbyIterationGenerator
                 robby.GeneratePossibleSolutions(path);
             }, token);
 
-
             //Read for input that equals 'x'
             char key = Console.ReadKey().KeyChar;
             if (key == 'x')
@@ -62,7 +63,6 @@ namespace RobbyIterationGenerator
             {
                 token.ThrowIfCancellationRequested();
             }
-
             task.Wait();
             watch.Stop();
             Console.WriteLine("Generation took {0} milliseconds", watch.ElapsedMilliseconds);
