@@ -67,7 +67,7 @@ namespace GeneticAlgorithm
         /// A new Generation should be created based on the resulting child Chromosomes
         /// </summary>
         /// <returns> The next generation</returns>
-        private IGeneration GenerateNextGeneration()
+        public IGeneration GenerateNextGeneration()
         {
             var nextGeneration = new Generation(this, FitnessCalculation, _seed);
             var elites = SelectElites();
