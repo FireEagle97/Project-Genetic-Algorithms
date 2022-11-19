@@ -31,6 +31,10 @@ namespace RobbyVisualizer
             _game = game;
         }
 
+
+        /// <summary>
+        /// Draws the simulation
+        /// </summary>
         public override void Draw(GameTime gameTime)
         {   _spriteBatch.Begin();
     
@@ -63,6 +67,9 @@ namespace RobbyVisualizer
             base.Draw(gameTime);
         }
 
+        /// <summary>
+        /// initialize the sprite
+        /// </summary>
         public override void Initialize(){
             _rnd = new Random();
             _robbyX = _rnd.Next(0,10);
@@ -90,6 +97,10 @@ namespace RobbyVisualizer
             readFiles();           
             base.Initialize();
         }
+
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// </summary>
         protected override void LoadContent(){
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _tileTexture = _game.Content.Load<Texture2D>("tile");
@@ -100,6 +111,10 @@ namespace RobbyVisualizer
             _robby = _game.Content.Load<Texture2D>("robot");
             base.LoadContent();
         }
+
+        /// <summary>
+        /// UnloadContent will be called once per game and is the place to unload
+        /// </summary>
         public override void Update(GameTime gameTime)
         {
             
@@ -137,6 +152,9 @@ namespace RobbyVisualizer
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// readFiles will read the files in the folder and set the grid and possible moves
+        /// </summary>
         public void readFiles()
         {
             _grid = _robbyObj.GenerateRandomTestGrid();
@@ -158,7 +176,10 @@ namespace RobbyVisualizer
             this._possibleMoves  = moves;
 
         }
-        //sort file Paths
+
+        /// <summary>
+        /// sortFilePaths will sort the file paths in ascending order
+        /// </summary>
         private void sortFilePaths(){
             Match match;
             string pattern= @"Candidate(\d*)\.";
@@ -170,8 +191,6 @@ namespace RobbyVisualizer
             string tempStr;
             while(x < _filePaths.Length){
                 for(var i =x; i < _filePaths.Length;i++){
-                    
-                    //Getting the generation number;
                     firstIndexMatch  =Regex.Match(_filePaths[initial], pattern);
                     firstIndexValue = Int32.Parse(firstIndexMatch.Groups[1].Value);
                     match = Regex.Match(_filePaths[i], pattern);
@@ -186,7 +205,6 @@ namespace RobbyVisualizer
                 initial++;
                 x++;     
             }
-
         }
     }
 }
