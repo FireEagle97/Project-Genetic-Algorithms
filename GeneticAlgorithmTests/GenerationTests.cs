@@ -1,4 +1,3 @@
-using System;
 using GeneticAlgorithm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GeneticAlgorithmTests

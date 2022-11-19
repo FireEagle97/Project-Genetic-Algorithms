@@ -1,6 +1,3 @@
-using System;
-using GeneticAlgorithm;
-
 namespace RobbyTheRobot
 {   
     /// <summary>

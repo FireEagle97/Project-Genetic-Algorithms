@@ -10,7 +10,6 @@ namespace GeneticAlgorithm
         private Random _rnd;
 
 
-        // One that takes the IGeneticAlgorithm, FitnessEventHandler, and a potential seed
         public Generation(IGeneticAlgorithm geneticAlgorithm, FitnessEventHandler fitnessFunction, int? seed = null)
         {
             _rnd = seed.HasValue ? new Random(seed.Value) : new Random();

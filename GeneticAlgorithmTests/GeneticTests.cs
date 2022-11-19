@@ -7,7 +7,7 @@ namespace GeneticAlgorithmTests
     public class GeneticTests
     {
 
-          private double computeFitness(IChromosome chromosome, IGeneration generation)
+        private double computeFitness(IChromosome chromosome, IGeneration generation)
         {
             return 3;
         }
