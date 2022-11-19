@@ -60,6 +60,9 @@ namespace RobbyTheRobot
             Console.WriteLine(s);
         }  
 
+        /// <summary>
+        /// Generates a random grid
+        /// </summary>
         public ContentsOfGrid[,] GenerateRandomTestGrid()
         {
             //Checks if grid can be divided into equal rows
@@ -112,6 +115,9 @@ namespace RobbyTheRobot
             }
         }
 
+        /// <summary>
+        /// Generate Possible Solutions
+        /// </summary>
         public void GeneratePossibleSolutions(string folderPath){
 
             //Deletes previous entries to prevent the user from mistakenly reading old files
@@ -141,6 +147,9 @@ namespace RobbyTheRobot
             FileWritten?.Invoke("Press any key to end the program");
         }   
 
+        /// <summary>
+        /// compute the fitness of a chromosome
+        /// </summary>
         public double ComputeFitness(IChromosome chromosome, IGeneration generation){
             //Variable to hold the score
             double score = 0;
@@ -158,7 +167,9 @@ namespace RobbyTheRobot
             return score;
         }
 
-        //Method to write to file
+        /// <summary>
+        /// Write to file
+        /// </summary>
         public static void WriteToFile(IChromosome chromosome, int generationNumber, string folderPath){
 
             string filePath = $"{folderPath}Top_Candidate{generationNumber}.txt";

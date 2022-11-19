@@ -458,4 +458,5 @@ $RECYCLE.BIN/
 
 # //ignore Top_Candidate
 RobbyIterationGenerator/Top_Candidate*.txt
+RobbyIterationGenerator/files/Top_Candidate*.txt
 RobbyTheRobotTests/Test_Runs/*

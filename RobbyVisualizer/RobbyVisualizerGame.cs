@@ -21,7 +21,6 @@ namespace RobbyVisualizer
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             _graphics.PreferredBackBufferWidth = 320;
             _graphics.PreferredBackBufferHeight = 400;
             _graphics.ApplyChanges();
@@ -34,15 +33,12 @@ namespace RobbyVisualizer
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-        }
+       }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            // TODO: Add your update logic here
 
             base.Update(gameTime);
         }
@@ -50,8 +46,6 @@ namespace RobbyVisualizer
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
-            // TODO: Add your drawing code here
 
 
             base.Draw(gameTime);
