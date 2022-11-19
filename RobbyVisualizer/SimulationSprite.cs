@@ -17,7 +17,7 @@ namespace RobbyVisualizer
         private double _genNum, _points;
         private int _numMoves, _moves, _robbyX, _robbyY, _fileIndex;
         private int _count;
-        private int _limit;
+        private int _speedlimit;
         private string[] _filePaths;
         private int[] _possibleMoves;
         private string _txt;
@@ -73,7 +73,7 @@ namespace RobbyVisualizer
             _numMoves = 200;
             _moves = 0;
             _count = 0;
-            _limit = 3;
+            _speedlimit = 3;
             _robbyObj= RobbyTheRobot.Robby.CreateRobbyTheRobot(1,1,1);
                                   
             using(var fbd = new FolderBrowserDialog())
@@ -87,9 +87,7 @@ namespace RobbyVisualizer
                 }
             }
             
-            readFiles();
-            
-            
+            readFiles();           
             base.Initialize();
         }
         protected override void LoadContent(){
@@ -107,7 +105,7 @@ namespace RobbyVisualizer
             
             if (_moves < _numMoves)
             {
-                if (_count > _limit)
+                if (_count > _speedlimit)
                 {
                     _points += RobbyTheRobot.RobbyHelper.ScoreForAllele(_possibleMoves, _grid,_rnd, ref _robbyX, ref _robbyY);
                     _count = 0;
