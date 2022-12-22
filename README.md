@@ -27,7 +27,7 @@ https://www.loom.com/share/6f185bfb31454989a933ea6017ee301e
 
 
 ## Authors
-Dany Makhoul
-Harout Dabbaghian
-Bastian Fernandez Cortez
+Dany Makhoul /n
+Harout Dabbaghian /n
+Bastian Fernandez Cortez /n
 
